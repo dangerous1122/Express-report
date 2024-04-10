@@ -75,7 +75,7 @@ export default function Layout() {
               <div className="relative flex h-16 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
-                  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                {!landing &&  <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -83,7 +83,8 @@ export default function Layout() {
                     ) : (
                       <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                     )}
-                  </Disclosure.Button>
+                  </Disclosure.Button> }
+                  {landing && <img src={Logo} className="w-32 h-32 mt-3 -ml-2"/>}
                 </div>
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
                   <div className="flex flex-shrink-0 items-center md:-ml-16">
@@ -191,19 +192,19 @@ export default function Layout() {
                     <>
                       <Link
                         to="/upgrade"
-                        className="text-sm font-semibold leading-6 text-gray-100 mr-4"
+                        className="md:text-sm text-xs font-semibold leading-6 text-gray-100 md:mr-4 mr-2"
                       >
                         Pricing
                       </Link>
                       <Link
                         to="/use-cases"
-                        className="text-sm font-semibold leading-6 text-gray-100 mr-4"
+                        className="md:text-sm text-xs font-semibold leading-6 text-gray-100 md:mr-4 mr-2"
                       >
                         Use Cases
                       </Link>
                       <Link
                         to="/login"
-                        className="text-sm font-semibold leading-6 text-gray-100"
+                        className="md:text-sm text-xs font-semibold leading-6 text-gray-100"
                       >
                         Get Started <span aria-hidden="true">→</span>
                       </Link>
@@ -218,8 +219,8 @@ export default function Layout() {
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
-                    as="a"
-                    href={item.href}
+                    as={Link}
+                    to={item.href}
                     className={classNames(
                       item.current
                         ? "bg-gray-900 text-white"

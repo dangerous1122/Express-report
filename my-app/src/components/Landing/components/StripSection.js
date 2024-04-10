@@ -5,14 +5,14 @@ function StripSection() {
   return (
     <div style={{ backgroundColor: "f8f8f8" }}>
       <h2
-        className="text-4xl py-20 font-bold tracking-tight text-gray-900 sm:text-4xl text-center"
+        className="md:text-4xl text-2xl py-20 font-bold tracking-tight text-gray-900 sm:text-4xl text-center"
         style={{ backgroundColor: "#f8f8f8" }}
       >
         Who can use this App
       </h2>
       <div class="slider-container my-8 rounded-md ">
         <div
-          class="slide-text xl:text-4xl xl:-top-2 md:text-2xl md:top-3 font-semibold"
+          class="slide-text xl:text-3xl xl:-top-1 md:text-2xl md:top-3 font-semibold"
           style={{ color: "#ca0a66" }}
         >
           Pharmacists &#160; &#160; &#160; Electricians &#160; &#160; &#160;

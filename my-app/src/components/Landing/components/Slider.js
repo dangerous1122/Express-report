@@ -10,7 +10,7 @@ import 'swiper/css/scrollbar';
 export default function Slider() {
   return (
     <div style={{backgroundColor:'#f8f8f8'}} className='-mt-4 py-16'>
-      <h1 className={`text-4xl font-bold text-center tracking-tight sm:text-4xl text-gray-900 mb-10`} style={{backgroundColor:'#f8f8f8'}}>
+      <h1 className={`md:text-4xl text-2xl font-bold text-center tracking-tight sm:text-4xl text-gray-900 mb-10`} style={{backgroundColor:'#f8f8f8'}}>
         Testimonials from Customers
       </h1>
       <Swiper

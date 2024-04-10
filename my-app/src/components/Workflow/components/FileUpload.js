@@ -5,6 +5,7 @@ import {
   ArrowUpCircleIcon,
   DocumentPlusIcon,
   XCircleIcon,
+  ArrowUturnLeftIcon
 } from "@heroicons/react/24/outline";
 import "./fileUpload.css";
 import ErrorModal from "../../../UI/ErrorModal.js";
@@ -252,8 +253,8 @@ function FileUpload(props) {
                   onChange={handleFileChange}
                 />
               </label>
-              <p className="text-center font-medium text-lg md:mt-10 md:mx-36 mx-8 text-gray-900 py-2 px-4 bg-blue-100 rounded-md mt-5">
-                <span className="tex-lg text-black font-semibold ">Tip: </span>
+              <p className="text-center font-medium md:text-lg text-sm md:mt-10 md:mx-36 mx-8  text-gray-900 py-2 px-4 bg-blue-100 rounded-md mt-5">
+                <span className="md:text-lg text-sm text-black font-semibold ">Tip: </span>
                 Please make sure to check and upload all the receipts you want
                 on the report. Because, once the report is generated & if you
                 want to add/delete an expense on the report then you will need
@@ -279,9 +280,9 @@ function FileUpload(props) {
       {pdfUrls && (
         <button
           onClick={() => navigate("/dashboard")}
-          className="py-1 px-2 bg-blue-700 text-sm hover:bg-blue-500 text-white rounded-md"
+          className="py-1 px-2 bg-blue-700 text-sm hover:bg-blue-500 text-white rounded-md flex"
         >
-          Back to Dashboard
+        <ArrowUturnLeftIcon className="w-4 h-4 mr-3 text-white"/> Back to Dashboard
         </button>
       )}
     </>

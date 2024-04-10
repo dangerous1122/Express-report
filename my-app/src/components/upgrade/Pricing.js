@@ -82,12 +82,12 @@ const Pricing = () => {
                 }`}
               >
                 {plan.popular && (
-                  <span className="top-4 left-44 -translate-x-7 absolute inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                  <span className="top-4 left-44 md:-translate-x-7 -translate-x-9  absolute inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
                     Popular
                   </span>
                 )}
                 <div className="mx-auto max-w-xs px-8">
-                  <p className="text-base font-semibold text-gray-600">
+                  <p className="text-base font-semibold text-gray-600 mt-3">
                     {plan.name}
                   </p>
                   <p className="mt-6 flex items-baseline justify-center gap-x-2">

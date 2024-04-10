@@ -285,14 +285,6 @@ export const fileUpload = async (req, res) => {
       );
       sender = data.senderEmail;
 
-      // if (req.user.subscription.hass === true) {
-      //   req.user.subscription.generatedReports -= 1;
-      //   // req.user.subscription.hass=false;
-      // } else if (req.user.freeTrial) {
-      //   req.user.freeTrial = false;
-      // }
-      // await req.user.save();
-
       console.log("gpt response, :", response.data.choices[0].message.content);
       res.status(200).json(response.data.choices[0].message.content);
 
@@ -334,9 +326,7 @@ export const fileUpload = async (req, res) => {
           }
         }
 
-        // if (existsSync("output.pdf")) {
-        //   unlinkSync("output.pdf"); // Delete the file if it exists
-        // }
+
         const pdfBytes = await doc.save();
         writeFileSync("output.pdf", pdfBytes);
         console.log(`Generated PDF saved to `);
@@ -344,108 +334,9 @@ export const fileUpload = async (req, res) => {
         files=[];
       }
 
-      //   const gptResponse = response.data.choices[0].message.content;
-      //   const fileName = "your-data.pdf";
-
-      //   const lines = gptResponse.trim().split("\n");
-      //   let title, category, date, amount;
-
-      //   lines.forEach((line) => {
-      //     if (line.startsWith("Title:")) {
-      //       title = line.split("Title:")[1].trim();
-      //     } else if (line.startsWith("Category of Expense:")) {
-      //       category = line.split("Category of Expense:")[1].trim();
-      //     } else if (line.startsWith("Date of Expense:")) {
-      //       date = line.split("Date of Expense:")[1].trim();
-      //     } else if (line.startsWith("Total Amount of Expense:")) {
-      //       amount = line.split("Total Amount of Expense:")[1].trim();
-      //     }
-      //   });
-
-      //   console.log("helloo");
-      //   const __filename = fileURLToPath(import.meta.url);
-      //   const __dirname = dirname(__filename);
-      //   const htmlFilePath = path.join(__dirname, "./template.html");
-      //   const cssFilePath = path.join(__dirname, "./style.css");
-
-      //   const datte = new Date().toJSON().slice(0, 10);
-
-      //   const htmlContent = readFileSync(htmlFilePath, "utf8");
-      //   const cssContent = readFileSync(cssFilePath, "utf8");
-      //   let fullHtmlContent = htmlContent
-      //     .replace(/{{datte}}/g, datte)
-      //     .replace(/{{senderName}}/g, data.senderName)
-      //     .replace(/{{senderEmail}}/g, data.senderEmail)
-      //     .replace(/{{senderPhone}}/g, data.senderPhone)
-      //     .replace(/{{senderCompany}}/g, data.senderCompany)
-      //     .replace(/{{recName}}/g, data.recName)
-      //     .replace(/{{recEmail}}/g, data.recEmail)
-      //     .replace(/{{recPhone}}/g, data.recPhone)
-      //     .replace(/{{recCompany}}/g, data.recCompany)
-      //     .replace(/{{Title}}/g, title)
-      //     .replace(/{{Category}}/g, category)
-      //     .replace(/{{amount}}/g, amount)
-      //     .replace(/{{date}}/g, date);
-
-      //   fullHtmlContent = `
-      //   <style>${cssContent}</style>
-      //   ${fullHtmlContent}
-      //   `;
-      //   // Options for html-pdf
-      //   const options = {
-      //     format: "A4",
-      //     border: {
-      //       top: "0.5in",
-      //       right: "0.5in",
-      //       bottom: "0.5in",
-      //       left: "0.5in",
-      //     },
-      //   };
-
-      //   pdf.create(fullHtmlContent, options).toBuffer(async (err, buffer) => {
-      //     if (err) {
-      //       return res.status(500).send("Error generating PDF");
-      //     }
-      //     try {
-      //       const newFile = new File({
-      //         name: "download.pdf", // You might want a more dynamic way to name this
-      //         PDFdata: buffer,
-      //       });
-
-      //       await newFile.save();
-      //       req.user.files.push(newFile);
-      //       await req.user.save();
-      //       // y email - support@aiexpensereport.com
-      //       //  const base64PDF = buffer.toString('base64');
-
-      //       res.type("pdf");
-      //       res.header(
-      //         "Content-Disposition",
-      //         'attachment; filename="download.pdf"'
-      //       );
-      //       res.send(buffer);
-      //     } catch (dbError) {
-      //       console.error("Error saving PDF to the database:", dbError);
-      //       res.status(500).send("Error saving PDF");
-      //     }
-      //   });
-      //   //mail through send grid
-
-      //   //   const { to, subject, text, html } = req.body;
-
-      //   //   const msg = {
-      //   //     to, // Recipient
-      //   //     from: 'your-sender-email@example.com', // Verified SendGrid sender email
-      //   //     subject,
-      //   //     text,
-      //   //     html,
-      //   //   };
-
-      //   //   await sgMail.send(msg);
-      //   //   res.status(200).send('Email sent successfully');
+     
 
       await req.user.save();
-      //
     } else {
       res.status(400).json({ message: "No current subscription" });
     }
@@ -490,20 +381,6 @@ export const sendMail = async (req, res) => {
     const pdfPath = "C:\\Users\\Lenovo\\Desktop\\juttpdf\\backend\\output.pdf";
     const PdfData = readFileSync(pdfPath).toString("base64");
 
-    // Equivalent of __dirname in ESM
-    //     const newPath = path.join(__dirname, '..', req.file.destination, req.file.filename);
-    // req.file.path=newPath
-    // const pdfBuffer=readFileSync(req.file.path);
-    // console.log(req.file.path)
-    // console.log(pdfBuffer.length)
-
-    // attachments.push({
-    //   filename: req.file.originalname,
-    //   content: pdfBuffer.toString("base64"),
-    //   type: "application/pdf",
-    //   disposition: "attachment",
-    //   encoding:'base64'
-    // });
 
     sgMail.setApiKey(process.env.SG_KEY);
     const msg = {
@@ -536,29 +413,7 @@ export const sendMail = async (req, res) => {
       res.status(500).send("Failed to send email");
     }
 
-    // Optionally, delete the files from 'uploads/' after sending the email
-    // unlinkSync(req.file.path);
-
-    // const pdfId = req.body.id;
-
-    // const msg = {
-    //   to: 'fida.raath@gmail.com', // Change to the recipient's email address
-    //   from:  'support@aiexpensereport.com', // Change to your verified sender
-    //   subject: 'Here is your PDF',
-    //   text: 'Please find the attached PDF.',
-    //   attachments: [
-    //     {
-    //       content: base64PDF,
-    //       filename: "download .pdf",
-    //       type: "application/pdf",
-    //       disposition: "attachment",
-    //     },
-    //   ],
-    // };
-
-    // // Send the email
-    // await sgMail.send(msg);
-    // res.send("Email sent with PDF attachment.");
+  
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Could not send mail", err });
