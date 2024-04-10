@@ -1,0 +1,17 @@
+# Dependency directories
+node_modules/
+# .gitignore
+/backend/node_modules/
+/my-app/node_modules/
+
+
+# Environment configuration files
+.env
+/backend/.env
+/my-app/.env
+# Build output directory
+/dist
+
+# Logs
+*.log
+logs/

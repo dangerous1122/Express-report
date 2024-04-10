@@ -1,0 +1,25 @@
+/* Add this to your CSS file */
+.overlay {
+    position: fixed;
+    top: 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Low opacity black background */
+    z-index: 30;
+    display: flex;
+    justify-content: center; /* Center iframe horizontally */
+    align-items: center; /* Center iframe vertically */
+  }
+  
+  .iframeContainer {
+    
+    width: 70%; /* Adjust width as needed */
+    background: #FFF; /* Ensure iframeContainer has a solid background */
+  }
+  
+  /* Optional: Prevent scrolling on the body when overlay is active */
+  .body-no-scroll {
+    overflow: hidden;
+  }
+  

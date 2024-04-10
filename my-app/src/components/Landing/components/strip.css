@@ -1,0 +1,26 @@
+.slider-container {
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    width: 100%; /* Adjust container width as needed */
+    height: 50px; /* Adjust container height as needed */
+    position: relative;
+  }
+  
+  .slide-text {
+    display: inline-block;
+    position: absolute;
+    white-space: nowrap;
+    
+    animation: slide-infinite 35s linear infinite;
+  }
+  
+  @keyframes slide-infinite {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(53%);
+    }
+  }
+  
