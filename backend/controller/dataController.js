@@ -13,8 +13,6 @@ console.log(process.env.SG_KEY);
 import OpenAI from "openai";
 import { GoogleAuth } from "google-auth-library";
 import { PDFDocument } from "pdf-lib";
-
-const openai = new OpenAI();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const addSenderData = async (req, res) => {
