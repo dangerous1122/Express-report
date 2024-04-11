@@ -2,6 +2,9 @@
   "type": "module",
   "main": "index.js",
   "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
     "@google-cloud/documentai": "^8.2.0",
     "@sendgrid/mail": "^8.1.1",

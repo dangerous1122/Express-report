@@ -9,7 +9,6 @@ export const register = async (req, res, next) => {
   try {
     console.log(req.body);
     sgMail.setApiKey(process.env.SG_KEY);
-    console.log("key:", process.env.SG_KEY);
     const existingUser = await User.findOne({ email: req.body.email });
     if (!existingUser) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -42,6 +41,7 @@ export const register = async (req, res, next) => {
       res.send("Error registering new user");
     }
   } catch (err) {
+    console.log(err)
     res.status(500).send(err.message);
   }
 };

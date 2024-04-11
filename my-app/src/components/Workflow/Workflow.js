@@ -72,7 +72,7 @@ function Workflow() {
   return (
     <div className="flex relative justify-center flex-col">
       {" "}
-     {reportData && <span className="absolute md:text-lg text-sm font-semibold right-3 top-3">FileCount: <span className={`${reportData.subscription.gereratedReports>4 ?'text-green-700': 'text-red-600'}`}>{reportData.subscription.gereratedReports}</span></span> }
+     {reportData &&  <span className="absolute md:text-lg text-sm font-semibold right-3 top-3">FileCount: <span className={`${reportData.subscription.gereratedReports>4 ?'text-green-700': 'text-red-600'}`}>{reportData.subscription.gereratedReports}</span></span> }
 
       <h2
         className={`md:text-3xl text-xl font-bold tracking-tight ${

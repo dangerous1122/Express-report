@@ -35,14 +35,8 @@ function Footer() {
               collecting it at the Drive-Thru window.
             </p>
             <div className="flex my-3">
-              <a href="">
-                <img src={ins} className="h-6 w-6 mx-1" />
-              </a>
               <a href="https://twitter.com/expressreports">
                 <img src={tw} className="h-6 w-6 mx-1  " />
-              </a>
-              <a href="">
-                <img src={fb} className="h-6 w-6 mx-1" />
               </a>
               <a href="https://www.tiktok.com/@express.reports?_t=8lKBcBLA6gX&_r=1">
                 <img src={tiktok} className="h-6 w-6 mx-1 opacity-70" />

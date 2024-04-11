@@ -1,6 +1,6 @@
 import User from "../model/userModel.js";
 import { readFileSync, writeFileSync } from "fs";
-import { unlinkSync,existsSync } from "fs";
+import { unlink,existsSync } from "fs";
 import { dirname } from "path";
 import fs from "fs/promises";
 import { createWriteStream } from "fs";
@@ -271,7 +271,7 @@ export const fileUpload = async (req, res) => {
               role: "user",
               content:
                 prompt +
-                " give one 'title',one 'category of expense', only one 'date of expense' and 'total amount of expense' keep format 'Title: ' \n 'category of expense: '  \n 'date of expense: '  January 1,2000 \n 'total amount of expense :' \n ",
+                " give one 'title',one 'category of expense', only one 'date of expense' and 'total amount of expense' keep format as follows: Title: [title]  \n category of expense: [category] \n date of expense: January 1,2000 \n total amount of expense : [amount] \n ",
             },
           ],
           max_tokens: 150,
@@ -286,6 +286,7 @@ export const fileUpload = async (req, res) => {
       sender = data.senderEmail;
 
       console.log("gpt response, :", response.data.choices[0].message.content);
+ 
       res.status(200).json(response.data.choices[0].message.content);
 
       if (fileCount === data.fileCount) {
@@ -297,6 +298,7 @@ export const fileUpload = async (req, res) => {
             console.log("hello");
             // Merge PDF
             const existingPdfBytes = readFileSync(file.path);
+
             const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
             const copiedPage = await doc.copyPages(
               existingPdfDoc,
@@ -324,6 +326,12 @@ export const fileUpload = async (req, res) => {
               height: 400,
             });
           }
+          unlink(file.path, (err) => {
+            if (err) {
+              console.error("Error deleting the file", err);
+              return res.status(500).send("An error occurred");
+            }
+          });
         }
 
 
@@ -378,7 +386,7 @@ export const sendMail = async (req, res) => {
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const pdfPath = "C:\\Users\\Lenovo\\Desktop\\juttpdf\\backend\\output.pdf";
+    const pdfPath = process.env.PDFPATH;
     const PdfData = readFileSync(pdfPath).toString("base64");
 
 
