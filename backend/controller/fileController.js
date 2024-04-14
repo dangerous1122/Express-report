@@ -10,7 +10,10 @@ import puppeteer from  'puppeteer'
 
 
 async function createPDF(htmlContent, options) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'] // Adding sandbox flags
+});
+
   const page = await browser.newPage();
   await page.setContent(htmlContent);
   const buffer = await page.pdf(options);
