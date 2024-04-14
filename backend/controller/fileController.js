@@ -183,6 +183,7 @@ export const makePdf = (req, res) => {
 
     pdf.create(fullHtmlContent, options).toBuffer(async (err, buffer) => {
       if (err) {
+        console.log('error',err)
         return res.status(500).send("Error generating PDF");
       }
       try {
@@ -214,12 +215,14 @@ export const makePdf = (req, res) => {
         }
         await req.user.save();
       } catch (err) {
+        console.log('error',err)
         logger.error('Error generating PDF: %o', err);
        return res.status(500).send(err)
 
       }
     });
   } catch (err) {
+    console.log('error',err)
     logger.error('Error : %o', err);
     res.status(500).send(err)
   }};
