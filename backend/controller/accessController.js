@@ -41,7 +41,7 @@ export const register = async (req, res, next) => {
       res.send("Error registering new user");
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).send(err.message);
   }
 };
@@ -93,7 +93,7 @@ export const googleAuth = async (req, res) => {
     const userid = payload["sub"];
 
     let existingUser = await User.findOne({ googleId: userid });
-    const old= await User.findOne({ googleId: userid });
+    const old = await User.findOne({ googleId: userid });
     if (existingUser) {
       console.log("User already exists");
     } else {
@@ -107,7 +107,8 @@ export const googleAuth = async (req, res) => {
     let userr = await existingUser.save();
     userr.token = tokenGenerator(userr._id);
     const doc = await userr.save();
-    if (!old) { // Should this be if (!oldUser)? You need to ensure logic is correct here.
+    if (!old) {
+      // Should this be if (!oldUser)? You need to ensure logic is correct here.
       sgMail.setApiKey(process.env.SG_KEY);
       const msg = {
         from: { email: "support@aiexpensereport.com", name: "Express Reports" },
@@ -122,7 +123,8 @@ export const googleAuth = async (req, res) => {
       }
     }
     console.log(doc);
-    return res.status(201).json({ // Ensure to return here
+    return res.status(201).json({
+      // Ensure to return here
       message: "User created and authenticated",
       token: doc.token,
       data: doc,
@@ -132,7 +134,6 @@ export const googleAuth = async (req, res) => {
     return res.status(401).json({ message: "Invalid token" }); // Ensure to return here
   }
 };
-
 
 export const deleteAcc = async (req, res) => {
   try {

@@ -7,7 +7,7 @@ export const payment = createAsyncThunk(
     const token = localStorage.getItem("expr");
     try {
       const response = await axios.post(
-        `http://localhost:5000/payment-intent`,
+        `${process.env.REACT_APP_API_URL}/payment-intent`,
         formData,
         {
           headers: {

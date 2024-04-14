@@ -10,7 +10,7 @@ export const getData = createAsyncThunk(
       throw new Error("No token found");
     }
     try {
-      const response = await axios.get(`http://localhost:5000/get-data`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-data`, {
         headers: {
           authorization: `Bearer ${token}`,
         },

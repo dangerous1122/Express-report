@@ -40,7 +40,7 @@ export default function Layout() {
     const token = localStorage.getItem("expr");
     try {
       const response = await axios.delete(
-        "http://localhost:5000/delete-account",
+        `${process.env.REACT_APP_API_URL}/delete-account`,
         {
           headers: {
             authorization: `Bearer ${token}`,

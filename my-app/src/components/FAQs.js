@@ -57,10 +57,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => (
       onClick={onClick}
     >
       <span className="flex-1 text-base-content">{question}</span>
-      {/* <svg className={`flex-shrink-0 w-4 h-4 ml-auto ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <rect y="7" width="16" height="2" rx="1"></rect>
-        <rect y="7" width="16" height="2" rx="1" className={`${isOpen ? '' : 'rotate-90'}`}></rect>
-      </svg> */}
+
       <PlusIcon className="h-6 w-6" />
     </button>
     <div

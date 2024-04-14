@@ -13,7 +13,7 @@ function Reports() {
     const getReceipts = async () => {
       const token = localStorage.getItem("expr");
       try {
-        const response = await axios.get("http://localhost:5000/get-files", {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-files`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

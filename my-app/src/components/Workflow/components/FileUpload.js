@@ -73,7 +73,7 @@ function FileUpload(props) {
       formData.append("data", JSON.stringify(data));
       try {
         const response = await axios.post(
-          "http://localhost:5000/doc-upload",
+          `${process.env.REACT_APP_API_URL}/doc-upload`,
           formData,
           {
             headers: {

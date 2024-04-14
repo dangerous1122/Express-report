@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ins from "../../../assets/instagram.png";
 import tw from "../../../assets/tw.png";
 import fb from "../../../assets/facebook.png";
 import tiktok from "../../../assets/tiktok.png";

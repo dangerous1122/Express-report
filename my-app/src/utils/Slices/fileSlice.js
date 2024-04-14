@@ -7,7 +7,7 @@ export const fileUpload = createAsyncThunk(
     const token = localStorage.getItem("expr");
     try {
       const response = await axios.post(
-        `http://localhost:5000/doc-upload`,
+        `${process.env.REACT_APP_API_URL}/doc-upload`,
         formData,
         
         {
