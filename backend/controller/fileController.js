@@ -217,9 +217,11 @@ export const makePdf = (req, res) => {
         await req.user.save();
       } catch (err) {
         console.log(err);
+	return	res.status(400).send({message:"no making pds",error:err});
       }
     });
   } catch (err) {
     console.log(err);
+    res.status(500).send({error:err});
   }
 };

@@ -213,7 +213,7 @@ const processorId = process.env.PROCESSOR_ID;
 const openaiApiKey = process.env.OPENAI_KEY;
 
 const auth = new GoogleAuth({
-  keyFilename: "C:/Users/Lenovo/Desktop/keyfilee.json",
+  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
   scopes: "https://www.googleapis.com/auth/cloud-platform",
 });
 
@@ -352,7 +352,7 @@ export const fileUpload = async (req, res) => {
     console.error(err.message);
     res.status(500).send({
       message: "An error occurred while uploading the file.",
-      error: err.response,
+      error: err,
     });
   }
 };
