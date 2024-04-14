@@ -216,10 +216,10 @@ export const makePdf = (req, res) => {
       } catch (err) {
         logger.error('Error generating PDF: %o', err);
        return res.status(500).send(err)
+
       }
     });
   } catch (err) {
     logger.error('Error : %o', err);
     res.status(500).send(err)
-  }
-};
+  }};
