@@ -47,7 +47,7 @@ function Reports() {
     console.log(id);
     try {
       const response = await axios.get(
-        `http://localhost:5000/get-files/${id}`,
+        `${process.env.REACT_APP_API_URL}/get-files/${id}`,
         {
           responseType: "blob",
           headers: {
