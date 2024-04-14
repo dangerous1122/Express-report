@@ -6,6 +6,18 @@ import path from "path";
 import { readFileSync } from "fs";
 import pdf from "html-pdf";
 import logger from "../helper/winston.js";
+import puppeteer from  'puppeteer'
+
+
+async function createPDF(htmlContent, options) {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setContent(htmlContent);
+  const buffer = await page.pdf(options);
+  await browser.close();
+  return buffer;
+}
+
 
 export const getReceipts = async (req, res) => {
   try {
@@ -79,7 +91,7 @@ export const deleteFile = async (req, res) => {
   }
 };
 
-export const makePdf = (req, res) => {
+export const makePdf = async(req, res) => {
   try {
     logger.info('Request Body: %o', req.body);
         logger.info('Request Params Data: %o', req.params.data);
@@ -181,46 +193,33 @@ export const makePdf = (req, res) => {
       },
     };
 
-    pdf.create(fullHtmlContent, options).toBuffer(async (err, buffer) => {
-      if (err) {
-        console.log('error',err)
-        return res.status(500).send("Error generating PDF");
-      }
-      try {
-        const newFile = new File({
-          name: "expenseReport.pdf",
-          PDFdata: buffer,
-        });
-        // const a=await File.find()
-        // console.log(a)
-        const f = await newFile.save();
-        req.user.files.push(newFile._id);
-        await req.user.save();
+    const buffer = await createPDF(fullHtmlContent, options);
 
-        res.type("pdf");
-        res.header("Access-Control-Expose-Headers", "X-File-ID");
-        res.header(
-          "Content-Disposition",
-          'attachment; filename="download.pdf"'
-        );
-        res.header("X-File-ID", newFile._id.toString());
-        res.send(buffer);
-        if (req.user.subscription.hass === true) {
-          if (req.user.subscription.gereratedReports === 1) {
-            req.user.subscription.hass = false;
-          }
-          req.user.subscription.gereratedReports -= 1;
-        } else if (req.user.freeTrial) {
-          req.user.freeTrial = false;
-        }
-        await req.user.save();
-      } catch (err) {
-        console.log('error',err)
-        logger.error('Error generating PDF: %o', err);
-       return res.status(500).send(err)
-
-      }
+    const newFile = new File({
+      name: "expenseReport.pdf",
+      PDFdata: buffer,
     });
+    
+    const f = await newFile.save();
+    req.user.files.push(newFile._id);
+    await req.user.save();
+
+    res.type("pdf");
+    res.header("Access-Control-Expose-Headers", "X-File-ID");
+    res.header("Content-Disposition", 'attachment; filename="download.pdf"');
+    res.header("X-File-ID", newFile._id.toString());
+    res.send(buffer);
+
+    if (req.user.subscription && req.user.subscription.hass === true) {
+      if (req.user.subscription.gereratedReports === 1) {
+        req.user.subscription.hass = false;
+      }
+      req.user.subscription.gereratedReports -= 1;
+    } else if (req.user.freeTrial) {
+      req.user.freeTrial = false;
+    }
+    await req.user.save();
+
   } catch (err) {
     console.log('error',err)
     logger.error('Error : %o', err);
