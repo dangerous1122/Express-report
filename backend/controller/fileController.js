@@ -5,6 +5,7 @@ import { dirname } from "path";
 import path from "path";
 import { readFileSync } from "fs";
 import pdf from "html-pdf";
+import logger from "../helper/winston.js";
 
 export const getReceipts = async (req, res) => {
   try {
@@ -80,8 +81,8 @@ export const deleteFile = async (req, res) => {
 
 export const makePdf = (req, res) => {
   try {
-    console.log(req.body);
-    console.log(req.params.data);
+    logger.info('Request Body: %o', req.body);
+        logger.info('Request Params Data: %o', req.params.data);
     const data1 = JSON.parse(req.params.data);
     const data = req.body;
     const titles = [];
@@ -213,12 +214,12 @@ export const makePdf = (req, res) => {
         }
         await req.user.save();
       } catch (err) {
-        console.log(err);
+        logger.error('Error generating PDF: %o', err);
        return res.status(500).send(err)
       }
     });
   } catch (err) {
-    console.log(err);
+    logger.error('Error : %o', err);
     res.status(500).send(err)
   }
 };
