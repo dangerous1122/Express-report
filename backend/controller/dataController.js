@@ -217,7 +217,6 @@ const auth = new GoogleAuth({
   scopes: "https://www.googleapis.com/auth/cloud-platform",
 });
 
-// const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 let sender = "";
 let fileCount = 0;
