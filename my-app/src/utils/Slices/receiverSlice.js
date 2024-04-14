@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseUrl = "http://localhost:5000"; // Adjust this to your actual API base URL
 
-// Async thunk for fetching sender and receiver data
 export const fetchContacts = createAsyncThunk(
   "contacts/fetchContacts",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseUrl}/get-receiver`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-receiver`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -22,7 +20,7 @@ export const addContact = createAsyncThunk(
   async (contactData, { rejectWithValue }) => {
     console.log('hyyy')
     try {
-      const response = await axios.post(`${baseUrl}/add-receiver`, contactData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-receiver`, contactData);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -35,7 +33,7 @@ export const editContact = createAsyncThunk(
   "contacts/editContact",
   async ({ id, data }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${baseUrl}/edit-receiver/${id}`, data);
+      const response = await axios.put(`${process.env.REACT_APP_API_URL}/edit-receiver/${id}`, data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -48,7 +46,7 @@ export const deleteContact = createAsyncThunk(
   "contacts/deleteContact",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(`${baseUrl}/delete-receiver/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/delete-receiver/${id}`);
       return id; // Return the deleted contact's id
     } catch (err) {
       return rejectWithValue(err.response.data);

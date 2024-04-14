@@ -15,7 +15,7 @@ export const loginUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/login`,
+        `${process.env.REACT_APP_API_URL}/login`,
         userData
       );
       console.log(response);
@@ -35,7 +35,7 @@ export const validateUser = createAsyncThunk(
       if (!token) {
         throw new Error("No token found");
       }
-      const response = await axios.get(`http://localhost:5000/validate`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/validate`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -53,7 +53,7 @@ export const validateGoogle = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/google-auth`,
+        `${process.env.REACT_APP_API_URL}/google-auth`,
         {
           method: 'POST',
           headers: {
@@ -78,7 +78,7 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/register",
+        `${process.env.REACT_APP_API_URL}/register`,
         userData
       );
       return response.data;

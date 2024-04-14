@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseUrl = "http://localhost:5000"; // Adjust this to your actual API base URL
+const baseUrl = process.env.REACT_APP_API_URL; // Adjust this to your actual API base URL
 
 // Async thunk for fetching sender and receiver data
 export const fetchSenders = createAsyncThunk(
