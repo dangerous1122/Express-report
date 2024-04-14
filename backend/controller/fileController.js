@@ -84,7 +84,6 @@ export const makePdf = (req, res) => {
     console.log(req.params.data);
     const data1 = JSON.parse(req.params.data);
     const data = req.body;
-    // Initialize arrays to store the extracted information
     const titles = [];
     const categories = [];
     const dates = [];
@@ -195,8 +194,6 @@ export const makePdf = (req, res) => {
         const f = await newFile.save();
         req.user.files.push(newFile._id);
         await req.user.save();
-        // y email - support@aiexpensereport.com
-        //  const base64PDF = buffer.toString('base64');
 
         res.type("pdf");
         res.header("Access-Control-Expose-Headers", "X-File-ID");
@@ -217,9 +214,11 @@ export const makePdf = (req, res) => {
         await req.user.save();
       } catch (err) {
         console.log(err);
+       return res.status(500).send(err)
       }
     });
   } catch (err) {
     console.log(err);
+    res.status(500).send(err)
   }
 };
