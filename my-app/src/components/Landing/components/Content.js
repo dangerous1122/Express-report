@@ -47,7 +47,7 @@ function Content() {
              
             </div>
             <h2 className=" text-2xl mt-3 text-center mb-2 font-semibold text-blue-700">{step.title}</h2>
-            <p className="text-start text-lg">
+            <p className="text-center text-lg">
             {step.description}
             </p>
           </div>
