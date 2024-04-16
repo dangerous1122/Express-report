@@ -26,7 +26,7 @@ function FileSpace(props) {
   }, [droppedFiles]);
 
   return (
-    <div className="flex justify-center md:my-1 md:px-24 mt-10 ">
+    <div className="flex justify-center md:mb-1 md:mt-15 md:px-24 mt-16 ">
       {droppedFiles.length < 2 && (
         <div
           ref={dropRef1}
