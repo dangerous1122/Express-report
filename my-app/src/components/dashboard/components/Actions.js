@@ -21,7 +21,7 @@ const products = [
 
 export default function Actions() {
   return (
-    <div className=" md:w-4/5 w-3/5 absolute">
+    <div className=" lg:w-4/5 w-full px-4 sm:mx-0 absolute bg-slate-50 h-4/5">
       <div className="mx-auto md:max-w-3xl max-w-lg px-4 sm:px-6 sm:py-24 lg:max-w-5xl lg:px-8">
         <div className="grid sm:grid-cols-1 md:px-12 gap-x-6 gap-y-10  lg:grid-cols-2 xl:gap-x-28">
           {products.map((product) => (

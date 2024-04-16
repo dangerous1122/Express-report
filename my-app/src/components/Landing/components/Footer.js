@@ -5,6 +5,9 @@ import fb from "../../../assets/facebook.png";
 import tiktok from "../../../assets/tiktok.png";
 
 function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
   const sections = [
     {
       title: "Product",
@@ -28,7 +31,7 @@ function Footer() {
     <footer class="bg-white ">
       <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
-          <div className="flex flex-col">
+          <div className=" md:ml-20 ml-0 flex flex-col">
             <p class=" md:mb-0 xl:w-96 md:w-80 md:mr-10 text-gray-700 mb-5">
               We generate your expense reports as quick as placing an order &
               collecting it at the Drive-Thru window.
@@ -51,7 +54,7 @@ function Footer() {
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                   {section.links.map((link) => (
                     <li className="mb-4" key={link.name}>
-                      <Link to={link.url} className="hover:underline">
+                      <Link to={link.url} onClick={scrollToTop} className="hover:underline">
                         {link.name}
                       </Link>
                     </li>

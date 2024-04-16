@@ -33,7 +33,33 @@ export default function Layout() {
       name: "Upgrade",
       href: "/upgrade",
       current: location.pathname.endsWith("/upgrade"),
+      
     },
+    {
+      name: "My Reports",
+      href: "/dashboard/reports",
+      current: location.pathname.endsWith("/reports"),
+
+    },
+    {
+      name: "Profile",
+      href: "/profile",
+      current: location.pathname.endsWith("/profile"),
+
+    },
+    {
+      name: "Sender Data",
+      href: "/dashboard/sender-list",
+      current: location.pathname.endsWith("/sender-list"),
+
+    },
+    {
+      name: "Receiver  Data",
+      href: "/dashboard/receiver-list",
+      current: location.pathname.endsWith("/receiver-list"),
+
+    },
+    
   ];
 
   const deleteHandler = async () => {
@@ -96,7 +122,7 @@ export default function Layout() {
                       />
                     </Link>
                   </div>
-                  <div className="hidden sm:ml-6 sm:block">
+                  <div className="hidden sm:ml-6 ">
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
                         <Link
@@ -189,26 +215,35 @@ export default function Layout() {
                     </Menu>
                   )}
                   {landing && (
-                    <>
-                      <Link
-                        to="/upgrade"
-                        className="md:text-sm text-xs font-semibold leading-6 text-gray-100 md:mr-4 mr-2"
-                      >
-                        Pricing
-                      </Link>
-                      <Link
-                        to="/use-cases"
-                        className="md:text-sm text-xs font-semibold leading-6 text-gray-100 md:mr-4 mr-2"
-                      >
-                        Use Cases
-                      </Link>
-                      <Link
-                        to="/login"
-                        className="md:text-sm text-xs font-semibold leading-6 text-gray-100"
-                      >
-                        Get Started <span aria-hidden="true">→</span>
-                      </Link>
-                    </>
+                    // <>
+                    //   <Link
+                    //     to="/upgrade"
+                    //     className="md:text-sm text-xs font-semibold leading-6 text-gray-100 md:mr-4 mr-2"
+                    //   >
+                    //     Pricing
+                    //   </Link>
+                    //   <Link
+                    //     to="/use-cases"
+                    //     className="md:text-sm text-xs font-semibold leading-6 text-gray-100 md:mr-4 mr-2"
+                    //   >
+                    //     Use Cases
+                    //   </Link>
+                    //   <Link
+                    //     to="/login"
+                    //     className="md:text-sm text-xs font-semibold leading-6 text-gray-100"
+                    //   >
+                    //     Get Started <span aria-hidden="true">→</span>
+                    //   </Link>
+                    // </>
+                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <span className="absolute -inset-0.5" />
+                    <span className="sr-only">Open main menu</span>
+                    {open ? (
+                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    ) : (
+                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    )}
+                  </Disclosure.Button>
                   )}
                 </div>
               </div>
