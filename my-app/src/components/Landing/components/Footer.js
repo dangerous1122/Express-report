@@ -21,8 +21,8 @@ function Footer() {
     {
       title: "Company",
       links: [
-        { name: "Privacy Policy", url: "#" },
-        { name: "Terms & Conditions", url: "#" },
+        { name: "Privacy Policy", url: "https://www.notion.so/Privacy-Policy-a0efdaec83284d27bc1891755e8a15bf?pvs=4" },
+        { name: "Terms & Conditions", url: "https://www.notion.so/Terms-of-Service-5d273c2714c94029b14813d3187bdc56?pvs=4" },
       ],
     },
   ];

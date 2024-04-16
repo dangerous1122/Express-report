@@ -294,7 +294,7 @@ export const fileUpload = async (req, res) => {
         const doc = await PDFDocument.create();
         for (const file of files) {
           if (file.mimetype === "application/pdf") {
-            // Merge PDF
+  
             const existingPdfBytes = readFileSync(file.path);
 
             const existingPdfDoc = await PDFDocument.load(existingPdfBytes);

@@ -40,7 +40,6 @@ function FileUpload(props) {
         ]);
         setOpenMail(false);
         setPdfUrls("");
-        console.log(file);
 
         setTimeout(() => {
           setModalState(() => true);
@@ -81,7 +80,6 @@ function FileUpload(props) {
             },
           }
         );
-        console.log(response.data);
 
         // const fileBlob = new Blob([response.data], { type: "application/pdf" });
         urls.push(response.data);
@@ -92,14 +90,11 @@ function FileUpload(props) {
         setOpenMail(false);
         setPdfUrls("");
         props.onProcess("b");
-        console.error("Error uploading file:", fil.name, error);
         return;
       }
     }
 
-    console.log("urls,", urls);
     if (!error) {
-      console.log("ffd");
       // setPdfUrls(urls);
       try {
         const d = JSON.stringify(data);
@@ -114,12 +109,10 @@ function FileUpload(props) {
           }
         );
         setId({ id: response.headers["x-file-id"] });
-        console.log("respo", response.data);
 
         const fileBlob = new Blob([response.data], { type: "application/pdf" });
         setPdfUrls(fileBlob);
       } catch (err) {
-        console.log(err);
       }
       props.onProcess("c");
       setFiles("");
@@ -128,10 +121,7 @@ function FileUpload(props) {
   };
 
   useEffect(() => {
-    console.log("pdf: ", pdfUrls);
 
-    console.log(file);
-    console.log(file.length);
     if (file.length === 0) {
       setFiles("");
 
@@ -156,7 +146,6 @@ function FileUpload(props) {
     formData.append("files", files);
 
     const token = localStorage.getItem("expr");
-    console.log(id);
     // setOpenMail(false);
 
     const response = await axios.post(
@@ -168,7 +157,6 @@ function FileUpload(props) {
         },
       }
     );
-    console.log(response);
     setEmailSent(true);
     setIsLoading(false);
     setOpenMail(false);

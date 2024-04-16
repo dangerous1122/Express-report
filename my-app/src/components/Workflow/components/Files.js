@@ -1,7 +1,6 @@
 import React from "react";
 
 function Files(props) {
-  console.log('props',props.urls)
   const blobUrl = props.urls ? URL.createObjectURL(props.urls) : "";
 
   return (
@@ -11,7 +10,7 @@ function Files(props) {
             <iframe
               src={blobUrl}
               className="md:w-96"
-              style={{width:'', height: "400px" }}
+              style={{width:'300px', height: "400px" }}
               title={`Expense Report `}
             ></iframe>
           </div>

@@ -22,7 +22,6 @@ function Workflow() {
     event.preventDefault();
 
     if (!stripe) {
-      console.log("Stripe has not loaded yet.");
       return;
     }
 
@@ -45,10 +44,8 @@ function Workflow() {
     setIsLoading(true);
     dispatch(getData()).then((data) => {
       setReportData(data.payload.user);
-      console.log("ch", check);
     });
   }, [check, dispatch]);
-  console.log("r", reportData);
 
  useEffect(() => {
   if(reportData){

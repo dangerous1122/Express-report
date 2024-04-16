@@ -15,21 +15,16 @@ const ProtectedRoute = ({ children }) => {
       dispatch(validateUser(token))
         .then((originalPromiseResult) => {
           if(originalPromiseResult.error){
-            console.log("Validation failed", originalPromiseResult);
             localStorage.clear();
-            console.log('h')
             navigate('/login')
           }
           else{
-            console.log("Validation successful", originalPromiseResult);
             setIsValidating(false); 
           }
        
         })
         .catch((rejectedValueOrSerializedError) => {
-          console.log("Validation failed", rejectedValueOrSerializedError);
           localStorage.clear();
-          console.log('h')
           navigate('/', { state: { from: location }, replace: true }); 
         });
     } else {

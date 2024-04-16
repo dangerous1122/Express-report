@@ -17,18 +17,13 @@ export default function Slider() {
         Testimonials from Customers
       </h1>
       <Swiper
-        // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
-        // initial number of slides per view
         slidesPerView={1}
-        // settings for different breakpoints
         breakpoints={{
-          // when window width is >= 640px
           640: {
             slidesPerView: 2,
           },
-          // when window width is >= 768px
           768: {
             slidesPerView: 2,
           },

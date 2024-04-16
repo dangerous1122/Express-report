@@ -9,10 +9,8 @@ function App() {
     dispatch(validateUser())
       .unwrap()
       .then((originalPromiseResult) => {
-        console.log("Validation successful", originalPromiseResult);
       })
       .catch((rejectedValueOrSerializedError) => {
-        console.log("Validation failed", rejectedValueOrSerializedError);
         localStorage.clear();
       });
   }, [dispatch]);

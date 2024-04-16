@@ -19,7 +19,7 @@ export default function LandingPage() {
   const para1 =
     " No more spending 1-2 hours to prepare expense reports. Save your Time & Energy for something else you actually enjoy..";
   const para2 =
-    "Upload your receipts, relax, and observe as your expense report is prepared.";
+    "Upload your receipts, relax and watch your expense report gets prepared.";
 
   return (
     <>
