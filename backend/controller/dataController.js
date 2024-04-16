@@ -294,7 +294,6 @@ export const fileUpload = async (req, res) => {
         const doc = await PDFDocument.create();
         for (const file of files) {
           if (file.mimetype === "application/pdf") {
-            console.log("hello");
             // Merge PDF
             const existingPdfBytes = readFileSync(file.path);
 
@@ -375,8 +374,6 @@ export const profileData = async (req, res) => {
 export const sendMail = async (req, res) => {
   try {
     const id = req.body.id;
-    console.log("id: ", id);
-    let attachments = [];
     const file = await File.findById(id);
     if (!file) {
       throw new Error("File not found or no data.");
@@ -385,7 +382,7 @@ export const sendMail = async (req, res) => {
 
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const pdfPath = process.env.PDFPATH;
+    const pdfPath = process.env.PDF_PATH;
     const PdfData = readFileSync(pdfPath).toString("base64");
 
 
