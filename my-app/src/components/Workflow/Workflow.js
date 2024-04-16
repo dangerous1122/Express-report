@@ -47,15 +47,23 @@ function Workflow() {
       setReportData(data.payload.user);
       console.log("ch", check);
     });
-    // setIsLoading(false);
   }, [check, dispatch]);
   console.log("r", reportData);
+
+ useEffect(() => {
+  if(reportData){
+    setIsLoading(()=>false);
+  }
+ 
+ }, [reportData])
+ 
 
   if (
     reportData &&
     reportData.subscription.hass === false &&
     reportData.freeTrial === false
   ) {
+
     return (
       <>
         <div className="flex justify-center flex-col">
@@ -78,15 +86,13 @@ function Workflow() {
 
   return (
     <>
-
       <div className="flex relative justify-center flex-col">
-      <div
-        className={`bg-white absolute top-0 left-0 w-full h-full z-10 delay-75 ${
-          isLoading ? "fade-in visible" : "fade-in"
-        }`}
-      ></div>
-      <Loading load={isLoading} />
-        {" "}
+        <div
+          className={`bg-white absolute top-0 left-0 w-full h-full z-10 delay-75 ${
+            isLoading ? "fade-in visible" : "fade-in"
+          }`}
+        ></div>
+        <Loading load={isLoading} />{" "}
         {reportData && (
           <span className="absolute md:text-lg text-sm font-semibold right-3 top-3">
             FileCount:{" "}
