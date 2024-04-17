@@ -34,7 +34,7 @@ export default function Layout() {
   }else{
    landing= location.pathname.endsWith("/") ||
     location.pathname.endsWith("/faqs") ||
-    location.pathname.endsWith("/use-cases") || location.pathname.endsWith("/upgrade");
+    location.pathname.endsWith("/use-cases") || location.pathname.endsWith("/upgrade") || location.pathname.endsWith("/demo") ;
 
   }
 
@@ -150,11 +150,12 @@ export default function Layout() {
                         />
                       )}
                     </Disclosure.Button>
-                    {landing && (
-                      <img src={Logo} className="w-32 h-32 mt-3 -ml-2" />
-                    )}
+                  
                   </div>
                 )}
+                  {landing && (
+                      <img src={Logo} className="w-32 h-32 mt-3 -ml-2 md:hidden inline-flex" />
+                    )}
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
                   <div className="flex flex-shrink-0 items-center md:-ml-16">
                     <Link to={"/"}>
