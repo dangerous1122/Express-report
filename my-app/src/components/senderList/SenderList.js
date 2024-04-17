@@ -116,42 +116,44 @@ function SenderList(props) {
             contacts.map((contact,index) => (
               <li key={contact._id} className="py-3 sm:py-4">
                 <div className="flex justify-start sm:px-10 px-2 rounded-md py-5 shadow-md bg-white">
-                  <div className="flex-1">
-                    <p className="md:text-sm text-xs font-medium text-gray-900 truncate">
+                  <div className="md:flex-1 mr-1">
+                    <p className="md:text-sm text-wrap text-xs font-medium text-gray-900 truncate">
                       {contact.name}
                     </p>
-                    <p className="md:text-sm text-xs text-gray-500 truncate dark:text-gray-400">
+                    <p className="md:text-sm text-wrap text-xs text-gray-500 truncate dark:text-gray-400">
                       {contact.email}
                     </p>
                   </div>
-                  <div className="flex-1">
-                    <p className="md:text-sm text-xs font-medium text-gray-900 truncate">
+                  <div className="md:flex-1 mr-1">
+                    <p className="md:text-sm text-wrap text-xs font-medium text-gray-900 truncate">
                       Contact
                     </p>
-                    <p className="md:text-sm text-xs text-gray-500 truncate dark:text-gray-400">
+                    <p className="md:text-sm text-wrap text-xs text-gray-500 truncate dark:text-gray-400">
                       {contact.contact}
                     </p>
                   </div>
-                  <div className="flex-1">
+                  <div className="md:flex-1 mr-1">
                     <p className="md:text-sm text-xs font-medium text-gray-900 truncate">
                       Address
                     </p>
-                    <p className="md:text-sm text-xs text-gray-500 truncate dark:text-gray-400">
+                    <p className="md:text-sm text-wrap text-xs text-gray-500 truncate  dark:text-gray-400">
                       {contact.address}
                     </p>
                   </div>
+                  <div className="flex-col md:flex-row justify-between md:my-3 my-0 ">
                   <button
                     onClick={() => delButtonHandler(contact._id)}
-                    className="md:px-2 px-1 bg-red-500 text-white -ml-5 rounded-sm font-medium md:text-sm text-xs"
+                    className="md:px-2 px-1 md:w-16 w-12 md:mb-0 mb-3 md:mr-4 mr-0   bg-red-500 h-7 text-white  rounded-sm font-medium md:text-sm text-xs"
                   >
                     Delete
                   </button>
                   <button
                     onClick={() => editHandler(contact._id,index)}
-                    className=" bg-gray-500 px-2 ml-2 text-white rounded-sm font-medium md:text-sm text-xs"
+                    className=" bg-gray-500 md:w-16 w-12 px-2 h-7 text-white rounded-sm font-medium md:text-sm text-xs"
                   >
                     Edit
                   </button>
+                  </div>
                 </div>
               </li>
             ))}

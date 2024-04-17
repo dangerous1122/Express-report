@@ -9,10 +9,11 @@ const Pricing = () => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const navigate=useNavigate()
+  const token=localStorage.getItem('expr')
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const token=localStorage.getItem('expr')
     if(!token){
     navigate('/login')
     }
@@ -97,9 +98,9 @@ const Pricing = () => {
                   </p>
                   <button
                     type="submit"
-                    className={`mt-10 block w-full lg:px-12 rounded-md ${plan.id===1 ?'bg-white text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-500 cursor-pointer' } px-3 py-2 text-center text-sm font-semibold shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                    className={`mt-10 block w-full lg:px-12 rounded-md ${plan.id===1 && token ?'bg-white text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-500 cursor-pointer' } px-3 py-2 text-center text-sm font-semibold shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                   >
-                    {plan.id === 1 ? "Already access" : "Get access"}
+                    {plan.id === 1 && token ? "Already access" : "Get access"}
                   </button>
                   <p className="mt-6 text-sm font-medium leading-5 text-gray-600">
                     {plan.description}

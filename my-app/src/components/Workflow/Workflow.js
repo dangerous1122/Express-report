@@ -105,7 +105,7 @@ function Workflow() {
           </span>
         )}
         <h2
-          className={`md:text-3xl text-xl font-bold tracking-tight ${
+          className={`md:text-3xl md:mx-0 mx-5 text-xl font-bold tracking-tight ${
             processing === "a" ? "text-gray-900" : "text-green-600"
           }  sm:text-4xl mt-10  text-center`}
         >
