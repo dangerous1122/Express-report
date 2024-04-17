@@ -6,13 +6,11 @@ import slip2 from "../../../assets/2.png";
 
 
 const DragComponent = (props) => {
-  console.log("props.id: ", props.id);
   const [img1show, setImg1Show] = useState(true);
   const [img2show, setImg2Show] = useState(true);
   const img1 = { img: slip, id: 1 };
   const img2 = { img: slip, id: 2 };
   useEffect(() => {
-    console.log("props.id: ", props.id);
     if (props.id === 1) {
       setImg1Show(false);
     } else if (props.id === 2) {

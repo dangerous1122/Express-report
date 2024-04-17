@@ -1,15 +1,16 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const fileSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   PDFdata: {
     type: Buffer,
-    required: true
-  }
+    required: true,
+  },
+  createdAt: { type: Date, default: Date.now },
 });
 
-const File = mongoose.model('File', fileSchema);
-export default File
+const File = mongoose.model("File", fileSchema);
+export default File;

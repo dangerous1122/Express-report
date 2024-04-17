@@ -20,7 +20,6 @@ function FileSpace(props) {
   };
 
   useEffect(() => {
-    console.log("dropped files: ", droppedFiles);
     console.log(droppedFiles.length);
     props.onReceive(droppedFiles);
   }, [droppedFiles]);

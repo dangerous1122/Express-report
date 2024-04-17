@@ -4,7 +4,6 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import path from "path";
 import { readFileSync } from "fs";
-import pdf from "html-pdf";
 import logger from "../helper/winston.js";
 import puppeteer from  'puppeteer'
 
@@ -41,6 +40,7 @@ export const getReceipts = async (req, res) => {
         fileId: file._id,
         fileName: file.fileName,
         fileData: file.PDFData,
+        fileDate:file.createdAt
       };
     });
 

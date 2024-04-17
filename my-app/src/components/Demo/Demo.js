@@ -4,11 +4,14 @@ import FileSpace from "./components/FileSpace";
 import DragComponent from "./components/DragComponent";
 import Modal from "../../UI/Dialog";
 import Details from "../dashboard/components/sep-section";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { HTML5Backend,touch } from "react-dnd-html5-backend";
 import EmailOption from "../dashboard/components/EmailOption";
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { isMobile } from 'react-device-detect';
 import img from "../../assets/demo.pdf";
 
 function Demo() {
+  const backend = isMobile ? TouchBackend : HTML5Backend;
   const [openModal, setOpenModal] = useState(false);
   const [openMail, setOpenMail] = useState(false);
   const [output, setOutput] = useState(false);
@@ -32,7 +35,6 @@ function Demo() {
 
   return (
     <>
-      {/* <Modal state={openModal} onclose={() => setOpenModal(false)} /> */}
       <div className="flex justify-center  flex-col">
         <h1 className="text-4xl font-bold tracking-tight sm:text-4xl text-gray-900 my-5 text-center">
           Welcome to Express Reports Demo{" "}
@@ -41,7 +43,7 @@ function Demo() {
           Drag both receipts in the box and click 'Generate Report'
         </p>
         {!output && (
-          <DndProvider backend={HTML5Backend}>
+          <DndProvider backend={backend}>
             <DragComponent id={id} />
             <FileSpace onReceive={infoModal} />
           </DndProvider>

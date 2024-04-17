@@ -8,16 +8,20 @@ function Reports() {
   const [files, setFiles] = useState([]);
   const [filesPdf, setFilePdf] = useState();
   const [show, setShow] = useState(false);
-  const [error,setError]=useState(false)
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     const getReceipts = async () => {
       const token = localStorage.getItem("expr");
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-files`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/get-files`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         // Assuming response.data is an array of file information
         const filesInfo = response.data;
@@ -68,25 +72,22 @@ function Reports() {
 
   const handleDelete = async (id) => {
     console.log(process.env.REACT_APP_API_URL);
-    const token=localStorage.getItem("expr")
+    const token = localStorage.getItem("expr");
 
-    try{
-    const response=await axios.delete(
-      `${process.env.REACT_APP_API_URL}/del-file/${id}`,
-      {
-        headers:{
-          Authorization: `Bearer ${token}`
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/del-file/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
-    )
-    console.log(response)
-    const updatedContacts = files.filter(
-      (file) => file.fileId !== id
-    );
-    setFiles(updatedContacts);
-
-    }catch(err){
-      setError(true)
+      );
+      console.log(response);
+      const updatedContacts = files.filter((file) => file.fileId !== id);
+      setFiles(updatedContacts);
+    } catch (err) {
+      setError(true);
     }
   };
 
@@ -124,6 +125,9 @@ function Reports() {
                   alt=""
                 />
               </button>
+              <section className="md:ml-7 ml-3 md:font-semibold md:text-lg text-sm mb-3">
+                {new Date(item.fileDate).toLocaleDateString()}
+              </section>
               <div className="flex justify-between px-4 lg:ml-2 sm:ml-3 ml-1">
                 <button
                   onClick={() => handleView(item.fileId)}
