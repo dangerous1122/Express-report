@@ -67,7 +67,7 @@ export default function Layout() {
       current: location.pathname.endsWith("/sender-list"),
     },
     {
-      name: "Receiver  Data",
+      name: "Receiver Data",
       href: "/dashboard/receiver-list",
       current: location.pathname.endsWith("/receiver-list"),
     },
@@ -154,7 +154,9 @@ export default function Layout() {
                   </div>
                 )}
                   {landing && (
-                      <img src={Logo} className="w-32 h-32 mt-3 -ml-2 md:hidden inline-flex" />
+                    <div onClick={()=>navigate('/')}>
+                      <img src={Logo} className="w-32 h-24 mt-1 -ml-2 md:hidden inline-flex" />
+                      </div>
                     )}
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
                   <div className="flex flex-shrink-0 items-center md:-ml-16">
@@ -176,7 +178,7 @@ export default function Layout() {
                             item.current
                               ? "bg-gray-900 text-white"
                               : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
+                            "rounded-md px-3 py-2 text-sm font-medium "
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >

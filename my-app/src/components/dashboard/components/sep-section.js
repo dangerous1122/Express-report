@@ -31,7 +31,7 @@ export default function Details(props) {
         },
 
         {
-          label: "Company & Sender",
+          label: "Company & Address",
           name: "company",
           id: "company",
           value: val ? "John Doe" : senderCompany,
@@ -82,7 +82,7 @@ export default function Details(props) {
         },
 
         {
-          label: "Company & Sender",
+          label: "Company & Address",
           name: "company",
           value: val ? "abc.inc" : recCompany,
           id: "company",

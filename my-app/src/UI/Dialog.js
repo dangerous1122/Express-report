@@ -23,6 +23,11 @@ export default function Modal(props) {
       setEmail(props.val.email);
       setPhone(props.val.contact); // Assuming 'contact' is correct and not 'phone'
       setAddress(props.val.address);
+    }else{
+      setName('')
+      setEmail('');
+      setPhone(''); // Assuming 'contact' is correct and not 'phone'
+      setAddress('');
     }
   
   }, [props.val])
@@ -33,7 +38,7 @@ export default function Modal(props) {
   const submitHandler=(e)=>{
     e.preventDefault()
 
-    const data={
+    let data={
       name,
       email,
       contact:phone,
@@ -41,6 +46,10 @@ export default function Modal(props) {
     }
 
     props.onAdd(data)
+    setName('')
+    setEmail('');
+    setPhone(''); // Assuming 'contact' is correct and not 'phone'
+    setAddress('');
     props.onclose(false)
 
   }
