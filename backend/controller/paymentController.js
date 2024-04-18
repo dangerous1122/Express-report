@@ -25,7 +25,7 @@ console.log(_id.toString()); // Convert ObjectId to string and log it
             product_data: {
               name: "Express Reports Subscription",
             },
-            unit_amount: 999,
+            unit_amount: 10,
           },
           quantity: 1,
         },
