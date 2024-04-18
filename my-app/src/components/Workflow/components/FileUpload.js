@@ -186,7 +186,7 @@ function FileUpload(props) {
         }`}
       ></div>
       <Loading load={isLoading} />
-      
+
       {file.length > 0 && (
         <div>
           <h3>Added Files:</h3>
@@ -257,7 +257,7 @@ function FileUpload(props) {
       {!emailSent && !error && pdfUrls && <EmailOption onClick={sendMail} />}
 
       {emailSent && (
-        <p className="text-xl  tracking-tight text-center sm:text-xl my-5 text-gray-700 font-semibold">
+        <p className="md:text-xl text-lg px-14  tracking-tight text-center sm:text-xl my-5 text-gray-700 font-semibold">
           <div className="text-gray-700 bg-green-300 ml-96 mr-96 px-3 py-2 rounded-sm mb-3">
             Done!
           </div>

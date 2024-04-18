@@ -92,7 +92,7 @@ function Workflow() {
         <Loading load={isLoading} />{" "}
         {reportData && reportData.subscription.hass && (
           <span className="absolute md:text-lg text-sm font-semibold right-3 top-3">
-            FileCount:{" "}
+            Reports left:{" "}
             <span
               className={`${
                 reportData.subscription.gereratedReports > 4
