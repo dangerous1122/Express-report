@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { DndProvider } from "react-dnd";
 import FileSpace from "./components/FileSpace";
 import DragComponent from "./components/DragComponent";
 import Modal from "../../UI/Dialog";
@@ -8,10 +7,27 @@ import { HTML5Backend,touch } from "react-dnd-html5-backend";
 import EmailOption from "../dashboard/components/EmailOption";
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { isMobile } from 'react-device-detect';
+import { DndProvider, MultiBackend } from 'react-dnd-multi-backend';
+import { TouchTransition, MouseTransition } from 'dnd-multi-backend';
 import img from "../../assets/demo.pdf";
 
 function Demo() {
-  const backend = isMobile ? TouchBackend : HTML5Backend;
+  // const backend = isMobile ? TouchBackend : HTML5Backend;
+
+
+  const HTML5toTouch = {
+    backends: [
+      {
+        backend: HTML5Backend,
+        transition: MouseTransition,
+      },
+      {
+        backend: TouchBackend,
+        preview: true,
+        transition: TouchTransition,
+      },
+    ],
+  };
   const [openModal, setOpenModal] = useState(false);
   const [openMail, setOpenMail] = useState(false);
   const [output, setOutput] = useState(false);
@@ -43,7 +59,7 @@ function Demo() {
           Drag both receipts in the box and click 'Generate Report'
         </p>
         {!output && (
-          <DndProvider backend={backend}>
+          <DndProvider backend={MultiBackend} options={HTML5toTouch}>
             <DragComponent id={id} />
             <FileSpace onReceive={infoModal} />
           </DndProvider>

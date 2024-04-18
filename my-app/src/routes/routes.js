@@ -15,7 +15,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Success from "../components/upgrade/Success";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import FAQSection from '../components/FAQs'
+import FAQSection from "../components/FAQs";
 import UseCases from "../components/UseCases";
 
 import Profile from "../components/profile/Profile";
@@ -109,19 +109,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
-        path:"/faqs",
-        element:<FAQSection/>
+        path: "/faqs",
+        element: <FAQSection />,
       },
       {
-        path:"/use-cases",
-        element:<UseCases/>
+        path: "/use-cases",
+        element: <UseCases />,
       },
     ],
   },
-
 
   {
     path: "*",

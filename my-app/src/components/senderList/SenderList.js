@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Modal from "../../UI/Dialog";
 import { useDispatch } from "react-redux";
 import DeleteDialog from "../../UI/deleteDialog";
+import {Sidebar } from '../dashboard/components/SideBar'
+import {useLocation} from 'react-router-dom'
 import {
   fetchSenders,
   addSender,
@@ -11,6 +13,7 @@ import {
 
 function SenderList(props) {
   const [contacts, setContacts] = useState("");
+  const location =useLocation()
 
   const dispatch = useDispatch();
   const [modalState, setModalState] = useState(false);
@@ -29,7 +32,7 @@ function SenderList(props) {
         console.error("Failed to fetch senders:", actionResult.error);
       }
     });
-  }, []);
+  }, [location]);
 
   const delButtonHandler = (idx) => {
     setDeleteState(true);
@@ -83,6 +86,11 @@ function SenderList(props) {
 
   return (
     <>
+        <div className="grid grid-cols-5  h-screen bg-slate-50">
+        <div className="lg:col-span-1 lg:inline hidden h-full ">
+      <Sidebar/>
+      </div>
+      <div className="lg:col-span-4 col-span-5 inline  h-full md:mt-0 mt-16  ">
       <Modal
         state={modalState}
         onAdd={addHandler}
@@ -96,7 +104,7 @@ function SenderList(props) {
         onClose={() => setDeleteState(false)}
         onConfirm={deleteHandler}
       />
-      <div style={{ backgroundColor: "#f8f8f8", height: "100vh" }}>
+      <div className="h-full bg-slate-50">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl pt-5 text-center">
           {add === "sender" ? "Sender List" : "Receiver List"}
         </h1>
@@ -131,7 +139,7 @@ function SenderList(props) {
                       {contact.contact}
                     </p>
                   </div>
-                  <div className="md:flex-1 ">
+                  <div className="md:flex-1 flex-1 ">
                     <p className="md:text-sm text-xs font-medium text-gray-900 truncate">
                       Address
                     </p>
@@ -139,7 +147,7 @@ function SenderList(props) {
                       {contact.address}
                     </p>
                   </div>
-                  <div className="flex-col md:flex-row justify-between md:ml-1 ml-0 md:my-3 my-0 ">
+                  <div className="flex-col md:flex-row md:justify-between md:ml-1 ml-0 md:my-3 my-0 ">
                     <button
                       onClick={() => delButtonHandler(contact._id)}
                       className="md:px-2 px-1 md:w-16 w-12 md:mb-0 mb-3 md:mr-4 mr-0   bg-red-500 h-7 text-white  rounded-sm font-medium md:text-sm text-xs"
@@ -157,6 +165,8 @@ function SenderList(props) {
               </li>
             ))}
         </ul>
+      </div>
+      </div>
       </div>
     </>
   );

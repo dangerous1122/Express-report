@@ -132,6 +132,7 @@ export default function Layout() {
           <>
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
+                 
                 {!landing && (
                   <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                     {/* Mobile menu button*/}
@@ -153,18 +154,15 @@ export default function Layout() {
                   
                   </div>
                 )}
-                  {landing && (
-                    <div onClick={()=>navigate('/')}>
-                      <img src={Logo} className="w-32 h-24 mt-1 -ml-2 md:hidden inline-flex" />
-                      </div>
-                    )}
+               
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
-                  <div className="flex flex-shrink-0 items-center md:-ml-16">
+                  <div className="flex-shrink-0 items-center md:-ml-16  inline md:w-72 w-40 md:me-0 me-20">
                     <Link to={"/"}>
                       <img
-                        className="h-72 mt-8   cursor-pointer hidden sm:inline"
+                        className="h-72 mt-8 xl:me- cursor-pointer "
                         src={Logo}
                         alt="Your Company"
+                        // style={{marginInlineEnd:'48rem'}}
                       />
                     </Link>
                   </div>

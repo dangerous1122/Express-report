@@ -7,52 +7,55 @@ import EmailOption from "../components/dashboard/components/EmailOption";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Switch } from "@headlessui/react";
 
-
-
 export default function Modal(props) {
-  console.log(props.val)
+  console.log(props.val);
   const [open, setOpen] = useState(props.state);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState(props.val ? props.val.email : '');
-  const [phone, setPhone] = useState(props.val ? props.val.contact : '');
-  const [address, setAddress] = useState(props.val ? props.val.address : '');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState(props.val ? props.val.email : "");
+  const [phone, setPhone] = useState(props.val ? props.val.contact : "");
+  const [address, setAddress] = useState(props.val ? props.val.address : "");
 
   useEffect(() => {
-    if(props.val){
-      setName(props.val.name)
+    if (props.val) {
+      setName(props.val.name);
       setEmail(props.val.email);
       setPhone(props.val.contact); // Assuming 'contact' is correct and not 'phone'
       setAddress(props.val.address);
-    }else{
-      setName('')
-      setEmail('');
-      setPhone(''); // Assuming 'contact' is correct and not 'phone'
-      setAddress('');
+    } else {
+      setName("");
+      setEmail("");
+      setPhone(""); // Assuming 'contact' is correct and not 'phone'
+      setAddress("");
     }
-  
-  }, [props.val])
-  
+  }, [props.val]);
 
   const cancelButtonRef = useRef(null);
 
-  const submitHandler=(e)=>{
-    e.preventDefault()
-
-    let data={
-      name,
-      email,
-      contact:phone,
-      address
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (
+      !name.trim().length > 0 ||
+      !email.trim().length > 0 ||
+      !phone.trim().length > 0 ||
+      !address.trim().length > 0
+    ) {
+      return;
     }
 
-    props.onAdd(data)
-    setName('')
-    setEmail('');
-    setPhone(''); // Assuming 'contact' is correct and not 'phone'
-    setAddress('');
-    props.onclose(false)
+    let data = {
+      name,
+      email,
+      contact: phone,
+      address,
+    };
 
-  }
+    props.onAdd(data);
+    setName("");
+    setEmail("");
+    setPhone(""); // Assuming 'contact' is correct and not 'phone'
+    setAddress("");
+    props.onclose(false);
+  };
 
   return (
     <Transition.Root show={props.state} as={Fragment}>
@@ -88,7 +91,7 @@ export default function Modal(props) {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg py-2">
                 <div className="isolate bg-white px-6  lg:px-8">
                   <form
-                  onSubmit={submitHandler}
+                    onSubmit={submitHandler}
                     className="mx-auto mt-16 max-w-xl sm:mt-20"
                   >
                     <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -168,8 +171,9 @@ export default function Modal(props) {
                             id="email"
                             value={phone}
                             autoComplete="email"
-                            onChange={(e)=>{setPhone(e.target.value)}}
-
+                            onChange={(e) => {
+                              setPhone(e.target.value);
+                            }}
                             className="block w-full rounded-md border-2 px-3.5 py-2 text-gray-900 focus:border-0 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
@@ -180,7 +184,6 @@ export default function Modal(props) {
                         type="submit"
                         className="block w-full rounded-md bg-blue-600 px-3.5 py-2.5 text-center focus:border-0 text-sm font-semibold text-white shadow-sm hover:bg-blu-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
-
                         Save
                       </button>
                     </div>
