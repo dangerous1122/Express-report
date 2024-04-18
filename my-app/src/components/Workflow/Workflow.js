@@ -90,7 +90,7 @@ function Workflow() {
           }`}
         ></div>
         <Loading load={isLoading} />{" "}
-        {reportData && (
+        {reportData && reportData.subscription.hass && (
           <span className="absolute md:text-lg text-sm font-semibold right-3 top-3">
             FileCount:{" "}
             <span

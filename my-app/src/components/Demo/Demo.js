@@ -3,17 +3,16 @@ import FileSpace from "./components/FileSpace";
 import DragComponent from "./components/DragComponent";
 import Modal from "../../UI/Dialog";
 import Details from "../dashboard/components/sep-section";
-import { HTML5Backend,touch } from "react-dnd-html5-backend";
+import { HTML5Backend, touch } from "react-dnd-html5-backend";
 import EmailOption from "../dashboard/components/EmailOption";
-import { TouchBackend } from 'react-dnd-touch-backend';
-import { isMobile } from 'react-device-detect';
-import { DndProvider, MultiBackend } from 'react-dnd-multi-backend';
-import { TouchTransition, MouseTransition } from 'dnd-multi-backend';
+import { TouchBackend } from "react-dnd-touch-backend";
+import { isMobile } from "react-device-detect";
+import { DndProvider, MultiBackend } from "react-dnd-multi-backend";
+import { TouchTransition, MouseTransition } from "dnd-multi-backend";
 import img from "../../assets/demo.pdf";
 
 function Demo() {
   // const backend = isMobile ? TouchBackend : HTML5Backend;
-
 
   const HTML5toTouch = {
     backends: [
@@ -55,7 +54,10 @@ function Demo() {
         <h1 className="text-4xl font-bold tracking-tight sm:text-4xl text-gray-900 my-5 text-center">
           Welcome to Express Reports Demo{" "}
         </h1>
-        <p className="text-gray-600 text-center text-lg font-semibold mb-12   rounded-md">
+        <p className="text-gray-600 text-center text-lg font-semibold mb-12 rounded-md md:hidden inline">
+          Swipe both receipts in the box and click 'Generate Report'
+        </p>
+        <p className="text-gray-600 text-center text-lg font-semibold mb-12 rounded-md md:inline hidden">
           Drag both receipts in the box and click 'Generate Report'
         </p>
         {!output && (
@@ -65,7 +67,12 @@ function Demo() {
           </DndProvider>
         )}
         <div className="flex justify-around px-24 ">
-          {output && <iframe src={img} className="w-3/4  h-80"></iframe>}
+          {output && (
+            <iframe
+              src={img}
+              className="md:w-3/4 w-7/12  md:h-80 h-36 md:border-0 border-4 border-black"
+            ></iframe>
+          )}
           {/* {output && <iframe src={img} className="w-1/4  h-80"></iframe>} */}
         </div>
         {openModal && <Details value={true} onSubmit={mailHander} />}

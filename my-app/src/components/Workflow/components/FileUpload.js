@@ -186,7 +186,7 @@ function FileUpload(props) {
         }`}
       ></div>
       <Loading load={isLoading} />
-
+      
       {file.length > 0 && (
         <div>
           <h3>Added Files:</h3>

@@ -156,18 +156,18 @@ export default function Layout() {
                 )}
                
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
-                  <div className="flex-shrink-0 items-center md:-ml-16  inline md:w-72 w-40 md:me-0 me-20">
+                  <div className={`${landing ? "" : "ml-28"} flex-shrink-0 md:mt-3 mt-0 items-center md:-ml-16  inline md:w-72 w-40 md:me-0 me-20`}>
                     <Link to={"/"}>
                       <img
-                        className="h-72 mt-8 xl:me- cursor-pointer "
+                        className="md:h-72 h-24 mt-3 cursor-pointer "
                         src={Logo}
                         alt="Your Company"
                         // style={{marginInlineEnd:'48rem'}}
                       />
                     </Link>
-                  </div>
+                  </div> 
                   <div className="hidden sm:ml-6 ">
-                    <div className="flex space-x-4">
+                    <div className="flex space-x-4 ">
                       {navigation.map((item) => (
                         <Link
                           key={item.name}

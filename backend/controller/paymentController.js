@@ -7,7 +7,7 @@ import Stripe from "stripe";
 const stripe = Stripe(process.env.STRIPE_KEY);
 
 
-const YOUR_DOMAIN = "http://localhost:3000";
+const YOUR_DOMAIN = "https://aiexpensereport.com";
 let session=''
 
 export const stripePayment = async (req, res) => {

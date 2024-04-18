@@ -1,14 +1,9 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import formSections from "../components/dashboard/components/form-fields";
-import Details from "../components/dashboard/components/sep-section";
-import EmailOption from "../components/dashboard/components/EmailOption";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Switch } from "@headlessui/react";
+
 
 export default function Modal(props) {
-  console.log(props.val);
+  console.log('props: ',props);
   const [open, setOpen] = useState(props.state);
   const [name, setName] = useState("");
   const [email, setEmail] = useState(props.val ? props.val.email : "");
@@ -16,16 +11,16 @@ export default function Modal(props) {
   const [address, setAddress] = useState(props.val ? props.val.address : "");
 
   useEffect(() => {
-    if (props.val) {
+    if(props.val){
       setName(props.val.name);
       setEmail(props.val.email);
-      setPhone(props.val.contact); // Assuming 'contact' is correct and not 'phone'
+      setPhone(props.val.contact); 
       setAddress(props.val.address);
-    } else {
-      setName("");
-      setEmail("");
-      setPhone(""); // Assuming 'contact' is correct and not 'phone'
-      setAddress("");
+    }else{
+      setName('');
+      setEmail('');
+      setPhone(''); 
+      setAddress(''); 
     }
   }, [props.val]);
 
@@ -34,9 +29,9 @@ export default function Modal(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     if (
-      !name.trim().length > 0 ||
-      !email.trim().length > 0 ||
-      !phone.trim().length > 0 ||
+      !name.trim().length > 0 &&
+      !email.trim().length > 0 &&
+      !phone.length > 0 &&
       !address.trim().length > 0
     ) {
       return;

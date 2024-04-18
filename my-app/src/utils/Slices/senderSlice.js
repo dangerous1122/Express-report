@@ -48,6 +48,7 @@ export const addSender = createAsyncThunk(
 export const editSenders = createAsyncThunk(
   "contacts/edit-sender",
   async ({ id, data }, { rejectWithValue }) => {
+    console.log(data,id)
     const token = localStorage.getItem("expr");
     try {
       const response = await axios.patch(`${baseUrl}/edit-sender/${id}`, data, {

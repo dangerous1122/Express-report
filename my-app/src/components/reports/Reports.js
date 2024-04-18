@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import slip2 from "../../assets/pdf2.png";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { Sidebar } from "../dashboard/components/SideBar";
 import "./reports.css";
 
 function Reports() {
@@ -104,46 +105,54 @@ function Reports() {
           </div>
         </div>
       )}
-      <div
-        style={{ backgroundColor: "#f8f8f8" }}
-        className="h-auto min-h-full absolute w-full"
-      >
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl py-5 text-center">
-          Reports History
-        </h1>
-        <div className="grid lg:grid-cols-5 gap-10 p-20 md:grid-cols-3 sm:grid-cols-2 grid-cols-2">
-          {files.map((item) => (
-            <div key={item.fileId}>
-              <button
-                onClick={() => {
-                  setShow(true);
-                }}
-              >
-                <img
-                  src={slip2}
-                  className="md:h-36 md:w-36 object-fill cursor-pointer"
-                  alt=""
-                />
-              </button>
-              <section className="md:ml-7 ml-3 md:font-semibold md:text-lg text-sm mb-3">
-                {new Date(item.fileDate).toLocaleDateString()}
-              </section>
-              <div className="flex justify-between px-4 lg:ml-2 sm:ml-3 ml-1">
-                <button
-                  onClick={() => handleView(item.fileId)}
-                  className="bg-gray-300 py-1 rounded-sm px-2 ml-2"
-                >
-                  <EyeIcon className="sm:h-5 sm:w-5 h-3 w-3" />
-                </button>
-                <button
-                  onClick={() => handleDelete(item.fileId)}
-                  className="bg-red-600 py-1 px-2 mr-16 rounded-sm xl:mr-24"
-                >
-                  <TrashIcon className="sm:h-5 sm:w-5 h-3 w-3 text-white" />
-                </button>
-              </div>
+
+      <div className="grid grid-cols-5  h-screen bg-slate-50">
+        <div className="lg:col-span-1 lg:inline hidden h-full ">
+          <Sidebar />
+        </div>
+        <div className="lg:col-span-4 col-span-5 inline  h-full md:mt-0 mt-16  ">
+          <div
+            style={{ backgroundColor: "#f8f8f8" }}
+            className="h-auto min-h-full absolute"
+          >
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl py-5 text-center">
+              Reports History
+            </h1>
+            <div className="grid lg:grid-cols-5 gap-10 p-10 md:grid-cols-3 sm:grid-cols-2 grid-cols-2">
+              {files.map((item) => (
+                <div key={item.fileId}>
+                  <button
+                    onClick={() => {
+                      setShow(true);
+                    }}
+                  >
+                    <img
+                      src={slip2}
+                      className="md:h-24 md:w-24 object-fill cursor-pointer"
+                      alt=""
+                    />
+                  </button>
+                  <section className="md:ml-2 ml-3 md:font-semibold md:text-lg text-sm mb-3">
+                    {new Date(item.fileDate).toLocaleDateString()}
+                  </section>
+                  <div className="flex justify-between px-4 lg:-ml-2 sm:ml-3 ml-1">
+                    <button
+                      onClick={() => handleView(item.fileId)}
+                      className="bg-gray-300 py-1 rounded-sm px-2 ml-2"
+                    >
+                      <EyeIcon className="sm:h-5 sm:w-5 h-3 w-3" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.fileId)}
+                      className="bg-red-600 py-1 px-2 mr-16 rounded-sm xl:mr-24"
+                    >
+                      <TrashIcon className="sm:h-5 sm:w-5 h-3 w-3 text-white" />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {  useDispatch } from "react-redux";
 import { getData } from "../../utils/Slices/dataSlice";
+import { Sidebar } from "../dashboard/components/SideBar";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,11 @@ const Profile = () => {
   }, []);
 
   return (
+    <div className="grid grid-cols-5  h-screen bg-slate-50">
+    <div className="lg:col-span-1 lg:inline hidden h-full ">
+      <Sidebar />
+    </div>
+    <div className="lg:col-span-4 col-span-5 inline  h-full md:mt-0 mt-16  ">
     <div className="flex flex-col bg-slate-50" style={{ height: "88vh" }}>
       <h1 className="text-3xl mt-8 font-bold tracking-tight text-gray-900 sm:text-4xl  text-center">
         Your Profile
@@ -66,6 +72,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
