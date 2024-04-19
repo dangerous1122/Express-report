@@ -137,7 +137,7 @@ export const makePdf = async(req, res) => {
     }));
 
     const totalAmount = expenses.reduce((sum, item) => {
-      return sum + parseFloat(item.amount.replace("$", ""));
+      return sum + parseFloat(item.amount.replace("", ""));
     }, 0);
     expenses.sort((a, b) => new Date(a.date) - new Date(b.date));
 
