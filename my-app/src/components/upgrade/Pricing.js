@@ -13,7 +13,7 @@ const Pricing = () => {
   const token = localStorage.getItem("expr");
   const [reportData, setReportData] = useState();
 
-  const a = reportData.subscription.hass ? "Current Plan" : "Get Access";
+  const a = reportData && reportData.subscription.hass ? "Current Plan" : "Get Access";
 
   useEffect(() => {
     dispatch(getData()).then((data) => {
