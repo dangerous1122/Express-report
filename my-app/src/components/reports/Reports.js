@@ -113,7 +113,7 @@ function Reports() {
         <div className="lg:col-span-4 col-span-5 inline  h-full md:mt-0 mt-16  ">
           <div
             style={{ backgroundColor: "#f8f8f8" }}
-            className="h-auto min-h-full absolute"
+            className="h-auto min-h-full"
           >
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl py-5 text-center">
               Reports History

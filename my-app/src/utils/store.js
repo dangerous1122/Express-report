@@ -8,6 +8,7 @@ export const store = configureStore({
   reducer: {
     auth: authSlice,
     sender:senderSlice,
-    file:fileUpload
+    file:fileUpload,
+    devTools: process.env.NODE_ENV !== 'production',
   },
 });

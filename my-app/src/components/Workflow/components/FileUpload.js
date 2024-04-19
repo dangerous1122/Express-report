@@ -189,8 +189,7 @@ function FileUpload(props) {
 
       {file.length > 0 && (
         <div>
-          <h3>Added Files:</h3>
-          <ul className="grid md:grid-cols-5 grid-cols-3 gap-9 relative mt-5 mb-10">
+          <ul className="grid md:grid-cols-5 grid-cols-3 md:gap-12 gap-10 relative mt-5 mb-10 md:mx-0 mx-10">
             {file.map((fil, index) => (
               <li key={index}>
                 <button
@@ -200,7 +199,7 @@ function FileUpload(props) {
                   <XCircleIcon className="h-6 w-6" />
                 </button>
                 <img
-                  className="w-20 h-20 relative transition-transform"
+                  className="md:w-20 md:h-20 h-16 w-16 relative transition-transform"
                   src={fille}
                 ></img>
 
@@ -257,8 +256,8 @@ function FileUpload(props) {
       {!emailSent && !error && pdfUrls && <EmailOption onClick={sendMail} />}
 
       {emailSent && (
-        <p className="md:text-xl text-lg px-14  tracking-tight text-center sm:text-xl my-5 text-gray-700 font-semibold">
-          <div className="text-gray-700 bg-green-300 ml-96 mr-96 px-3 py-2 rounded-sm mb-3">
+        <p className="md:text-xl text-sm mx-10  tracking-tight text-center flex justify-center flex-col sm:text-xl my-5 text-gray-700 font-semibold">
+          <div className="text-gray-700 bg-green-300 mx-auto px-3 py-2 rounded-sm mb-3">
             Done!
           </div>
           "We emailed you the detailed Expense Report + all your Receipts
