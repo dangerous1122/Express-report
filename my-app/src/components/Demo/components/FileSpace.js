@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
+
 function FileSpace(props) {
+
+  
+
   const [droppedFiles, setDroppedFiles] = useState([]);
 
   const [{ canDrop, isOver }, dropRef1] = useDrop(() => ({
@@ -28,21 +32,14 @@ function FileSpace(props) {
     <div className="flex justify-center md:mb-1 md:mt-15 md:px-24 mt-16 ">
       {droppedFiles.length < 2 && (
         <>
+        
         <div
           ref={dropRef1}
           className={`${
             isOver ? "bg-gray-800 text-gray-200" : "bg-gray-300 text-gray-700"
-          }  rounded-sm px-10 py-5 text-lg font-medium shadow-md md:hidden inline`}
+          }  rounded-sm px-10 py-5 text-lg font-medium shadow-md md:inline  `}
         >
-          {isOver ? "Release to drop" : "Swipe your file here"}
-        </div>
-        <div
-          ref={dropRef1}
-          className={`${
-            isOver ? "bg-gray-800 text-gray-200" : "bg-gray-300 text-gray-700"
-          }  rounded-sm px-10 py-5 text-lg font-medium shadow-md md:inline hidden `}
-        >
-          {isOver ? "Release to drop" : "Drag your file here"}
+          {isOver ? "Release to drop" : "Bring your files here"}
         </div>
         </>
       )}
