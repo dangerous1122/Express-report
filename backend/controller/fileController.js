@@ -108,9 +108,9 @@ export const makePdf = async(req, res) => {
     data.forEach((entry) => {
       const lines = entry.split("\n");
 
-      // Process each line
+      
       lines.forEach((line) => {
-        const lowerCaseLine = line.toLowerCase(); // Convert line to lowercase to handle case sensitivity
+        const lowerCaseLine = line.toLowerCase(); 
         if (lowerCaseLine.startsWith("title:")) {
           titles.push(line.replace("Title: ", ""));
         } else if (lowerCaseLine.startsWith("category of expense:")) {
@@ -133,7 +133,7 @@ export const makePdf = async(req, res) => {
       date: dates[index],
       title: title,
       category: categories[index],
-      amount: `$${amounts[index]}`,
+      amount: `${amounts[index]}`,
     }));
 
     const totalAmount = expenses.reduce((sum, item) => {

@@ -112,7 +112,7 @@ function Workflow() {
           {processing === "a" &&
             "Upload your receipts in images or pdf to get started"}
           {processing === "b" && "Processing your receipts.."}
-          {processing === "c" && "Congrats..Your receipt has been generated"}
+          {processing === "c" && "Congrats..Your report has been generated"}
         </h2>
         <label for="" className="">
           <div class="flex flex-col mx-auto items-center justify-center pt-5 pb-6">
