@@ -27,9 +27,7 @@ function SenderList(props) {
       if (fetchSenders.fulfilled.match(actionResult)) {
         const data = actionResult.payload.data;
         setContacts(data);
-        console.log("Fetched senders:", data);
       } else if (fetchSenders.rejected.match(actionResult)) {
-        console.error("Failed to fetch senders:", actionResult.error);
       }
     });
   }, [location]);
@@ -42,11 +40,9 @@ function SenderList(props) {
   const addHandler = async (data) => {
     data.add = add;
     if (editModalState) {
-      console.log(data)
       dispatch(editSenders({ id, data })).then((actionResult) => {
         if (editSenders.fulfilled.match(actionResult)) {
           const data = actionResult.payload.data;
-          console.log("delete:", data);
           const updatedContacts = contacts.map((contact) => {
             if (contact._id === id) {
               return { ...contact, ...data };
@@ -59,15 +55,14 @@ function SenderList(props) {
 
       });
     } else {
-      console.log(data);
       data.add = add;
       const res = await dispatch(addSender(data));
       setContacts([...contacts, data]);
     }
   };
   const editHandler = (id, index) => {
-    console.log(index);
-    console.log(id)
+    
+   
     setModalState(true);
     setId(id);
     setIdx(index);
@@ -78,7 +73,6 @@ function SenderList(props) {
     dispatch(deleteSenders(id)).then((actionResult) => {
       if (deleteSenders.fulfilled.match(actionResult)) {
         const data = actionResult.payload;
-        console.log("delete:", data);
         const updatedContacts = contacts.filter(
           (contact) => contact._id !== id
         );

@@ -19,12 +19,10 @@ function FileSpace(props) {
   }));
 
   const handleDrop = (item) => {
-    console.log("items: ", item);
     setDroppedFiles((currentFiles) => [...currentFiles, item]);
   };
 
   useEffect(() => {
-    console.log(droppedFiles.length);
     props.onReceive(droppedFiles);
   }, [droppedFiles]);
 

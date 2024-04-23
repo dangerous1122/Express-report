@@ -16,7 +16,6 @@ export const fileUpload = createAsyncThunk(
           },
         }
       );
-      console.log(response);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

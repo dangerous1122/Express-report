@@ -21,7 +21,6 @@ function Register() {
       return
     }
     const response = await dispatch(registerUser(data));
-    console.log(response)
     navigate("/dashboard");
   };
   return (

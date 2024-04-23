@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 
 
 export default function Modal(props) {
-  console.log('props: ',props);
   const [open, setOpen] = useState(props.state);
   const [name, setName] = useState("");
   const [email, setEmail] = useState(props.val ? props.val.email : "");

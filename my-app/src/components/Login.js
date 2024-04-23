@@ -16,7 +16,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const { state } = useSelector((state) => state.auth);
   const [password, setPass] = useState("");
-  console.log(state)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginHandler = async (e) => {
@@ -28,22 +27,18 @@ function Login() {
       };
       const actionResult = await dispatch(loginUser(data));
       const result = actionResult.payload;
-      console.log(result);
       if (loginUser.fulfilled.match(actionResult)) {
         if (result.token) {
           navigate("/dashboard");
         }
       } else {
-        console.error("Login failed:");
       }
     }
   };
 
   const handleSuccess = async (credentialResponse) => {
-    console.log(credentialResponse.credential);
 
     const reps = await dispatch(validateGoogle(credentialResponse.credential));
-    console.log("respp: ", reps);
     localStorage.setItem("expr", reps.payload.token);
     if (reps.meta.requestStatus === "fulfilled") {
       navigate("/dashboard");
@@ -116,7 +111,6 @@ function Login() {
                 <GoogleLogin
                   onSuccess={handleSuccess}
                   onError={() => {
-                    console.log("Login Failed");
                   }}
                 />
               </div>

@@ -18,7 +18,6 @@ export const loginUser = createAsyncThunk(
         `${process.env.REACT_APP_API_URL}/login`,
         userData
       );
-      console.log(response);
       // Assuming the response includes user data and a token
       return response.data; // This should include both the user and the token
     } catch (err) {
@@ -62,7 +61,6 @@ export const validateGoogle = createAsyncThunk(
           body: token,
         }
       );
-      console.log(response);
       return response.data;
     } catch (err) {
       return rejectWithValue(

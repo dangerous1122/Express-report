@@ -5,13 +5,19 @@ import { dirname } from "path";
 import path from "path";
 import { readFileSync } from "fs";
 import logger from "../helper/winston.js";
-import puppeteer from  'puppeteer'
+import puppeteer from "puppeteer";
 
+function calculateOutput(input) {
+  if (input < 1) {
+    return "Invalid input"; // Ensure the input is valid
+  }
+  return 1001 + (10 - input);
+}
 
 async function createPDF(htmlContent, options) {
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'] // Adding sandbox flags
-});
+    args: ["--no-sandbox", "--disable-setuid-sandbox"], // Adding sandbox flags
+  });
 
   const page = await browser.newPage();
   await page.setContent(htmlContent);
@@ -19,7 +25,6 @@ async function createPDF(htmlContent, options) {
   await browser.close();
   return buffer;
 }
-
 
 export const getReceipts = async (req, res) => {
   try {
@@ -40,7 +45,7 @@ export const getReceipts = async (req, res) => {
         fileId: file._id,
         fileName: file.fileName,
         fileData: file.PDFData,
-        fileDate:file.createdAt
+        fileDate: file.createdAt,
       };
     });
 
@@ -94,10 +99,10 @@ export const deleteFile = async (req, res) => {
   }
 };
 
-export const makePdf = async(req, res) => {
+export const makePdf = async (req, res) => {
   try {
-    logger.info('Request Body: %o', req.body);
-        logger.info('Request Params Data: %o', req.params.data);
+    logger.info("Request Body: %o", req.body);
+    logger.info("Request Params Data: %o", req.params.data);
     const data1 = JSON.parse(req.params.data);
     const data = req.body;
     const titles = [];
@@ -108,9 +113,8 @@ export const makePdf = async(req, res) => {
     data.forEach((entry) => {
       const lines = entry.split("\n");
 
-      
       lines.forEach((line) => {
-        const lowerCaseLine = line.toLowerCase(); 
+        const lowerCaseLine = line.toLowerCase();
         if (lowerCaseLine.startsWith("title:")) {
           titles.push(line.replace("Title: ", ""));
         } else if (lowerCaseLine.startsWith("category of expense:")) {
@@ -128,7 +132,6 @@ export const makePdf = async(req, res) => {
       });
     });
 
-    console.log(titles, categories, dates, amounts);
     const expenses = titles.map((title, index) => ({
       date: dates[index],
       title: title,
@@ -151,6 +154,10 @@ export const makePdf = async(req, res) => {
 
     const htmlContent = readFileSync(htmlFilePath, "utf8");
     const cssContent = readFileSync(cssFilePath, "utf8");
+    const inv = req.user.subscription.hass;
+    const invNum = inv
+      ? calculateOutput(req.user.subscription.gereratedReports)
+      : 1001;
 
     const rows = expenses
       .map(
@@ -177,9 +184,8 @@ export const makePdf = async(req, res) => {
       .replace(/{{recPhone}}/g, data1.recPhone)
       .replace(/{{recCompany}}/g, data1.recCompany)
       .replace(/{{rows}}/g, rows)
-      //   .replace(/{{Category}}/g, category)
+      .replace(/{{invoiceNum}}/g, invNum)
       .replace(/{{amount}}/g, totalAmount);
-    //   .replace(/{{date}}/g, date);
 
     fullHtmlContent = `
       <style>${cssContent}</style>
@@ -202,7 +208,7 @@ export const makePdf = async(req, res) => {
       name: "expenseReport.pdf",
       PDFdata: buffer,
     });
-    
+
     const f = await newFile.save();
     req.user.files.push(newFile._id);
     await req.user.save();
@@ -222,9 +228,9 @@ export const makePdf = async(req, res) => {
       req.user.freeTrial = false;
     }
     await req.user.save();
-
   } catch (err) {
-    console.log('error',err)
-    logger.error('Error : %o', err);
-    res.status(500).send(err)
-  }};
+    console.log("error", err);
+    logger.error("Error : %o", err);
+    res.status(500).send(err);
+  }
+};

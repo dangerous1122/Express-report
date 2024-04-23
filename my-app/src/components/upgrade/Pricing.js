@@ -28,7 +28,6 @@ const Pricing = () => {
     }
 
     if (!stripe) {
-      console.log("Stripe has not loaded yet.");
       return;
     }
 
@@ -45,10 +44,8 @@ const Pricing = () => {
       if (url) {
         window.location.href = url;
       } else {
-        console.log("No URL received for Stripe Checkout.");
       }
     } catch (error) {
-      console.error("Payment submission error:", error);
     }
   };
 

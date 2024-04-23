@@ -48,7 +48,6 @@ export const addSender = createAsyncThunk(
 export const editSenders = createAsyncThunk(
   "contacts/edit-sender",
   async ({ id, data }, { rejectWithValue }) => {
-    console.log(data,id)
     const token = localStorage.getItem("expr");
     try {
       const response = await axios.patch(`${baseUrl}/edit-sender/${id}`, data, {
@@ -107,7 +106,6 @@ const contactsSlice = createSlice({
         // state.entities.push(action.payload);
       })
       .addCase(editSenders.fulfilled, (state, action) => {
-        console.log('s,',action.payload)
         state.entities=action.payload
    
       })

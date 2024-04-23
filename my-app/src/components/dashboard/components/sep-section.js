@@ -12,7 +12,6 @@ export default function Details(props) {
   const [recCompany, setRecCompany] = useState("");
   const [recEmail, setRecEmail] = useState("");
   const [recPhone, setRecPhone] = useState("");
-  console.log(add);
 
   const formSections = [
     {

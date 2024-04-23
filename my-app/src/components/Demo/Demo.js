@@ -33,7 +33,6 @@ function Demo() {
   const [id, setid] = useState(0);
 
   const infoModal = (arr) => {
-    console.log(arr);
     if (arr.length >= 1) {
       setid(arr[arr.length - 1].id);
     }
@@ -66,11 +65,11 @@ function Demo() {
             <FileSpace onReceive={infoModal} />
           </DndProvider>
         )}
-        <div className="flex justify-around px-24 ">
+        <div className="flex justify-around px-16 md:px-24 ">
           {output && (
             <iframe
               src={img}
-              className="md:w-3/4 w-7/12  md:h-80 h-36 md:border-0 border-4 border-black"
+              className="md:w-3/4 w-full   md:h-80 h-48 md:border-0 border-4 border-black"
             ></iframe>
           )}
           {/* {output && <iframe src={img} className="w-1/4  h-80"></iframe>} */}

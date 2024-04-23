@@ -9,9 +9,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getData()).then((data) => {
-      console.log(data.payload.user);
       setProfileData(data.payload.user);
-      console.log("first", profileData.email);
     });
   }, []);
 

@@ -34,10 +34,8 @@ function Reports() {
           return { ...file, url }; // Append the URL to the file information
         });
 
-        console.log(urls); // Now 'urls' contains objects with file info and URLs
         setFiles(urls);
       } catch (error) {
-        console.error("Error fetching files:", error);
       }
     };
 
@@ -47,9 +45,7 @@ function Reports() {
   const getFile = async (id) => {};
 
   const handleView = async (id) => {
-    console.log(`View item ${id}`);
     const token = localStorage.getItem("expr");
-    console.log(id);
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/get-files/${id}`,
@@ -62,17 +58,14 @@ function Reports() {
       );
 
       // Assuming response.data is an array of file information
-      console.log(response.data);
       const pdfBlob = new Blob([response.data], { type: "application/pdf" });
       const pdfUrl = URL.createObjectURL(pdfBlob);
       setFilePdf(pdfUrl);
     } catch (e) {
-      console.log(e);
     }
   };
 
   const handleDelete = async (id) => {
-    console.log(process.env.REACT_APP_API_URL);
     const token = localStorage.getItem("expr");
 
     try {
@@ -84,7 +77,6 @@ function Reports() {
           },
         }
       );
-      console.log(response);
       const updatedContacts = files.filter((file) => file.fileId !== id);
       setFiles(updatedContacts);
     } catch (err) {

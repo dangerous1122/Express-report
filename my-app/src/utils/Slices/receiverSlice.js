@@ -18,7 +18,6 @@ export const fetchContacts = createAsyncThunk(
 export const addContact = createAsyncThunk(
   "contacts/addContact",
   async (contactData, { rejectWithValue }) => {
-    console.log('hyyy')
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/add-receiver`, contactData);
       return response.data;

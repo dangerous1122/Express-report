@@ -9,6 +9,6 @@ export const store = configureStore({
     auth: authSlice,
     sender:senderSlice,
     file:fileUpload,
-    devTools: process.env.NODE_ENV !== 'production',
   },
+  devTools: process.env.REACT_APP_NODE_ENV !== 'production',
 });
