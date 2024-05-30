@@ -1,6 +1,6 @@
 import User from "../model/userModel.js";
-import { readFileSync, writeFileSync } from "fs";
-import { unlink,existsSync } from "fs";
+import { readFileSync, writeFileSync,statSync } from "fs";
+import { unlink, existsSync } from "fs";
 import { dirname } from "path";
 import fs from "fs/promises";
 import { createWriteStream } from "fs";
@@ -217,7 +217,6 @@ const auth = new GoogleAuth({
   scopes: "https://www.googleapis.com/auth/cloud-platform",
 });
 
-
 let sender = "";
 let fileCount = 0;
 let files = [];
@@ -233,17 +232,13 @@ export const fileUpload = async (req, res) => {
       req.user.freeTrial ||
       (req.user.subscription.hass && req.user.subscription.gereratedReports > 0)
     ) {
-      //google vision
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded." });
       }
       fileCount++;
       files.push(req.file);
-
       const client = await auth.getClient();
-
-      const url =
-        `https://us-documentai.googleapis.com/v1/projects/681235566970/locations/us/processors/${process.env.PROCESSOR_ID}:process`;
+      const url = `https://us-documentai.googleapis.com/v1/projects/681235566970/locations/us/processors/${process.env.PROCESSOR_ID}:process`;
       const fileBuffer = await fs.readFile(req.file.path);
       const encodedImage = fileBuffer.toString("base64");
 
@@ -264,13 +259,13 @@ export const fileUpload = async (req, res) => {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-3.5-turbo-0125",
+          model: "gpt-4-turbo",
           messages: [
             {
               role: "user",
               content:
                 prompt +
-                " give one 'title',one 'category of expense', only one 'date of expense' and 'total amount of expense' keep format as follows: Title: [title]  \n category of expense: [category] \n date of expense: January 1,2000 \n total amount of expense : [amount] \n ",
+                " give one 'title',one 'category of expense', only one 'date of expense' and 'total amount of expense' keep format as follows: Title: [title]  \n category of expense: [category] \n date of expense: January 1,2000 \n total amount of expense : [amount] \n also you should ALWAYS get the total amount ignore other amounts",
             },
           ],
           max_tokens: 150,
@@ -283,64 +278,66 @@ export const fileUpload = async (req, res) => {
         }
       );
       sender = data.senderEmail;
-
       console.log("gpt response, :", response.data.choices[0].message.content);
- 
+
       res.status(200).json(response.data.choices[0].message.content);
 
       if (fileCount === data.fileCount) {
-        console.log("count", fileCount);
-        console.log(files);
+        console.log("All files received, processing...");
         const doc = await PDFDocument.create();
-        for (const file of files) {
-          if (file.mimetype === "application/pdf") {
-  
-            const existingPdfBytes = readFileSync(file.path);
 
-            const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
-            const copiedPage = await doc.copyPages(
-              existingPdfDoc,
-              existingPdfDoc.getPageIndices()
-            );
-            copiedPage.forEach((page) => doc.addPage(page));
-          } else if (file.mimetype === "image/jpeg") {
-            const page = doc.addPage();
-            const imageBytes = readFileSync(file.path);
-            const image = await doc.embedJpg(imageBytes); // Use embedJpg() for JPEG images
-            page.drawImage(image, {
-              x: page.getWidth() / 2 - 250,
-              y: page.getHeight() / 2 - 200,
-              width: 500,
-              height: 400,
-            });
-          }else if(file.mimetype==="image/png"){
-            const page = doc.addPage();
-            const imageBytes = readFileSync(file.path);
-            const image = await doc.embedPng(imageBytes); // Use embedJpg() for JPEG images
-            page.drawImage(image, {
-              x: page.getWidth() / 2 - 250,
-              y: page.getHeight() / 2 - 200,
-              width: 500,
-              height: 400,
-            });
-          }
-          unlink(file.path, (err) => {
-            if (err) {
-              console.error("Error deleting the file", err);
-              return res.status(500).send("An error occurred");
+        for (const file of files) {
+            if (file.mimetype === "application/pdf") {
+                const existingPdfBytes = readFileSync(file.path);
+                const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
+                const copiedPages = await doc.copyPages(existingPdfDoc, existingPdfDoc.getPageIndices());
+                copiedPages.forEach(page => doc.addPage(page));
+            } 
+            // JPEGs:
+            else if (file.mimetype === "image/jpeg") {
+                const page = doc.addPage();
+                const imageBytes = readFileSync(file.path);
+                const image = await doc.embedJpg(imageBytes);
+                page.drawImage(image, {
+                    x: page.getWidth() / 2 - 250,
+                    y: page.getHeight() / 2 - 200,
+                    width: 500,
+                    height: 400,
+                });
+            } 
+            // PNGs:
+            else if (file.mimetype === "image/png") {
+                const page = doc.addPage();
+                const imageBytes = readFileSync(file.path);
+                const image = await doc.embedPng(imageBytes);
+                page.drawImage(image, {
+                    x: page.getWidth() / 2 - 250,
+                    y: page.getHeight() / 2 - 200,
+                    width: 500,
+                    height: 400,
+                });
             }
-          });
+            
+            // Clean up the file immediately after processing
+            unlink(file.path, err => {
+                if (err) console.error("Error deleting the file", err);
+            });
         }
 
-
+        // Save the document to a file
         const pdfBytes = await doc.save();
-        writeFileSync("output.pdf", pdfBytes);
-        console.log(`Generated PDF saved to `);
-        fileCount = 0;
-        files=[];
-      }
+        const outputPath = "./output.pdf";
+        writeFileSync(process.env.PDF_PATH, pdfBytes);
+        console.log(`Generated PDF saved to ${outputPath}`);
 
-     
+        const stats = statSync(process.env.PDF_PATH);
+        const fileSizeInMegabytes = stats.size / 1024 / 1024;
+        if (fileSizeInMegabytes > 22) {
+            await compressPdf(process.env.PDF_PATHh, res);
+        } else {
+            res.sendFile(process.env.PDF_PATH);
+        }
+    }
 
       await req.user.save();
     } else {
@@ -348,7 +345,7 @@ export const fileUpload = async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
-    res.status(500).send({
+    res.status(400).send({
       message: "An error occurred while uploading the file.",
       error: err,
     });
@@ -385,11 +382,10 @@ export const sendMail = async (req, res) => {
     const pdfPath = process.env.PDF_PATH;
     const PdfData = readFileSync(pdfPath).toString("base64");
 
-
     sgMail.setApiKey(process.env.SG_KEY);
     const msg = {
-      from: { email: "support@aiexpensereport.com",name:"Express Reports" },
-      personalizations: [{ to:[ { email: req.user.email }] }],
+      from: { email: "support@aiexpensereport.com", name: "Express Reports" },
+      personalizations: [{ to: [{ email: req.user.email }] }],
       // subject: "PDF Files",
       // text: "Attached are your PDF files.",
       templateId: "d-8aa8f42e1e4247c489d21786ef26baf2",
@@ -416,10 +412,42 @@ export const sendMail = async (req, res) => {
       console.error("Failed to send email:", error);
       res.status(500).send("Failed to send email");
     }
-
-  
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Could not send mail", err });
   }
 };
+
+
+
+async function compressPdfToZip(pdfPath, res) {
+  const archiver = require('archiver');
+  const zipPath = 'path/to/output.zip';
+
+  // Create a file to stream archive data to.
+  const output = createWriteStream(zipPath);
+  const archive = archiver('zip', {
+      zlib: { level: 9 } // Sets the compression level.
+  });
+
+  archive.on('error', function(err) {
+      throw err;
+  });
+
+  archive.pipe(output);
+  archive.append(fs.createReadStream(pdfPath), { name: 'document.pdf' });
+  archive.finalize();
+
+  output.on('close', () => {
+      console.log(`Archived ${pdfPath} (${archive.pointer()} total bytes)`);
+      res.sendFile(zipPath, {}, function(err) {
+          if (err) {
+              console.error("Error sending the zip file", err);
+              return res.status(500).send("An error occurred");
+          }
+          // Optionally delete the PDF and ZIP file after sending
+          unlinkAsync(pdfPath);
+          unlinkAsync(zipPath);
+      });
+  });
+}

@@ -37,7 +37,6 @@ function Login() {
   };
 
   const handleSuccess = async (credentialResponse) => {
-
     const reps = await dispatch(validateGoogle(credentialResponse.credential));
     localStorage.setItem("expr", reps.payload.token);
     if (reps.meta.requestStatus === "fulfilled") {
@@ -52,6 +51,10 @@ function Login() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl d">
               Sign in to your account
             </h1>
+            <div className="">
+              <GoogleLogin onSuccess={handleSuccess} onError={() => {}} />
+            </div>
+            <section className="text-center font-bold">OR</section>
             <form className="space-y-4 md:space-y-6" onSubmit={loginHandler}>
               <div>
                 <label
@@ -106,14 +109,9 @@ function Login() {
               >
                 Sign in
               </button>
-              <p className="mx-auto text-center font-semibold text-gray-700">OR</p>
-              <div className="">
-                <GoogleLogin
-                  onSuccess={handleSuccess}
-                  onError={() => {
-                  }}
-                />
-              </div>
+              <p className="mx-auto text-center font-semibold text-gray-700">
+                OR
+              </p>
               <p className="text-sm font-light -my-2 text-gray-500 ">
                 Don’t have an account yet?{" "}
                 <Link

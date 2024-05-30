@@ -197,6 +197,7 @@ export default function Details(props) {
           <button
             type="submit"
             className="block px-5 rounded-md bg-blue-600  py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10"
+            
           >
             Generate Report
           </button>

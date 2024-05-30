@@ -14,15 +14,21 @@ function Footer() {
       links: [
         { name: "Use case", url: "/use-cases" },
         { name: "Pricing", url: "/upgrade" },
-        { name: "Blog", url: "" },
+        { name: "Blog", url: "https://aiexpensereport.superblog.cloud" },
         { name: "FAQs", url: "/faqs" },
       ],
     },
     {
       title: "Company",
       links: [
-        { name: "Privacy Policy", url: "https://www.notion.so/Privacy-Policy-a0efdaec83284d27bc1891755e8a15bf?pvs=4" },
-        { name: "Terms & Conditions", url: "https://www.notion.so/Terms-of-Service-5d273c2714c94029b14813d3187bdc56?pvs=4" },
+        {
+          name: "Privacy Policy",
+          url: "https://www.notion.so/Privacy-Policy-a0efdaec83284d27bc1891755e8a15bf?pvs=4",
+        },
+        {
+          name: "Terms & Conditions",
+          url: "https://www.notion.so/Terms-of-Service-5d273c2714c94029b14813d3187bdc56?pvs=4",
+        },
       ],
     },
   ];
@@ -54,7 +60,11 @@ function Footer() {
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                   {section.links.map((link) => (
                     <li className="mb-4" key={link.name}>
-                      <Link to={link.url} onClick={scrollToTop} className="hover:underline">
+                      <Link
+                        to={link.url}
+                        onClick={scrollToTop}
+                        className="hover:underline"
+                      >
                         {link.name}
                       </Link>
                     </li>

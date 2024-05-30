@@ -5,7 +5,7 @@ import {
   ArrowUpCircleIcon,
   DocumentPlusIcon,
   XCircleIcon,
-  ArrowUturnLeftIcon
+  ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
 import "./fileUpload.css";
 import ErrorModal from "../../../UI/ErrorModal.js";
@@ -17,7 +17,9 @@ import Files from "./Files.js";
 
 function FileUpload(props) {
   const [file, setFiles] = useState("");
+  const [next, setNext] = useState(false);
   const [modalState, setModalState] = useState(false);
+  const [data,setData]=useState('')
   const [openMail, setOpenMail] = useState(false);
   const [fileLimit, setFileLimit] = useState(false);
   const [id, setId] = useState("");
@@ -25,6 +27,7 @@ function FileUpload(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [pdfUrls, setPdfUrls] = useState();
+  const [askMail,setAskMail]=useState("")
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -48,15 +51,18 @@ function FileUpload(props) {
     }
   };
 
-  const mailHandler = async (data) => {
-    data.fileCount = file.length;
+  const onAskMail=async(val)=>{
     const maxFileSize = 5 * 1024 * 1024;
     const token = localStorage.getItem("expr");
 
     setModalState(false);
     setOpenMail(true);
+  
+
+
     setIsLoading(true);
     props.onProcess("b");
+
 
     let urls = [];
     for (const fil of file) {
@@ -112,16 +118,24 @@ function FileUpload(props) {
 
         const fileBlob = new Blob([response.data], { type: "application/pdf" });
         setPdfUrls(fileBlob);
-      } catch (err) {
-      }
+      } catch (err) {}
       props.onProcess("c");
       setFiles("");
       setIsLoading(false);
     }
+    
+
+  }
+
+
+  const mailHandler = async (data) => {
+    data.fileCount = file.length;
+    setOpenMail(true);
+    setData(data);
+
   };
 
   useEffect(() => {
-
     if (file.length === 0) {
       setFiles("");
 
@@ -187,7 +201,7 @@ function FileUpload(props) {
       ></div>
       <Loading load={isLoading} />
 
-      {file.length > 0 && (
+      {(!next && file.length) > 0 && (
         <div>
           <ul className="grid md:grid-cols-5 grid-cols-3 md:gap-12 gap-10 relative mt-5 mb-10 md:mx-0 mx-10">
             {file.map((fil, index) => (
@@ -212,7 +226,7 @@ function FileUpload(props) {
 
       <Files urls={pdfUrls} />
 
-      {!pdfUrls && (
+      {!next && !pdfUrls && (
         <>
           {!isLoading && (
             <>
@@ -221,7 +235,7 @@ function FileUpload(props) {
                 className={`${
                   file
                     ? "bg-green-600 hover:bg-green-500"
-                    : "bg-blue-700 hover:bg-blue-500"
+                    : "bg-green-600 hover:bg-green-500"
                 }   text-white text-sm px-4 py-2.5 outline-none rounded w-max cursor-pointer mx-auto flex `}
               >
                 <>
@@ -231,7 +245,7 @@ function FileUpload(props) {
                     <ArrowUpCircleIcon className="w-5 mr-3" />
                   )}
                 </>
-                {file ? "" : "Upload"}
+                {file ? "" : "Add File"}
                 <input
                   type="file"
                   multiple
@@ -240,20 +254,43 @@ function FileUpload(props) {
                   onChange={handleFileChange}
                 />
               </label>
-              <p className="text-center font-medium md:text-lg text-sm md:mt-10 md:mx-36 mx-8  text-gray-900 py-2 px-4 bg-blue-100 rounded-md mt-5">
-                <span className="md:text-lg text-sm text-black font-semibold ">Tip: </span>
-                Please make sure to check and upload all the receipts you want
-                on the report. Because, once the report is generated & if you
-                want to add/delete an expense on the report then you will need
-                to generate a new report.
+              <p className="text-center font-medium md:text-lg text-sm md:mt-10 md:mx-44 mx-8  text-gray-900 py-2 px-4 bg-white rounded-sm mt-5">
+                <span className="md:text-lg text-sm text-black font-semibold ">
+                  Tip:{" "}
+                </span>
+                Please upload all the receipts you want on the report. Because,
+                once the report is generated and you want to add/delete an
+                expense on the report then you will need to generate a new
+                report.
               </p>
+              <button
+                className="mx-auto flex bg-blue-700 text-white  px-8 py-2.5 rounded hover:bg-blue-600 my-5 text-sm"
+                onClick={() => {
+                  setNext(true);
+                  props.onNext(true);
+                }}
+              >
+                Next
+                <span className="ml-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="size-5"
+                  >
+                    <path d="M3.288 4.818A1.5 1.5 0 0 0 1 6.095v7.81a1.5 1.5 0 0 0 2.288 1.276l6.323-3.905c.155-.096.285-.213.389-.344v2.973a1.5 1.5 0 0 0 2.288 1.276l6.323-3.905a1.5 1.5 0 0 0 0-2.552l-6.323-3.906A1.5 1.5 0 0 0 10 6.095v2.972a1.506 1.506 0 0 0-.389-.343L3.288 4.818Z" />
+                  </svg>
+                </span>
+              </button>
             </>
           )}
         </>
       )}
 
-      {modalState && !error && <Details value={false} onSubmit={mailHandler} />}
-      {!emailSent && !error && pdfUrls && <EmailOption onClick={sendMail} />}
+      {next && !error && !openMail && (
+        <Details value={false} onSubmit={mailHandler}  />
+      )}
+      {!emailSent && !error && openMail && <EmailOption onClick={onAskMail} />}
 
       {emailSent && (
         <p className="md:text-xl text-sm mx-10  tracking-tight text-center flex justify-center flex-col sm:text-xl my-5 text-gray-700 font-semibold">
@@ -269,7 +306,8 @@ function FileUpload(props) {
           onClick={() => navigate("/dashboard")}
           className="py-1 px-2 bg-blue-700 text-sm hover:bg-blue-500 text-white rounded-md flex"
         >
-        <ArrowUturnLeftIcon className="w-4 h-4 mr-3 text-white"/> Back to Dashboard
+          <ArrowUturnLeftIcon className="w-4 h-4 mr-3 text-white" /> Back to
+          Dashboard
         </button>
       )}
     </>

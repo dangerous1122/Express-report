@@ -7,16 +7,23 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Loading from "../../UI/Loading.js";
 import "../Workflow/components/fileUpload.css";
 import { payment } from "../../utils/Slices/paymentSlice";
+import {CloudArrowUpIcon} from '@heroicons/react/24/solid'
 
 import img from "../../assets/premium.png";
 function Workflow() {
   const [reportData, setReportData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [isNext, setIsNext] = useState(false);
   const dispatch = useDispatch();
   const [processing, setProcessing] = useState("a");
   const [check, setCheck] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+
+
+  const onNext=(val)=>{
+    setIsNext(val)
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,20 +54,17 @@ function Workflow() {
     });
   }, [check, dispatch]);
 
- useEffect(() => {
-  if(reportData){
-    setIsLoading(()=>false);
-  }
- 
- }, [reportData])
- 
+  useEffect(() => {
+    if (reportData) {
+      setIsLoading(() => false);
+    }
+  }, [reportData]);
 
   if (
     reportData &&
     reportData.subscription.hass === false &&
     reportData.freeTrial === false
   ) {
-
     return (
       <>
         <div className="flex justify-center flex-col">
@@ -83,7 +87,7 @@ function Workflow() {
 
   return (
     <>
-      <div className="flex relative justify-center flex-col">
+      <div className="flex relative justify-center flex-col bg-slate-50">
         <div
           className={`bg-white absolute top-0 left-0 w-full h-full z-10 delay-75 ${
             isLoading ? "fade-in visible" : "fade-in"
@@ -106,31 +110,36 @@ function Workflow() {
         )}
         <h2
           className={`md:text-3xl md:mx-0 mx-5 text-xl font-bold tracking-tight ${
-            processing === "a" ? "text-gray-900" : "text-green-600"
+            processing === "a" ? "text-gray-600" : "text-green-600"
           }  sm:text-4xl mt-10  text-center`}
         >
           {processing === "a" &&
-            "Upload your receipts in images or pdf to get started"}
+            "Upload your receipts (png,jpeg,jpg images or pdf accepted)"}
           {processing === "b" && "Processing your receipts.."}
           {processing === "c" && "Congrats..Your report has been generated"}
         </h2>
-        <label for="" className="">
+       &&  <label for="" className="">
           <div class="flex flex-col mx-auto items-center justify-center pt-5 pb-6">
             {processing === "b" || processing === "c" ? (
               ""
             ) : (
-              <DocumentArrowUpIcon className="w-20 h-20 mb-10" />
+              <>
+            {!isNext &&  <div className="">
+              <CloudArrowUpIcon className="w-20 h-20  mx-auto text-slate-600" />
+              </div> }
+              </>
             )}
             <FileUpload
               onProcess={(a) => setProcessing(a)}
               onCheck={() => {
                 setCheck(() => !check);
               }}
+              onNext={(val)=>onNext(val)}
             />
           </div>
           <input id="dropzone-file" type="file" class="hidden" />
-        </label>
-      </div>
+        </label> 
+      </div> 
     </>
   );
 }
