@@ -28,6 +28,7 @@ function SenderList(props) {
         const data = actionResult.payload.data;
         setContacts(data);
       } else if (fetchSenders.rejected.match(actionResult)) {
+        
       }
     });
   }, [location]);

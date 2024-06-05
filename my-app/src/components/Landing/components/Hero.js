@@ -13,10 +13,10 @@ function Hero(props) {
   const light = props.color ? "" : "#101010";
   return (
     <div
-      className={`${props.color ? "bg-white" : "bg-gray-800"}`}
+      className={`${props.color ? "bg-white" : "bg-gray-800"} `}
       style={{ backgroundColor: light }}
     >
-      <div className="relative isolate px-6  lg:px-8">
+      <div className="relative isolate px-6  lg:px-8 ">
         <div
           className={`${
             props.color
@@ -27,7 +27,7 @@ function Hero(props) {
           <div className="lg:px-20 px-0">
             <h1
               className={` lg:text-6xl font-bold tracking-tight text-3xl ${
-                props.color ? "text-gray-900" : "text-gray-100 "
+                props.color ? "text-gray-900 mt-10 " : "text-gray-100 "
               } `}
             >
               {props.text}
