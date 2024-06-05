@@ -371,6 +371,7 @@ export const profileData = async (req, res) => {
 export const sendMail = async (req, res) => {
   try {
     const id = req.body.id;
+    console.log(id)
     const file = await File.findById(id);
     if (!file) {
       throw new Error("File not found or no data.");

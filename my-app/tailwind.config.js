@@ -5,7 +5,15 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+       scrollbarHide: {
+        '-ms-overflow-style': 'none',  // for Internet Explorer and Edge
+        'scrollbar-width': 'none',  // for Firefox
+        '&::-webkit-scrollbar': {
+          display: 'none'  // for Chrome, Safari, and Opera
+        }
+      }
+    },
   },
   plugins: [],
 }

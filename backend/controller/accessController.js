@@ -28,8 +28,16 @@ export const register = async (req, res, next) => {
         // text: "Attached are your PDF files.",
         templateId: "d-95554d2060f049b7a0eb8a195da414c1",
       };
+
+      const msg2 = {
+        from: { email: "support@aiexpensereport.com", name: "Express Reports" },
+        personalizations: [{ to: [{ email: "applepatient@gmail.com" }] }],
+        subject: "New User registered",
+        text: ` ${newUser.email} has been registered as a new user`,
+      };
       try {
         await sgMail.send(msg);
+        await sgMail.send(msg2);
         res
           .status(200)
           .json({ message: "Welcome Email sent ", token: newUser.token });

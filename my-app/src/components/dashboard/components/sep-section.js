@@ -1,9 +1,12 @@
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import SearchBars from "../../Workflow/components/SearchBars";
 
 export default function Details(props) {
   const val = props.value;
   const [senderName, setSenderName] = useState("");
+  const [senderSelected, setsenderSelected] = useState("");
+  const [recSelected, setRecSelected] = useState("");
   const [add, setAdd] = useState(-1);
   const [senderCompany, setSenderCompany] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
@@ -117,58 +120,87 @@ export default function Details(props) {
     },
   ];
 
+
+  const senderSelectedHandler=(val)=>{
+    setsenderSelected(val)
+    console.log("senderrr")
+  }
+
+  const receiverSelectedHandler=(val)=>{
+    setRecSelected(val)
+  }
   const submitHandler = (e) => {
     e.preventDefault();
+
+    
     const data = {
-      senderName,
-      senderCompany,
-      senderPhone,
-      senderEmail,
-      recName,
-      recCompany,
-      recPhone,
-      recEmail,
+      senderName : senderSelected ? senderSelected.name : senderName,
+      senderCompany: senderSelected ? senderSelected.address : senderCompany ,
+      senderPhone:senderSelected ? senderSelected.contact : senderPhone,
+      senderEmail:senderSelected ? senderSelected.email : senderEmail,
+      recName:recSelected ? recSelected.name : recName,
+      recCompany:recSelected ? recSelected.address : recCompany,
+      recPhone:recSelected ? recSelected.contact : recPhone,
+      recEmail:recSelected ? recSelected.email : senderEmail,
     };
     props.onSubmit(data);
   };
 
   return (
-    <form onSubmit={submitHandler} className=" mt-9 my-5">
+    <form onSubmit={submitHandler} className=" mt-0 my-5">
       <div className="grid lg:grid-cols-2">
         {formSections.map((section, index) => (
-          <div key={index} className="isolate bg-white px-20">
+          <div
+            key={index}
+            className={`isolate ${val ? "bg-white" : "bg-slate-50"} px-20`}
+          >
             {add < index && (
               <>
                 <div className="mx-auto max-w-2xl text-center">
-                  <h2 className=" font-bold tracking-tight text-gray-900 text-2xl">
+                  <h2 className=" font-bold tracking-tight text-gray-800 text-2xl">
                     {section.title}
                   </h2>
+                  <SearchBars
+                    placeholder={`${
+                      index === 0
+                        ? "search from sender list"
+                        : "search from receiver list"
+                    }`}
+                    onSelected={(s) => {
+
+                      console.log("se: ", s);
+                    }}
+                    onSender={senderSelectedHandler}
+                    onReceiver={receiverSelectedHandler}
+                  />
                 </div>
-                <div className="mx-auto mt-16 max-w-xl sm:mt-8">
-                  <div className="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2">
-                    {section.fields.map((field) => (
-                      <div key={field.id}>
-                        <label
-                          htmlFor={field.id}
-                          className="block text-sm font-semibold leading-6 text-gray-900"
-                        >
-                          {field.label}
-                        </label>
-                        <div className="mt-2.5">
-                          <input
-                            type={field.type}
-                            name={field.name}
-                            value={field.value}
-                            id={field.id}
-                            onChange={field.onChange}
-                            autoComplete={field.autoComplete}
-                            className="block w-full rounded-md border-2 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:border-0 sm:text-sm sm:leading-6"
-                          />
+                {((!senderSelected && index===0) || (!recSelected && index ===1)) && (
+                  <div className="mx-auto mt-16 max-w-xl sm:mt-8">
+                    <div className="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2">
+                      {section.fields.map((field) => (
+                        <div key={field.id}>
+                          <label
+                            htmlFor={field.id}
+                            className="block text-sm font-semibold leading-6 text-gray-900"
+                          >
+                            {field.label}
+                          </label>
+                          <div className="mt-2.5">
+                            <input
+                              type={field.type}
+                              name={field.name}
+                              value={field.value}
+                              id={field.id}
+                              onChange={field.onChange}
+                              autoComplete={field.autoComplete}
+                              className="block w-full rounded-md lg:border border-2 px-3.5 py-2 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 focus:border-0 sm:text-sm sm:leading-6"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </>
             )}
             {add >= index && (
@@ -194,13 +226,17 @@ export default function Details(props) {
       </div>
       <div>
         {(!val || add >= 1) && (
-          <button
-            type="submit"
-            className="block px-5 rounded-md bg-blue-600  py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10"
-            
-          >
-            Generate Report
-          </button>
+          <div className="flex mx-96">
+            <button className="block w-24 rounded-md bg-gray-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10">
+              Back
+            </button>
+            <button
+              type="submit"
+              className="block px-5 rounded-md w-24 bg-purple-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10"
+            >
+              Continue
+            </button>
+          </div>
         )}
       </div>
     </form>

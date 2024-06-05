@@ -14,12 +14,13 @@ import EmailOption from "../../dashboard/components/EmailOption";
 import Loading from "../../../UI/Loading.js";
 import fille from "../../../assets/file.png";
 import Files from "./Files.js";
+import SearchBars from "./SearchBars";
 
 function FileUpload(props) {
   const [file, setFiles] = useState("");
   const [next, setNext] = useState(false);
   const [modalState, setModalState] = useState(false);
-  const [data,setData]=useState('')
+  const [data, setData] = useState("");
   const [openMail, setOpenMail] = useState(false);
   const [fileLimit, setFileLimit] = useState(false);
   const [id, setId] = useState("");
@@ -27,7 +28,6 @@ function FileUpload(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [pdfUrls, setPdfUrls] = useState();
-  const [askMail,setAskMail]=useState("")
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -51,18 +51,16 @@ function FileUpload(props) {
     }
   };
 
-  const onAskMail=async(val)=>{
+  const onAskMail = async (val) => {
+    console.log("val: ", val);
     const maxFileSize = 5 * 1024 * 1024;
     const token = localStorage.getItem("expr");
 
     setModalState(false);
     setOpenMail(true);
-  
-
 
     setIsLoading(true);
     props.onProcess("b");
-
 
     let urls = [];
     for (const fil of file) {
@@ -115,24 +113,50 @@ function FileUpload(props) {
           }
         );
         setId({ id: response.headers["x-file-id"] });
+        const uri = { id: response.headers["x-file-id"] };
+        console.log("uri", uri);
 
         const fileBlob = new Blob([response.data], { type: "application/pdf" });
         setPdfUrls(fileBlob);
-      } catch (err) {}
+
+        if (val === true) {
+          console.log("here");
+          console.log("urls: ", uri);
+          const files = await blobUrlToFile(fileBlob, "yourPdfName.pdf");
+          const formData = new FormData();
+          formData.append("files", files);
+
+          console.log("urls: ", uri);
+          const token = localStorage.getItem("expr");
+          // setOpenMail(false);
+
+          const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/send-mail`,
+            uri,
+            {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setEmailSent(true);
+          setIsLoading(false);
+          setOpenMail(false);
+        }
+      } catch (err) {
+        console.log(err);
+      }
       props.onProcess("c");
       setFiles("");
       setIsLoading(false);
     }
-    
-
-  }
-
+  };
 
   const mailHandler = async (data) => {
     data.fileCount = file.length;
     setOpenMail(true);
+    props.onProcess("d");
     setData(data);
-
   };
 
   useEffect(() => {
@@ -155,6 +179,7 @@ function FileUpload(props) {
 
   const sendMail = async () => {
     setIsLoading(true);
+    console.log("idd: ", id);
     const files = await blobUrlToFile(pdfUrls, "yourPdfName.pdf");
     const formData = new FormData();
     formData.append("files", files);
@@ -224,6 +249,16 @@ function FileUpload(props) {
         </div>
       )}
 
+      {emailSent && (
+        <p className="md:text-xl text-sm mx-10  tracking-tight text-center flex justify-center flex-col sm:text-xl my-5 text-gray-700 font-semibold">
+          <div className="text-gray-700 bg-green-300 mx-auto px-3 py-2 rounded-sm mb-3">
+            Done!
+          </div>
+          "We emailed you the detailed Expense Report + all your Receipts
+          compiled in one file."
+        </p>
+      )}
+
       <Files urls={pdfUrls} />
 
       {!next && !pdfUrls && (
@@ -268,6 +303,7 @@ function FileUpload(props) {
                 onClick={() => {
                   setNext(true);
                   props.onNext(true);
+                  props.onProcess("b");
                 }}
               >
                 Next
@@ -287,27 +323,20 @@ function FileUpload(props) {
         </>
       )}
 
-      {next && !error && !openMail && (
-        <Details value={false} onSubmit={mailHandler}  />
+
+      {next && !error && !openMail && !emailSent && (
+        <Details value={false} onSubmit={mailHandler} />
       )}
       {!emailSent && !error && openMail && <EmailOption onClick={onAskMail} />}
+      {/* {!emailSent && !error && openMail && <EmailOption onClick={sendMail} />} */}
 
-      {emailSent && (
-        <p className="md:text-xl text-sm mx-10  tracking-tight text-center flex justify-center flex-col sm:text-xl my-5 text-gray-700 font-semibold">
-          <div className="text-gray-700 bg-green-300 mx-auto px-3 py-2 rounded-sm mb-3">
-            Done!
-          </div>
-          "We emailed you the detailed Expense Report + all your Receipts
-          compiled in one file."
-        </p>
-      )}
       {pdfUrls && (
         <button
           onClick={() => navigate("/dashboard")}
-          className="py-1 px-2 bg-blue-700 text-sm hover:bg-blue-500 text-white rounded-md flex"
+          className="mx-auto bg-gray-700 text-white my-10 px-5 py-2.5 rounded-sm hover:bg-gray-600 flex text-sm"
         >
-          <ArrowUturnLeftIcon className="w-4 h-4 mr-3 text-white" /> Back to
-          Dashboard
+          <ArrowUturnLeftIcon className="w-4 h-4 mr-3 text-white mt-0.5" /> Back
+          to Dashboard
         </button>
       )}
     </>

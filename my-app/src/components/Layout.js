@@ -125,7 +125,7 @@ export default function Layout() {
       <Disclosure
         as="nav"
         className="z-50 "
-        style={{ backgroundColor: "#101010" }}
+        style={{ backgroundColor: "#101010",position:"fixed", width:"100vw" }}
       >
         {({ open }) => (
           <>

@@ -87,9 +87,9 @@ function Workflow() {
 
   return (
     <>
-      <div className="flex relative justify-center flex-col bg-slate-50">
+      <div className=" relative justify-center flex-col bg-slate-50 overflow-y-hidden min-h-screen scrollbar-hide" >
         <div
-          className={`bg-white absolute top-0 left-0 w-full h-full z-10 delay-75 ${
+          className={`bg-white absolute top-0 left-0 w-full h-full z-10 delay-75  ${
             isLoading ? "fade-in visible" : "fade-in"
           }`}
         ></div>
@@ -110,15 +110,17 @@ function Workflow() {
         )}
         <h2
           className={`md:text-3xl md:mx-0 mx-5 text-xl font-bold tracking-tight ${
-            processing === "a" ? "text-gray-600" : "text-green-600"
-          }  sm:text-4xl mt-10  text-center`}
+            processing === "a" ? "text-gray-600" : "text-purple-800"
+          }  sm:text-4xl mt-24  text-center`}
         >
           {processing === "a" &&
             "Upload your receipts (png,jpeg,jpg images or pdf accepted)"}
-          {processing === "b" && "Processing your receipts.."}
-          {processing === "c" && "Congrats..Your report has been generated"}
+          {processing === "b" && "Add Sender and Reciever details"}
+          {processing === "d" && "All ready to go"}
+
+          {processing === "c" && "Processing complete...see your report below"}
         </h2>
-       &&  <label for="" className="">
+        <label for="" className="">
           <div class="flex flex-col mx-auto items-center justify-center pt-5 pb-6">
             {processing === "b" || processing === "c" ? (
               ""
