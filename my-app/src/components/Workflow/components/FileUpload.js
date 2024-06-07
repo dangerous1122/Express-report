@@ -60,7 +60,7 @@ function FileUpload(props) {
     setOpenMail(true);
 
     setIsLoading(true);
-    props.onProcess("b");
+    props.onProcess("e");
 
     let urls = [];
     for (const fil of file) {

@@ -120,28 +120,26 @@ export default function Details(props) {
     },
   ];
 
+  const senderSelectedHandler = (val) => {
+    setsenderSelected(val);
+    console.log("senderrr");
+  };
 
-  const senderSelectedHandler=(val)=>{
-    setsenderSelected(val)
-    console.log("senderrr")
-  }
-
-  const receiverSelectedHandler=(val)=>{
-    setRecSelected(val)
-  }
+  const receiverSelectedHandler = (val) => {
+    setRecSelected(val);
+  };
   const submitHandler = (e) => {
     e.preventDefault();
 
-    
     const data = {
-      senderName : senderSelected ? senderSelected.name : senderName,
-      senderCompany: senderSelected ? senderSelected.address : senderCompany ,
-      senderPhone:senderSelected ? senderSelected.contact : senderPhone,
-      senderEmail:senderSelected ? senderSelected.email : senderEmail,
-      recName:recSelected ? recSelected.name : recName,
-      recCompany:recSelected ? recSelected.address : recCompany,
-      recPhone:recSelected ? recSelected.contact : recPhone,
-      recEmail:recSelected ? recSelected.email : senderEmail,
+      senderName: senderSelected ? senderSelected.name : senderName,
+      senderCompany: senderSelected ? senderSelected.address : senderCompany,
+      senderPhone: senderSelected ? senderSelected.contact : senderPhone,
+      senderEmail: senderSelected ? senderSelected.email : senderEmail,
+      recName: recSelected ? recSelected.name : recName,
+      recCompany: recSelected ? recSelected.address : recCompany,
+      recPhone: recSelected ? recSelected.contact : recPhone,
+      recEmail: recSelected ? recSelected.email : senderEmail,
     };
     props.onSubmit(data);
   };
@@ -167,14 +165,14 @@ export default function Details(props) {
                         : "search from receiver list"
                     }`}
                     onSelected={(s) => {
-
                       console.log("se: ", s);
                     }}
                     onSender={senderSelectedHandler}
                     onReceiver={receiverSelectedHandler}
                   />
                 </div>
-                {((!senderSelected && index===0) || (!recSelected && index ===1)) && (
+                {((!senderSelected && index === 0) ||
+                  (!recSelected && index === 1)) && (
                   <div className="mx-auto mt-16 max-w-xl sm:mt-8">
                     <div className="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2">
                       {section.fields.map((field) => (
@@ -232,9 +230,17 @@ export default function Details(props) {
             </button>
             <button
               type="submit"
-              className="block px-5 rounded-md w-24 bg-purple-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10"
+              className="flex px-5 rounded-md  bg-purple-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10"
             >
-              Continue
+              Continue{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="size-5 ml-1"
+              >
+                <path d="M3.288 4.818A1.5 1.5 0 0 0 1 6.095v7.81a1.5 1.5 0 0 0 2.288 1.276l6.323-3.905c.155-.096.285-.213.389-.344v2.973a1.5 1.5 0 0 0 2.288 1.276l6.323-3.905a1.5 1.5 0 0 0 0-2.552l-6.323-3.906A1.5 1.5 0 0 0 10 6.095v2.972a1.506 1.506 0 0 0-.389-.343L3.288 4.818Z" />
+              </svg>
             </button>
           </div>
         )}

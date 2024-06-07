@@ -80,9 +80,9 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="lg:my-12 my-12">
+    <div className="lg:my-0 my-0">
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
-        <div className="mx-auto sm:mt-7 lg:mx-0 lg:flex justify-around lg:max-w-none">
+        <div className="mx-auto sm:mt-0 lg:mx-0 lg:flex justify-around lg:max-w-none">
           {plans.map((plan) => (
             <form
               onSubmit={handleSubmit}
@@ -90,7 +90,7 @@ const Pricing = () => {
               className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-sm lg:flex-shrink-0 mb-4"
             >
               <div
-                className={`rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16 ${
+                className={`rounded-2xl bg-gray-50 py-10 text-center ring-1 mt-32 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16 ${
                   plan.popular ? "relative" : ""
                 }`}
               >

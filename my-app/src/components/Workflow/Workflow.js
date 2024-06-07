@@ -7,7 +7,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Loading from "../../UI/Loading.js";
 import "../Workflow/components/fileUpload.css";
 import { payment } from "../../utils/Slices/paymentSlice";
-import {CloudArrowUpIcon} from '@heroicons/react/24/solid'
+import { CloudArrowUpIcon } from "@heroicons/react/24/solid";
 
 import img from "../../assets/premium.png";
 function Workflow() {
@@ -20,10 +20,9 @@ function Workflow() {
   const stripe = useStripe();
   const elements = useElements();
 
-
-  const onNext=(val)=>{
-    setIsNext(val)
-  }
+  const onNext = (val) => {
+    setIsNext(val);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -87,7 +86,7 @@ function Workflow() {
 
   return (
     <>
-      <div className=" relative justify-center flex-col bg-slate-50 overflow-y-hidden min-h-screen scrollbar-hide" >
+      <div className=" relative justify-center flex-col bg-slate-50 overflow-y-hidden min-h-screen scrollbar-hide">
         <div
           className={`bg-white absolute top-0 left-0 w-full h-full z-10 delay-75  ${
             isLoading ? "fade-in visible" : "fade-in"
@@ -117,7 +116,7 @@ function Workflow() {
             "Upload your receipts (png,jpeg,jpg images or pdf accepted)"}
           {processing === "b" && "Add Sender and Reciever details"}
           {processing === "d" && "All ready to go"}
-
+          {processing === "e" && "Processing your receipt..."}
           {processing === "c" && "Processing complete...see your report below"}
         </h2>
         <label for="" className="">
@@ -126,9 +125,11 @@ function Workflow() {
               ""
             ) : (
               <>
-            {!isNext &&  <div className="">
-              <CloudArrowUpIcon className="w-20 h-20  mx-auto text-slate-600" />
-              </div> }
+                {!isNext && (
+                  <div className="">
+                    <CloudArrowUpIcon className="w-20 h-20  mx-auto text-slate-600" />
+                  </div>
+                )}
               </>
             )}
             <FileUpload
@@ -136,12 +137,12 @@ function Workflow() {
               onCheck={() => {
                 setCheck(() => !check);
               }}
-              onNext={(val)=>onNext(val)}
+              onNext={(val) => onNext(val)}
             />
           </div>
           <input id="dropzone-file" type="file" class="hidden" />
-        </label> 
-      </div> 
+        </label>
+      </div>
     </>
   );
 }
