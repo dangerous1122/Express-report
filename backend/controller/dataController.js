@@ -1,5 +1,5 @@
 import User from "../model/userModel.js";
-import { readFileSync, writeFileSync,statSync } from "fs";
+import { readFileSync, writeFileSync,statSync,writeFile } from "fs";
 import { unlink, existsSync } from "fs";
 import { dirname } from "path";
 import fs from "fs/promises";
@@ -13,6 +13,7 @@ console.log(process.env.SG_KEY);
 import OpenAI from "openai";
 import { GoogleAuth } from "google-auth-library";
 import { PDFDocument } from "pdf-lib";
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const addSenderData = async (req, res) => {
@@ -295,6 +296,7 @@ export const fileUpload = async (req, res) => {
             } 
             // JPEGs:
             else if (file.mimetype === "image/jpeg") {
+              console.log("in image")
                 const page = doc.addPage();
                 const imageBytes = readFileSync(file.path);
                 const image = await doc.embedJpg(imageBytes);
@@ -368,26 +370,23 @@ export const profileData = async (req, res) => {
   }
 };
 
+
 export const sendMail = async (req, res) => {
   try {
     const id = req.body.id;
-    console.log(id)
+    console.log(id);
     const file = await File.findById(id);
     if (!file) {
       throw new Error("File not found or no data.");
     }
     const base64PDF = file.PDFdata.toString("base64");
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const pdfPath = process.env.PDF_PATH;
+    const pdfPath = process.env.PDF_PATH; // Ensure this is the correct path to the file you want to clear
     const PdfData = readFileSync(pdfPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
     const msg = {
       from: { email: "support@aiexpensereport.com", name: "Express Reports" },
       personalizations: [{ to: [{ email: req.user.email }] }],
-      // subject: "PDF Files",
-      // text: "Attached are your PDF files.",
       templateId: "d-8aa8f42e1e4247c489d21786ef26baf2",
       attachments: [
         {
@@ -406,18 +405,33 @@ export const sendMail = async (req, res) => {
     };
 
     try {
-      const resp=await sgMail.send(msg);
-      console.log(resp);
-      res.send({ message: "Email sent with attachments" });
+      await sgMail.send(msg);
+      console.log("Email sent with attachments");
+
+      // Clear the content of the PDF file by creating a new empty PDF document
+      const newPdfDoc = await PDFDocument.create();
+      const pdfBytes = await newPdfDoc.save();
+
+      writeFile(pdfPath, pdfBytes, (err) => {
+        if (err) {
+          console.error("Failed to clear the PDF file:", err);
+          res.status(500).send("Email sent, but failed to clear the PDF file");
+          return;
+        }
+
+        console.log("PDF file cleared successfully");
+        res.send({ message: "Email sent with attachments, PDF cleared" });
+      });
     } catch (error) {
       console.error("Failed to send email:", error);
       res.status(500).send("Failed to send email");
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "Could not send mail", err });
   }
 };
+
 
 
 
