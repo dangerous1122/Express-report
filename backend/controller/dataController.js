@@ -223,11 +223,12 @@ let fileCount = 0;
 let files = [];
 export const fileUpload = async (req, res) => {
   try {
-    console.log(projectId, location, processorId);
+    // console.log(projectId, location, processorId);
     console.log(req.file);
     const data = JSON.parse(req.body.data);
 
-    console.log("dataaa: ", data);
+    console.log("dataaa: ", data.fileCount);
+    console.log("file count: ",fileCount)
 
     if (
       req.user.freeTrial ||
@@ -288,7 +289,10 @@ export const fileUpload = async (req, res) => {
         const doc = await PDFDocument.create();
 
         for (const file of files) {
+          console.log("file: ",file)
             if (file.mimetype === "application/pdf") {
+              console.log("in image")
+
                 const existingPdfBytes = readFileSync(file.path);
                 const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
                 const copiedPages = await doc.copyPages(existingPdfDoc, existingPdfDoc.getPageIndices());
@@ -309,6 +313,8 @@ export const fileUpload = async (req, res) => {
             } 
             // PNGs:
             else if (file.mimetype === "image/png") {
+              console.log("in image")
+
                 const page = doc.addPage();
                 const imageBytes = readFileSync(file.path);
                 const image = await doc.embedPng(imageBytes);
@@ -321,10 +327,15 @@ export const fileUpload = async (req, res) => {
             }
             
             // Clean up the file immediately after processing
-            unlink(file.path, err => {
-                if (err) console.error("Error deleting the file", err);
-            });
+            // unlink(file.path, err => {
+            //     if (err) console.error("Error deleting the file", err);
+            // });
         }
+
+
+        fileCount=0;
+        files=[]
+        
 
         // Save the document to a file
         const pdfBytes = await doc.save();
