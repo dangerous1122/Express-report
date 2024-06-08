@@ -377,7 +377,6 @@ export const sendMail = async (req, res) => {
       throw new Error("File not found or no data.");
     }
     const base64PDF = file.PDFdata.toString("base64");
-
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
     const pdfPath = process.env.PDF_PATH;
@@ -407,7 +406,8 @@ export const sendMail = async (req, res) => {
     };
 
     try {
-      await sgMail.send(msg);
+      const resp=await sgMail.send(msg);
+      console.log(resp);
       res.send({ message: "Email sent with attachments" });
     } catch (error) {
       console.error("Failed to send email:", error);
