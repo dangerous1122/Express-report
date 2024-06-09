@@ -1,8 +1,8 @@
 import User from "../model/userModel.js";
-import { readFileSync, writeFileSync,statSync,writeFile } from "fs";
-import { unlink, existsSync } from "fs";
+import { readFileSync, writeFileSync, statSync, writeFile } from "fs";
+import { unlink, existsSync, constants } from "fs";
 import { dirname } from "path";
-import fs from "fs/promises";
+import fs,{access} from "fs/promises";
 import { createWriteStream } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -12,7 +12,9 @@ import sgMail from "@sendgrid/mail";
 console.log(process.env.SG_KEY);
 import OpenAI from "openai";
 import { GoogleAuth } from "google-auth-library";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, degrees } from "pdf-lib";
+import { promisify } from "util";
+import archiver from "archiver";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -228,7 +230,7 @@ export const fileUpload = async (req, res) => {
     const data = JSON.parse(req.body.data);
 
     console.log("dataaa: ", data.fileCount);
-    console.log("file count: ",fileCount)
+    console.log("file count: ", fileCount);
 
     if (
       req.user.freeTrial ||
@@ -289,53 +291,53 @@ export const fileUpload = async (req, res) => {
         const doc = await PDFDocument.create();
 
         for (const file of files) {
-          console.log("file: ",file)
-            if (file.mimetype === "application/pdf") {
-              console.log("in image")
+          if (file.mimetype === "application/pdf") {
+            // console.log("in image")
 
-                const existingPdfBytes = readFileSync(file.path);
-                const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
-                const copiedPages = await doc.copyPages(existingPdfDoc, existingPdfDoc.getPageIndices());
-                copiedPages.forEach(page => doc.addPage(page));
-            } 
-            // JPEGs:
-            else if (file.mimetype === "image/jpeg") {
-              console.log("in image")
-                const page = doc.addPage();
-                const imageBytes = readFileSync(file.path);
-                const image = await doc.embedJpg(imageBytes);
-                page.drawImage(image, {
-                    x: page.getWidth() / 2 - 250,
-                    y: page.getHeight() / 2 - 200,
-                    width: 500,
-                    height: 400,
-                });
-            } 
-            // PNGs:
-            else if (file.mimetype === "image/png") {
-              console.log("in image")
+            const existingPdfBytes = readFileSync(file.path);
+            const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
+            const copiedPages = await doc.copyPages(
+              existingPdfDoc,
+              existingPdfDoc.getPageIndices()
+            );
+            copiedPages.forEach((page) => doc.addPage(page));
+          }
+          // JPEGs:
+          else if (file.mimetype === "image/jpeg") {
+            // console.log("in image")
+            const page = doc.addPage();
+            const imageBytes = readFileSync(file.path);
+            const image = await doc.embedJpg(imageBytes);
+            page.drawImage(image, {
+              x: page.getWidth() / 2 - 250,
+              y: page.getHeight() / 2 - 200,
+              width: 500,
+              height: 400,
+            });
+          }
+          // PNGs:
+          else if (file.mimetype === "image/png") {
+            // console.log("in image")
 
-                const page = doc.addPage();
-                const imageBytes = readFileSync(file.path);
-                const image = await doc.embedPng(imageBytes);
-                page.drawImage(image, {
-                    x: page.getWidth() / 2 - 250,
-                    y: page.getHeight() / 2 - 200,
-                    width: 500,
-                    height: 400,
-                });
-            }
-            
-            // Clean up the file immediately after processing
-            // unlink(file.path, err => {
-            //     if (err) console.error("Error deleting the file", err);
-            // });
+            const page = doc.addPage();
+            const imageBytes = readFileSync(file.path);
+            const image = await doc.embedPng(imageBytes);
+            page.drawImage(image, {
+              x: page.getWidth() / 2 - 250,
+              y: page.getHeight() / 2 - 200,
+              width: 500,
+              height: 400,
+            });
+          }
+
+          // Clean up the file immediately after processing
+          // unlink(file.path, err => {
+          //     if (err) console.error("Error deleting the file", err);
+          // });
         }
 
-
-        fileCount=0;
-        files=[]
-        
+        fileCount = 0;
+        files = [];
 
         // Save the document to a file
         const pdfBytes = await doc.save();
@@ -345,12 +347,21 @@ export const fileUpload = async (req, res) => {
 
         const stats = statSync(process.env.PDF_PATH);
         const fileSizeInMegabytes = stats.size / 1024 / 1024;
-        if (fileSizeInMegabytes > 22) {
-            await compressPdf(process.env.PDF_PATHh, res);
+        console.log(`File size is ${fileSizeInMegabytes} MB`);
+        if (fileSizeInMegabytes > 0.3) {
+          console.log("File is larger than 25 MB, compressing...");
+
+          try {
+            await compressFile(outputPath, "./output.zip");
+            // res.sendFile('./output.zip');
+          } catch (error) {
+            console.error("Failed to compress file:", error);
+            res.status(500).json({ message: "Failed to compress file", error });
+          }
         } else {
-            res.sendFile(process.env.PDF_PATH);
+          // res.sendFile(process.env.PDF_PATH);
         }
-    }
+      }
 
       await req.user.save();
     } else {
@@ -381,7 +392,6 @@ export const profileData = async (req, res) => {
   }
 };
 
-
 export const sendMail = async (req, res) => {
   try {
     const id = req.body.id;
@@ -392,7 +402,21 @@ export const sendMail = async (req, res) => {
     }
     const base64PDF = file.PDFdata.toString("base64");
     const pdfPath = process.env.PDF_PATH; // Ensure this is the correct path to the file you want to clear
-    const PdfData = readFileSync(pdfPath).toString("base64");
+    const zipPath = process.env.ZIP_PATH;
+    console.log(zipPath)
+
+    let fileExists = false;
+    try {
+      await access(zipPath, constants.F_OK);
+      fileExists = true;
+    } catch {
+      fileExists = false;
+    }
+
+    const attachmentPath = fileExists ? zipPath : pdfPath;
+    const attachmentFilename = fileExists ? "YourFiles.zip" : "YourFiles.pdf";
+    const attachmentType = fileExists ? "application/zip" : "application/pdf";
+    const fileData = readFileSync(attachmentPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
     const msg = {
@@ -402,14 +426,14 @@ export const sendMail = async (req, res) => {
       attachments: [
         {
           content: base64PDF,
-          filename: "expense-report.pdf",
-          type: "application/pdf",
+          filename: "Output.pdf",
+          type: "application/pdf" ,
           disposition: "attachment",
         },
         {
-          content: PdfData,
-          filename: "YourFiles.pdf",
-          type: "application/pdf",
+          content: fileData,
+          filename: attachmentFilename,
+          type: attachmentType,
           disposition: "attachment",
         },
       ],
@@ -443,37 +467,58 @@ export const sendMail = async (req, res) => {
   }
 };
 
-
-
-
 async function compressPdfToZip(pdfPath, res) {
-  const archiver = require('archiver');
-  const zipPath = 'path/to/output.zip';
+  const archiver = require("archiver");
+  const zipPath = "path/to/output.zip";
 
   // Create a file to stream archive data to.
   const output = createWriteStream(zipPath);
-  const archive = archiver('zip', {
-      zlib: { level: 9 } // Sets the compression level.
+  const archive = archiver("zip", {
+    zlib: { level: 9 }, // Sets the compression level.
   });
 
-  archive.on('error', function(err) {
-      throw err;
+  archive.on("error", function (err) {
+    throw err;
   });
 
   archive.pipe(output);
-  archive.append(fs.createReadStream(pdfPath), { name: 'document.pdf' });
+  archive.append(fs.createReadStream(pdfPath), { name: "document.pdf" });
   archive.finalize();
 
-  output.on('close', () => {
-      console.log(`Archived ${pdfPath} (${archive.pointer()} total bytes)`);
-      res.sendFile(zipPath, {}, function(err) {
-          if (err) {
-              console.error("Error sending the zip file", err);
-              return res.status(500).send("An error occurred");
-          }
-          // Optionally delete the PDF and ZIP file after sending
-          unlinkAsync(pdfPath);
-          unlinkAsync(zipPath);
-      });
+  output.on("close", () => {
+    console.log(`Archived ${pdfPath} (${archive.pointer()} total bytes)`);
+    res.sendFile(zipPath, {}, function (err) {
+      if (err) {
+        console.error("Error sending the zip file", err);
+        return res.status(500).send("An error occurred");
+      }
+      // Optionally delete the PDF and ZIP file after sending
+      unlinkAsync(pdfPath);
+      unlinkAsync(zipPath);
+    });
+  });
+}
+
+async function compressFile(source, output) {
+  return new Promise((resolve, reject) => {
+    const outputZip = createWriteStream(output);
+    const archive = archiver("zip", {
+      zlib: { level: 9 }, // Maximum compression
+    });
+
+    outputZip.on("close", function () {
+      console.log(
+        `Compressed file created with size ${archive.pointer()} bytes`
+      );
+      resolve();
+    });
+
+    archive.on("error", function (err) {
+      reject(err);
+    });
+
+    archive.pipe(outputZip);
+    archive.append(readFileSync(source), { name: "output.pdf" });
+    archive.finalize();
   });
 }
