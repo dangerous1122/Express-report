@@ -150,12 +150,12 @@ export default function Details(props) {
         {formSections.map((section, index) => (
           <div
             key={index}
-            className={`isolate ${val ? "bg-white" : "bg-slate-50"} px-20`}
+            className={`isolate ${val ? "bg-white" : "bg-slate-50"} md:px-20 px-0`}
           >
             {add < index && (
               <>
-                <div className="mx-auto max-w-2xl text-center">
-                  <h2 className=" font-bold tracking-tight text-gray-800 text-2xl">
+                <div className="mx-auto lg:max-w-2xl max-w-none text-center ">
+                  <h2 className=" font-bold tracking-tight text-gray-800 text-lg md:text-2xl">
                     {section.title}
                   </h2>
                   <SearchBars
@@ -173,8 +173,8 @@ export default function Details(props) {
                 </div>
                 {((!senderSelected && index === 0) ||
                   (!recSelected && index === 1)) && (
-                  <div className="mx-auto mt-16 max-w-xl sm:mt-8">
-                    <div className="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2">
+                  <div className="mx-auto md:mt-16 mt-4 max-w-xl sm:mt-8 lg:mb-0 mb-5">
+                    <div className="grid grid-cols-1 gap-x-2 gap-y-6 md:grid-cols-2">
                       {section.fields.map((field) => (
                         <div key={field.id}>
                           <label
@@ -183,7 +183,7 @@ export default function Details(props) {
                           >
                             {field.label}
                           </label>
-                          <div className="mt-2.5">
+                          <div className="lg:mt-2.5 mt-1">
                             <input
                               type={field.type}
                               name={field.name}
@@ -191,7 +191,7 @@ export default function Details(props) {
                               id={field.id}
                               onChange={field.onChange}
                               autoComplete={field.autoComplete}
-                              className="block w-full rounded-md lg:border border-2 px-3.5 py-2 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 focus:border-0 sm:text-sm sm:leading-6"
+                              className="block lg:w-full w-auto rounded-md lg:border border-2 px-3.5 py-2 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 focus:border-0 sm:text-sm sm:leading-6"
                             />
                           </div>
                         </div>
@@ -224,8 +224,8 @@ export default function Details(props) {
       </div>
       <div>
         {(!val || add >= 1) && (
-          <div className="flex mx-96">
-            <button className="flex px-7 rounded-md bg-gray-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10">
+          <div className="flex lg:mx-96 mx-auto">
+            <button className="flex px-7 rounded-md bg-gray-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto lg:mt-10 mt-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -242,7 +242,7 @@ export default function Details(props) {
             </button>
             <button
               type="submit"
-              className="flex px-5 rounded-md  bg-purple-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto mt-10"
+              className="flex px-5 rounded-md  bg-purple-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto lg:mt-10 mt-5"
             >
               Continue{" "}
               <svg

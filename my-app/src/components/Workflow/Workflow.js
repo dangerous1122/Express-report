@@ -67,7 +67,7 @@ function Workflow() {
     return (
       <>
         <div className="flex justify-center flex-col">
-          <p className="text-3xl font-bold tracking-tight mx-auto mt-48 mb-5">
+          <p className="lg:text-3xl text-xl font-bold tracking-tight mx-auto mt-48 mb-5">
             {"Your Plan has Expired :("}
           </p>
           <button
@@ -119,8 +119,8 @@ function Workflow() {
           {processing === "e" && "Processing your receipt..."}
           {processing === "c" && "Processing complete...see your report below"}
         </h2>
-        <label for="" className="">
-          <div class="flex flex-col mx-auto items-center justify-center pt-5 pb-6">
+        <div for="" className="">
+          <div class="flex flex-col mx-auto items-center justify-center lg:pt-5 pt-1 lg:pb-6 pb-3">
             {processing === "b" || processing === "c" ? (
               ""
             ) : (
@@ -141,7 +141,7 @@ function Workflow() {
             />
           </div>
           <input id="dropzone-file" type="file" class="hidden" />
-        </label>
+        </div>
       </div>
     </>
   );

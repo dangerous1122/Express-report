@@ -348,7 +348,7 @@ export const fileUpload = async (req, res) => {
         const stats = statSync(process.env.PDF_PATH);
         const fileSizeInMegabytes = stats.size / 1024 / 1024;
         console.log(`File size is ${fileSizeInMegabytes} MB`);
-        if (fileSizeInMegabytes > 0.3) {
+        if (fileSizeInMegabytes > 25) {
           console.log("File is larger than 25 MB, compressing...");
 
           try {

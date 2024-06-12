@@ -51,7 +51,7 @@ export default function Slider() {
 
             </p>
             <h3 className="text-center md:text-lg text-base">
-            -Matt Nguyen, Pharmacist
+            -Matt N., Pharmacist
 
             </h3>
           </div>
@@ -63,7 +63,7 @@ export default function Slider() {
 
             </p>
             <h3 className="text-center  md:text-lg text-base">
-            -Charles S., Physician
+            -R Desai., Physician
             </h3>
           </div>
         </SwiperSlide>

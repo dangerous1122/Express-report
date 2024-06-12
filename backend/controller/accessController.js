@@ -7,7 +7,6 @@ import sgMail from "@sendgrid/mail";
 
 export const register = async (req, res, next) => {
   try {
-    console.log(req.body);
     sgMail.setApiKey(process.env.SG_KEY);
     const existingUser = await User.findOne({ email: req.body.email });
     if (!existingUser) {
@@ -135,8 +134,8 @@ export const googleAuth = async (req, res) => {
       };
       try {
         
-        await sgMail.send(msg);
-        await sgMail.send(msg2)
+        // await sgMail.send(msg);
+        // await sgMail.send(msg2)
 
       } catch (error) {
         console.error("Failed to send email:", error);

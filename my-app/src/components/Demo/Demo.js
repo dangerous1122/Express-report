@@ -75,7 +75,8 @@ function Demo() {
           {/* {output && <iframe src={img} className="w-1/4  h-80"></iframe>} */}
         </div>
         {openModal && <Details value={true} onSubmit={mailHander} />}
-        {openMail && <EmailOption />}
+        <p className="text-center font-medium my-10 bg-green-300 py-2 px-3 mx-auto">You received an Email of your expense report and your receipts</p>
+        {/* {openMail && <EmailOption />} */}
       </div>
     </>
   );

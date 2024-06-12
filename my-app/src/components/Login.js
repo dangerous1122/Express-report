@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../utils/Slices/authSlice.js";
 import { GoogleLogin } from "@react-oauth/google";
 import { validateGoogle } from "../utils/Slices/authSlice.js";
+import Logo from "../assets/blackLogo.svg";
 
 export const loginLoader = () => {
   if (localStorage.getItem("expr")) {
@@ -46,9 +47,17 @@ function Login() {
   return (
     <section className="bg-gray-50 h-dvh">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 ">
-        <div className="w-full bg-white rounded-lg shadow dark:border  sm:max-w-md xl:p-0  ">
+        <Link to={"/"}>
+          <img
+            className=" absolute left-1/2 -top-24 -translate-x-1/2 md:h-72 h-24 mt-3 cursor-pointer "
+            src={Logo}  
+            alt="Your Company"
+            // style={{marginInlineEnd:'48rem'}}
+          />
+        </Link>
+        <div className="w-full bg-white rounded-lg mt-20 shadow dark:border  sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl d">
+            <h1 className="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-lg d">
               Sign in to your account
             </h1>
             <div className="">
@@ -109,9 +118,7 @@ function Login() {
               >
                 Sign in
               </button>
-              <p className="mx-auto text-center font-semibold text-gray-700">
-                OR
-              </p>
+       
               <p className="text-sm font-light -my-2 text-gray-500 ">
                 Don’t have an account yet?{" "}
                 <Link

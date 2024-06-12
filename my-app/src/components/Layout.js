@@ -156,7 +156,7 @@ export default function Layout() {
                
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
                   <div className={`${landing ? "" : "ml-28"} flex-shrink-0 md:mt-3 mt-0 items-center md:-ml-16  inline md:w-72 w-40 md:me-0 me-20`}>
-                    <Link to={"/"}>
+                    <Link to={"/dashboard"}>
                       <img
                         className="md:h-72 h-24 mt-3 cursor-pointer "
                         src={Logo}
@@ -224,7 +224,7 @@ export default function Layout() {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                to="/"
+                                to="/login"
                                 onClick={() => localStorage.clear()}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",

@@ -102,21 +102,21 @@ function SenderList(props) {
             onClose={() => setDeleteState(false)}
             onConfirm={deleteHandler}
           />
-          <div className="h-full bg-slate-50">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl pt-5 text-center">
+          <div className="h-full bg-slate-50 lg:px-0">
+            <h1 className="lg:text-3xl text-xl font-bold tracking-tight text-gray-900 sm:text-4xl pt-5 text-center">
               {add === "sender" ? "Sender List" : "Receiver List"}
             </h1>
 
             <ul className="xl:mx-28 md:mx-12 md:py-16  py-2 divide-gray-200 ">
               <button
-                className="bg-green-500 px-4 py-2 text-white font-semibold rounded-sm cursor-pointer"
+                className="bg-green-500 lg:text-base text-md lg:px-4 px-3 lg:py-2 py-1 text-white font-semibold rounded-sm cursor-pointer"
                 onClick={() => {
                   setIdx(-1);
                   setEditModalState(false)
                   setModalState(true);
                 }}
               >
-                Add +
+                <p className="lg:text-base text-md">Add +</p>
               </button>
               {contacts &&
                 contacts.map((contact, index) => (
@@ -146,16 +146,16 @@ function SenderList(props) {
                           {contact.address}
                         </p>
                       </div>
-                      <div className="flex-col md:flex-row md:justify-between md:ml-1 ml-0 md:my-3 my-0 ">
+                      <div className=" md:flex-row flex flex-col md:justify-between md:ml-1 ml-0 md:my-3 my-0 ">
                         <button
                           onClick={() => delButtonHandler(contact._id)}
-                          className="md:px-2 px-1 md:w-16 w-12 md:mb-0 mb-3 md:mr-4 mr-0   bg-red-500 h-7 text-white  rounded-sm font-medium md:text-sm text-xs"
+                          className="md:px-2 px-1 md:w-16 w-12 md:mb-0 mb-3 md:mr-4 mr-0   bg-red-500 md:h-7 h-5 text-white  rounded-sm font-medium md:text-sm text-xs"
                         >
                           Delete
                         </button>
                         <button
                           onClick={() => editHandler(contact._id, index)}
-                          className=" bg-gray-500 md:w-16 w-12 px-2 h-7 text-white rounded-sm font-medium md:text-sm text-xs"
+                          className=" bg-gray-500 md:w-16 w-12 px-2 md:h-7 h-5 text-white rounded-sm font-medium md:text-sm text-xs"
                         >
                           Edit
                         </button>

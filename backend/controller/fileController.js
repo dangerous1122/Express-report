@@ -173,16 +173,60 @@ export const makePdf = async (req, res) => {
       )
       .join(""); // Join the rows to make a single string
 
+    let details = "";
+    console.log(data1)
+
+    if (
+      data1.senderName !=="" ||
+      data1.senderEmail !=="" ||
+      data1.senderPhone !=="" ||
+      data1.senderCompany !=="" ||
+      data1.recEmail !=="" ||
+      data1.recPhone !=="" ||
+      data1.recCompany !=="" ||
+      data1.recName !==""
+    ) {
+      details = `
+        <div class="bg-slate-100 px-14 py-6 text-sm">
+    <table class="w-full border-collapse border-spacing-0">
+      <tbody>
+        <tr>
+          <td class="w-1/2 align-top">
+            <div class="text-sm text-neutral-600">
+              <p class="font-bold">Sender</p>
+              <p>${data1.senderName}</p>
+              <p>${data1.senderEmail}</p>
+                <p>${data1.senderPhone}</p>
+              <p>${data1.senderCompany}</p>
+            </div>
+          </td>
+          <td class="w-1/2 align-top text-right">
+            <div class="text-sm text-neutral-600">
+              <p class="font-bold">Bill To</p>
+              <p>${data1.recName}</p>
+              <p>${data1.recEmail}</p>
+                <p>${data1.recPhone}</p>
+              <p>${data1.recCompany}</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> 
+      `;
+    }
+
     let fullHtmlContent = htmlContent
       .replace(/{{datte}}/g, datte)
-      .replace(/{{senderName}}/g, data1.senderName)
-      .replace(/{{senderEmail}}/g, data1.senderEmail)
-      .replace(/{{senderPhone}}/g, data1.senderPhone)
-      .replace(/{{senderCompany}}/g, data1.senderCompany)
-      .replace(/{{recName}}/g, data1.recName)
-      .replace(/{{recEmail}}/g, data1.recEmail)
-      .replace(/{{recPhone}}/g, data1.recPhone)
-      .replace(/{{recCompany}}/g, data1.recCompany)
+      // .replace(/{{senderName}}/g, data1.senderName)
+      // .replace(/{{senderEmail}}/g, data1.senderEmail)
+      // .replace(/{{senderPhone}}/g, data1.senderPhone)
+      // .replace(/{{senderCompany}}/g, data1.senderCompany)
+      // .replace(/{{recName}}/g, data1.recName)
+      // .replace(/{{recEmail}}/g, data1.recEmail)
+      // .replace(/{{recPhone}}/g, data1.recPhone)
+      // .replace(/{{recCompany}}/g, data1.recCompany)
+      .replace(/{{details}}/g, details)
       .replace(/{{rows}}/g, rows)
       .replace(/{{invoiceNum}}/g, invNum)
       .replace(/{{amount}}/g, totalAmount);

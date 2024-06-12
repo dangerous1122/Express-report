@@ -52,12 +52,12 @@ function FileUpload(props) {
   };
 
   const onAskMail = async (val) => {
-    console.log("val: ", val);
     const maxFileSize = 5 * 1024 * 1024;
     const token = localStorage.getItem("expr");
 
     setModalState(false);
-    setOpenMail(true);
+    setOpenMail(false);
+    setNext(false)
 
     setIsLoading(true);
     props.onProcess("e");
@@ -228,7 +228,7 @@ function FileUpload(props) {
 
       {(!next && file.length) > 0 && (
         <div>
-          <ul className="grid md:grid-cols-5 grid-cols-3 md:gap-12 gap-10 relative mt-5 mb-10 md:mx-0 mx-10">
+          <ul className="flex flex-wrap around md:gap-4 gap-4 relative mt-5 mb-10 md:mx-52 mx-10">
             {file.map((fil, index) => (
               <li key={index}>
                 <button

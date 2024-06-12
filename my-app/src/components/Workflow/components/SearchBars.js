@@ -72,9 +72,9 @@ function SearchBars(props) {
   return (
     <>
       {!selected && (
-        <form class="max-w-lg mx-auto" onSubmit={(e) => e.preventDefault()}>
+        <form class="md:max-w-lg max-w-none mx-auto" onSubmit={(e) => e.preventDefault()}>
           <div class="flex">
-            <div class="relative w-full ">
+            <div class="relative lg:w-full w-full ">
               <input
                 type="search"
                 className="block p-2.5 mt-7 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg focus:outline-none  border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
@@ -110,7 +110,7 @@ function SearchBars(props) {
             filteredContacts &&
             filteredContacts.map((contact, index) => (
               <div
-                className="grid grid-cols-2  h-full bg-white border-2 p-2 cursor-pointer hover:bg-gray-100"
+                className="flex justify-around  h-full bg-white border-2 p-2 cursor-pointer hover:bg-gray-100"
                 key={index}
                 onClick={() => setSelectedContact(contact)}
               >
@@ -128,7 +128,7 @@ function SearchBars(props) {
       )}
       {selected && (
         <div className="grid grid-cols-2 w-full h-full mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
-          <div className="flex">
+          <div className="flex ">
             <p className="font-semibold">Name: </p>
             <p className="ml-1">{selected.name}</p>
           </div>
