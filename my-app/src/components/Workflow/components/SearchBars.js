@@ -85,7 +85,7 @@ function SearchBars(props) {
 
               <button
                 type="submit"
-                class="absolute top-10 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="absolute top-10 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  "
               >
                 <svg
                   class="w-4 h-4 text-gray-700 border-gray-500"

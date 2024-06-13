@@ -49,7 +49,7 @@ function Login() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 ">
         <Link to={"/"}>
           <img
-            className=" absolute left-1/2 lg:-top-24 top-0 -translate-x-1/2 md:h-72 h-24 mt-3 cursor-pointer "
+            className=" absolute left-1/2 lg:-top-24 -top-[20px] -translate-x-1/2 md:h-72 h-48 mt-3 cursor-pointer "
             src={Logo}  
             alt="Your Company"
             // style={{marginInlineEnd:'48rem'}}
@@ -57,7 +57,7 @@ function Login() {
         </Link>
         <div className="w-full bg-white rounded-lg mt-20 shadow dark:border  sm:max-w-md xl:p-0  ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-lg d">
+            <h1 className="text-md text-center font-bold leading-tight tracking-tight text-gray-900 md:text-lg d">
               Sign in to your account
             </h1>
             <div className="">
