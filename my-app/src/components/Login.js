@@ -49,7 +49,7 @@ function Login() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 ">
         <Link to={"/"}>
           <img
-            className=" absolute left-1/2 -top-24 -translate-x-1/2 md:h-72 h-24 mt-3 cursor-pointer "
+            className=" absolute left-1/2 lg:-top-24 top-0 -translate-x-1/2 md:h-72 h-24 mt-3 cursor-pointer "
             src={Logo}  
             alt="Your Company"
             // style={{marginInlineEnd:'48rem'}}
