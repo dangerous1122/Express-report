@@ -426,7 +426,7 @@ export const sendMail = async (req, res) => {
       attachments: [
         {
           content: base64PDF,
-          filename: "Output.pdf",
+          filename: "Expense-Report.pdf",
           type: "application/pdf" ,
           disposition: "attachment",
         },
