@@ -18,10 +18,10 @@ export default function Details(props) {
 
   const formSections = [
     {
-      title: "Sender Details (Optional)",
+      title: "Add Sender Details",
       fields: [
         {
-          label: "Full name",
+          label: "Full name * ",
           name: "full-name",
           id: "full-name",
           value: val ? "John Doe" : senderName,
@@ -68,10 +68,10 @@ export default function Details(props) {
       ],
     },
     {
-      title: "Receiver Details (Optional) ",
+      title: "Add Receiver Details  ",
       fields: [
         {
-          label: "Full name",
+          label: "Full name *",
           name: "full-name",
           value: val ? "abc" : recName,
 
@@ -150,12 +150,17 @@ export default function Details(props) {
         {formSections.map((section, index) => (
           <div
             key={index}
-            className={`isolate ${val ? "bg-white" : "bg-slate-50"} md:px-20 px-0`}
+            className={`isolate ${
+              val ? "bg-white" : "bg-slate-50"
+            } md:px-20 px-0`}
           >
             {add < index && (
               <>
                 <div className="mx-auto lg:max-w-2xl max-w-none text-center ">
-                  <h2 className=" font-bold tracking-tight text-gray-800 text-lg md:text-2xl">
+                  <h2
+                    className="font-bold tracking-tight text-gray-800 text-lg md:text-2xl"
+                    style={{ color: "#ca0a66" }}
+                  >
                     {section.title}
                   </h2>
                   <SearchBars
@@ -174,7 +179,7 @@ export default function Details(props) {
                 {((!senderSelected && index === 0) ||
                   (!recSelected && index === 1)) && (
                   <div className="mx-auto md:mt-16 mt-4 max-w-xl sm:mt-8 lg:mb-0 mb-5">
-                    <div className="grid grid-cols-1 gap-x-2 gap-y-6 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-x-2 lg:gap-y-6 gap-y-3 md:grid-cols-2">
                       {section.fields.map((field) => (
                         <div key={field.id}>
                           <label
@@ -183,7 +188,7 @@ export default function Details(props) {
                           >
                             {field.label}
                           </label>
-                          <div className="lg:mt-2.5 mt-1">
+                          <div className="lg:mt-2.5 mt-0">
                             <input
                               type={field.type}
                               name={field.name}
@@ -242,7 +247,7 @@ export default function Details(props) {
             </button>
             <button
               type="submit"
-              className="flex px-5 rounded-md  bg-purple-800  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto lg:mt-10 mt-5"
+              className="flex px-5 rounded-md  bg-blue-600  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto lg:mt-10 mt-5"
             >
               Continue{" "}
               <svg

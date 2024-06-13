@@ -109,16 +109,20 @@ function Workflow() {
         )}
         <h2
           className={`md:text-3xl md:mx-0 mx-5 text-xl font-bold tracking-tight ${
-            processing === "a" ? "text-gray-600" : "text-purple-800"
+            processing === "a" ? "text-gray-600" : ""
           }  sm:text-4xl mt-24  text-center`}
+          style={{ color: "#ca0a66" }}
         >
           {processing === "a" &&
             "Upload your receipts (png,jpeg,jpg images or pdf accepted)"}
-          {processing === "b" && "Add Sender and Reciever details"}
+          {processing === "b" && ""}
           {processing === "d" && "All ready to go"}
           {processing === "e" && "Processing your receipt..."}
           {processing === "c" && "Processing complete...see your report below"}
         </h2>
+        {processing === "e" && (
+          <p className="text-gray-800 etxt-center mt-5">Do not Refresh or Exit the page</p>
+        )}
         <div for="" className="">
           <div class="flex flex-col mx-auto items-center justify-center lg:pt-5 pt-1 lg:pb-6 pb-3">
             {processing === "b" || processing === "c" ? (

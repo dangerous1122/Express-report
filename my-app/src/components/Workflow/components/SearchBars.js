@@ -77,7 +77,7 @@ function SearchBars(props) {
             <div class="relative lg:w-full w-full ">
               <input
                 type="search"
-                className="block p-2.5 mt-7 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg focus:outline-none  border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
+                className="block p-2.5 lg:mt-7 mt-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md focus:outline-none  border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
                 placeholder={props.placeholder}
                 onChange={listHandler}
                 required

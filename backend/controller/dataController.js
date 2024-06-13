@@ -223,6 +223,7 @@ const auth = new GoogleAuth({
 let sender = "";
 let fileCount = 0;
 let files = [];
+let isZip=false;
 export const fileUpload = async (req, res) => {
   try {
     // console.log(projectId, location, processorId);
@@ -349,6 +350,7 @@ export const fileUpload = async (req, res) => {
         const fileSizeInMegabytes = stats.size / 1024 / 1024;
         console.log(`File size is ${fileSizeInMegabytes} MB`);
         if (fileSizeInMegabytes > 25) {
+          isZip=true
           console.log("File is larger than 25 MB, compressing...");
 
           try {
@@ -403,19 +405,20 @@ export const sendMail = async (req, res) => {
     const base64PDF = file.PDFdata.toString("base64");
     const pdfPath = process.env.PDF_PATH; // Ensure this is the correct path to the file you want to clear
     const zipPath = process.env.ZIP_PATH;
-    console.log(zipPath)
 
-    let fileExists = false;
-    try {
-      await access(zipPath, constants.F_OK);
-      fileExists = true;
-    } catch {
-      fileExists = false;
+    if(isZip){
+      try {
+        await access(zipPath, constants.F_OK);
+      } catch {
+        res.status(404).send({error:"ZIP not created"})
+      }
+
     }
+   
 
-    const attachmentPath = fileExists ? zipPath : pdfPath;
-    const attachmentFilename = fileExists ? "YourFiles.zip" : "YourFiles.pdf";
-    const attachmentType = fileExists ? "application/zip" : "application/pdf";
+    const attachmentPath = isZip ? zipPath : pdfPath;
+    const attachmentFilename = isZip ? "YourFiles.zip" : "YourFiles.pdf";
+    const attachmentType = isZip ? "application/zip" : "application/pdf";
     const fileData = readFileSync(attachmentPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
@@ -442,6 +445,7 @@ export const sendMail = async (req, res) => {
     try {
       await sgMail.send(msg);
       console.log("Email sent with attachments");
+      isZip=false
 
       // Clear the content of the PDF file by creating a new empty PDF document
       const newPdfDoc = await PDFDocument.create();
@@ -467,37 +471,6 @@ export const sendMail = async (req, res) => {
   }
 };
 
-async function compressPdfToZip(pdfPath, res) {
-  const archiver = require("archiver");
-  const zipPath = "path/to/output.zip";
-
-  // Create a file to stream archive data to.
-  const output = createWriteStream(zipPath);
-  const archive = archiver("zip", {
-    zlib: { level: 9 }, // Sets the compression level.
-  });
-
-  archive.on("error", function (err) {
-    throw err;
-  });
-
-  archive.pipe(output);
-  archive.append(fs.createReadStream(pdfPath), { name: "document.pdf" });
-  archive.finalize();
-
-  output.on("close", () => {
-    console.log(`Archived ${pdfPath} (${archive.pointer()} total bytes)`);
-    res.sendFile(zipPath, {}, function (err) {
-      if (err) {
-        console.error("Error sending the zip file", err);
-        return res.status(500).send("An error occurred");
-      }
-      // Optionally delete the PDF and ZIP file after sending
-      unlinkAsync(pdfPath);
-      unlinkAsync(zipPath);
-    });
-  });
-}
 
 async function compressFile(source, output) {
   return new Promise((resolve, reject) => {
