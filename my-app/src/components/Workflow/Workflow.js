@@ -121,7 +121,7 @@ function Workflow() {
           {processing === "c" && "Processing complete...see your report below"}
         </h2>
         {processing === "e" && (
-          <p className="text-gray-800 etxt-center mt-5">Do not Refresh or Exit the page</p>
+          <p className="text-gray-800 text-center mt-5">Do not Refresh or Exit the page</p>
         )}
         <div for="" className="">
           <div class="flex flex-col mx-auto items-center justify-center lg:pt-5 pt-1 lg:pb-6 pb-3">
