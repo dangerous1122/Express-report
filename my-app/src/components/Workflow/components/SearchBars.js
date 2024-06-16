@@ -127,7 +127,7 @@ function SearchBars(props) {
         </form>
       )}
       {selected && (
-        <div className="flex justify-between h-full lg:w-auto w-[250px] mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
+        <div className="flex justify-around lg:mb-0 mb-6 h-full lg:w-auto w-[250px] mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
           <div className="flex ">
             <p className="font-semibold lg:text-base text-xs">Name: </p>
             <p className="ml-1 lg:text-base text-xs text-nowrap">{selected.name}</p>

@@ -301,7 +301,8 @@ function FileUpload(props) {
               <button
                 className="mx-auto flex bg-blue-700 text-white  px-8 py-2.5 rounded hover:bg-blue-600 my-5 text-sm"
                 onClick={() => {
-                  setNext(true);
+                  setNext(true);        
+                    window.scrollTo(0, 0);
                   props.onNext(true);
                   props.onProcess("b");
                 }}

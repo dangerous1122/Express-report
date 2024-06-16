@@ -11,7 +11,7 @@ function EmailOption(props) {
   return (
     <>
       <p className="text-gray-400 text-start">Check the box below</p>
-      <div class="flex items-center ps-4  border-gray-200 rounded dark:border-gray-700">
+      <div class=" lg:ml-0 ml-5 flex items-center ps-4  border-gray-200 rounded dark:border-gray-700">
         <input
           id="bordered-checkbox-1"
           type="checkbox"
@@ -23,7 +23,7 @@ function EmailOption(props) {
         />
         <label
           for="bordered-checkbox-1"
-          class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          class="w-full py-4 ms-2 text-sm font-medium  text-gray-900 dark:text-gray-300"
         >
           Email the Expense report + all my receipts compiled in one PDF file
         </label>
