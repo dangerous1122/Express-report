@@ -110,31 +110,31 @@ function SearchBars(props) {
             filteredContacts &&
             filteredContacts.map((contact, index) => (
               <div
-                className="flex justify-around  h-full bg-white border-2 p-2 cursor-pointer hover:bg-gray-100"
+                className="flex justify-between lg:w-auto w-[260px]  h-full bg-white border-2 p-2 cursor-pointer hover:bg-gray-100"
                 key={index}
                 onClick={() => setSelectedContact(contact)}
               >
-                <div className="flex">
-                  <p className="font-semibold text-gray-800">Name: </p>
-                  <p className="text-gray-700 ml-1">{ contact.name}</p>
+                <div className="flex ">
+                  <p className="font-semibold lg:text-base text-xs text-gray-800">Name: </p>
+                  <p className="text-gray-700 lg:ml-1 ml-0 lg:text-base text-xs">{ contact.name}</p>
                 </div>
-                <div className="flex">
-                  <p className="font-semibold text-gray-800">Company: </p>
-                  <p className="text-gray-700 ml-1">{" " + contact.address}</p>
+                <div className="flex justify-end">
+                  <p className="font-semibold text-gray-800 lg:text-base text-xs">Company: </p>
+                  <p className="text-gray-700 lg:ml-1 ml-0 lg:text-base text-xs">{" " + contact.address}</p>
                 </div>
               </div>
             ))}
         </form>
       )}
       {selected && (
-        <div className="grid grid-cols-2 w-full h-full mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
+        <div className="grid grid-cols-2 h-full lg:w-auto w-[250px] mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
           <div className="flex ">
-            <p className="font-semibold">Name: </p>
-            <p className="ml-1">{selected.name}</p>
+            <p className="font-semibold lg:text-base text-xs">Name: </p>
+            <p className="ml-1 lg:text-base text-xs">{selected.name}</p>
           </div>
           <div className="flex">
-            <p className="font-semibold">Company: </p>
-            <p className="ml-1">{selected.address}</p>
+            <p className="font-semibold lg:text-base text-xs">Company: </p>
+            <p className="ml-1 lg:text-base text-xs">{selected.address}</p>
           </div>
         </div>
       )}

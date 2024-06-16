@@ -247,7 +247,7 @@ export default function Details(props) {
             </button>
             <button
               type="submit"
-              className="flex px-5 rounded-md  bg-blue-600  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto lg:mt-10 mt-5"
+              className="flex px-5 rounded-md  bg-blue-600  py-2.5 text-center text-sm  text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-auto lg:mt-10 mt-5"
             >
               Continue{" "}
               <svg
