@@ -115,7 +115,7 @@ const logoNavigation=()=>{
         {
           headers: {
             authorization: `Bearer ${token}`,
-          },
+           },
         }
       );
       if (response.status === 200) {
