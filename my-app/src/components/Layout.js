@@ -17,6 +17,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
+
 export default function Layout() {
   const navigate = useNavigate();
   const [deleteState, setDeleteState] = useState(false);
@@ -73,6 +75,8 @@ export default function Layout() {
     },
   ];
 
+
+
 }else {
   navigation = [
     {
@@ -94,6 +98,14 @@ export default function Layout() {
 
   ];
 }
+
+const logoNavigation=()=>{
+  if(landing){
+    navigate('/')
+  }
+    else navigate("/dashboard")
+  }
+
 
   const deleteHandler = async () => {
     const token = localStorage.getItem("expr");
@@ -156,14 +168,14 @@ export default function Layout() {
                
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start ">
                   <div className={`${landing ? "" : "ml-28"} flex-shrink-0 md:mt-3 mt-0 items-center md:-ml-16  inline md:w-72 w-40 md:me-0 me-20`}>
-                    <Link to={"/dashboard"}>
+                    <div to={"/dashboard"} onClick={logoNavigation}>
                       <img
                         className="md:h-72 h-24 mt-3 cursor-pointer "
                         src={Logo}
                         alt="Your Company"
                         // style={{marginInlineEnd:'48rem'}}
                       />
-                    </Link>
+                    </div>
                   </div> 
                   <div className="hidden sm:ml-6 ">
                     <div className="flex space-x-4 ">

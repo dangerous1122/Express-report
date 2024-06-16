@@ -85,7 +85,7 @@ function SearchBars(props) {
 
               <button
                 type="submit"
-                class="absolute top-10 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  "
+                class="absolute top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  "
               >
                 <svg
                   class="w-4 h-4 text-gray-700 border-gray-500"
@@ -110,31 +110,31 @@ function SearchBars(props) {
             filteredContacts &&
             filteredContacts.map((contact, index) => (
               <div
-                className="flex justify-between lg:w-auto w-[260px]  h-full bg-white border-2 p-2 cursor-pointer hover:bg-gray-100"
+                className="flex justify-between lg:w-auto w-[248px]  h-full bg-white border-2 p-2 cursor-pointer hover:bg-gray-100"
                 key={index}
                 onClick={() => setSelectedContact(contact)}
               >
                 <div className="flex ">
                   <p className="font-semibold lg:text-base text-xs text-gray-800">Name: </p>
-                  <p className="text-gray-700 lg:ml-1 ml-0 lg:text-base text-xs">{ contact.name}</p>
+                  <p className="text-gray-700 lg:ml-1 ml-0 lg:text-base text-xs text-nowrap">{ contact.name}</p>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end text-nowrap">
                   <p className="font-semibold text-gray-800 lg:text-base text-xs">Company: </p>
-                  <p className="text-gray-700 lg:ml-1 ml-0 lg:text-base text-xs">{" " + contact.address}</p>
+                  <p className="text-gray-700 lg:ml-1 ml-0 lg:text-base text-xs text-nowrap">{" " + contact.address}</p>
                 </div>
               </div>
             ))}
         </form>
       )}
       {selected && (
-        <div className="grid grid-cols-2 h-full lg:w-auto w-[250px] mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
+        <div className="flex justify-between h-full lg:w-auto w-[250px] mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
           <div className="flex ">
             <p className="font-semibold lg:text-base text-xs">Name: </p>
-            <p className="ml-1 lg:text-base text-xs">{selected.name}</p>
+            <p className="ml-1 lg:text-base text-xs text-nowrap">{selected.name}</p>
           </div>
           <div className="flex">
             <p className="font-semibold lg:text-base text-xs">Company: </p>
-            <p className="ml-1 lg:text-base text-xs">{selected.address}</p>
+            <p className="ml-1 lg:text-base text-xs text-nowrap">{selected.address}</p>
           </div>
         </div>
       )}
