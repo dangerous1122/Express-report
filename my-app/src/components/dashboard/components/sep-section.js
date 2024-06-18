@@ -146,7 +146,7 @@ export default function Details(props) {
 
   return (
     <form onSubmit={submitHandler} className=" mt-0 my-5">
-      <div className="grid lg:grid-cols-2">
+      <div className="grid lg:grid-cols-2 grid-cols-1">
         {formSections.map((section, index) => (
           <div
             key={index}

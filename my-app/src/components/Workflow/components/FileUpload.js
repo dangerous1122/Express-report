@@ -54,6 +54,7 @@ function FileUpload(props) {
   const onAskMail = async (val) => {
     const maxFileSize = 5 * 1024 * 1024;
     const token = localStorage.getItem("expr");
+    window.scrollTo(0, 0);
 
     setModalState(false);
     setOpenMail(false);

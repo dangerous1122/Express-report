@@ -85,7 +85,7 @@ function SearchBars(props) {
 
               <button
                 type="submit"
-                class="absolute top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  "
+                class="absolute lg:top-10 top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  "
               >
                 <svg
                   class="w-4 h-4 text-gray-700 border-gray-500"
@@ -127,7 +127,7 @@ function SearchBars(props) {
         </form>
       )}
       {selected && (
-        <div className="flex justify-around lg:mb-0 mb-6 h-full lg:w-auto w-[250px] mt-7 bg-white border-2 p-4 cursor-pointer  shadow-md rounded-md">
+        <div className="flex justify-around lg:mb-0 mb-3 h-full lg:w-auto w-[250px] mt-3 bg-white border-2 p-2 cursor-pointer  shadow-md rounded-md">
           <div className="flex ">
             <p className="font-semibold lg:text-base text-xs">Name: </p>
             <p className="ml-1 lg:text-base text-xs text-nowrap">{selected.name}</p>
