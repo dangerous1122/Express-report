@@ -64,7 +64,7 @@ function FileUpload(props) {
     props.onProcess("e");
 
     let urls = [];
-    for (const fil of file) {
+    for (const fil of file)  {
       if (file.size > maxFileSize) {
         alert(
           `File ${file.name} is too large. The maximum size allowed is 5MB.`
