@@ -77,15 +77,14 @@ function SearchBars(props) {
             <div class="relative lg:w-full w-full ">
               <input
                 type="search"
-                className="block p-2.5 lg:mt-7 mt-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md focus:outline-none  border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
+                className="block p-2.5 lg:mt-7 mt-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md   border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
                 placeholder={props.placeholder}
                 onChange={listHandler}
-                required
               />
 
               <button
                 type="submit"
-                class="absolute lg:top-10 top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500 focus:outline-none  "
+                class="absolute lg:top-10 top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500  "
               >
                 <svg
                   class="w-4 h-4 text-gray-700 border-gray-500"
