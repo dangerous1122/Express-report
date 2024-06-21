@@ -11,7 +11,7 @@ function SearchBars(props) {
 
   const [active, setActive] = useState(false);
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch( );
 
   const setSelectedContact = (obj) => {
     setSelected(obj);
