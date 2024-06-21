@@ -15,7 +15,6 @@ function SearchBars(props) {
 
   const setSelectedContact = (obj) => {
     setSelected(obj);
-    console.log("obj: ", obj);
     if (props.placeholder === "search from sender list") {
       props.onSender(obj);
     } else {
@@ -27,7 +26,6 @@ function SearchBars(props) {
     dispatch(fetchSenders("sender")).then((actionResult) => {
       if (fetchSenders.fulfilled.match(actionResult)) {
         const data = actionResult.payload.data;
-        console.log(data);
         setContacts(data);
       } else if (fetchSenders.rejected.match(actionResult)) {
       }
@@ -38,7 +36,6 @@ function SearchBars(props) {
     dispatch(fetchSenders("receiver")).then((actionResult) => {
       if (fetchSenders.fulfilled.match(actionResult)) {
         const data = actionResult.payload.data;
-        console.log(data);
         setReceiverContacts(data);
       } else if (fetchSenders.rejected.match(actionResult)) {
       }
@@ -67,7 +64,6 @@ function SearchBars(props) {
       setFilteredContacts(contacts); // Reset to all contacts when search is cleared
       setActive(false);
     }
-    console.log("Filtered Contacts: ", filteredContacts);
   };
   return (
     <>
