@@ -6,12 +6,13 @@ import { useLocation } from "react-router-dom";
 function SearchBars(props) {
   const [contacts, setContacts] = useState([]);
   const [receiverContacts, setReceiverContacts] = useState([]);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(""); 
+
   const [filteredContacts, setFilteredContacts] = useState([]); // Store filtered contacts
 
   const [active, setActive] = useState(false);
   const location = useLocation();
-  const dispatch = useDispatch( );
+  const dispatch = useDispatch();
 
   const setSelectedContact = (obj) => {
     setSelected(obj);
@@ -68,22 +69,22 @@ function SearchBars(props) {
   return (
     <>
       {!selected && (
-        <form class="md:max-w-lg max-w-none mx-auto" onSubmit={(e) => e.preventDefault()}>
-          <div class="flex">
-            <div class="relative lg:w-full w-full ">
+        <form className="md:max-w-lg max-w-none mx-auto" onSubmit={(e) => e.preventDefault()}>
+          <div className="flex">
+            <div className="relative lg:w-full w-full">
               <input
                 type="search"
-                className="block p-2.5 lg:mt-7 mt-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md   border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 "
+                className="block p-2.5 lg:mt-7 mt-3 w-full z-20 text-[17px] text-gray-900 bg-gray-50 rounded-md   border border-gray-500   dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 "
                 placeholder={props.placeholder}
                 onChange={listHandler}
               />
 
               <button
                 type="submit"
-                class="absolute lg:top-10 top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500  "
+                className="absolute lg:top-10 top-6 end-1 pe-1 text-sm font-medium  text-white bg-gray-50 rounded-e-lg  border-gray-500  "
               >
                 <svg
-                  class="w-4 h-4 text-gray-700 border-gray-500"
+                  className="w-4 h-4 text-gray-700 border-gray-500"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -97,7 +98,7 @@ function SearchBars(props) {
                     d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                   />
                 </svg>
-                <span class="sr-only">Search</span>
+                <span className="sr-only">Search</span>
               </button>
             </div>
           </div>

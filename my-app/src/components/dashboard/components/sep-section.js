@@ -149,7 +149,7 @@ export default function Details(props) {
       <div className="grid lg:grid-cols-2 grid-cols-1">
         {formSections.map((section, index) => (
           <div
-            key={index}
+            key={index} 
             className={`isolate ${
               val ? "bg-white" : "bg-slate-50"
             } md:px-20 px-0`}
