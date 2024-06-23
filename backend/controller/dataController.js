@@ -15,6 +15,7 @@ import { GoogleAuth } from "google-auth-library";
 import { PDFDocument, degrees } from "pdf-lib";
 import { promisify } from "util";
 import archiver from "archiver";
+import sharp from 'sharp'
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -293,7 +294,6 @@ export const fileUpload = async (req, res) => {
 
         for (const file of files) {
           if (file.mimetype === "application/pdf") {
-            // console.log("in image")
 
             const existingPdfBytes = readFileSync(file.path);
             const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
@@ -305,10 +305,21 @@ export const fileUpload = async (req, res) => {
           }
           // JPEGs:
           else if (file.mimetype === "image/jpeg") {
-            // console.log("in image")
+            const outputPath='./temp'
+
+            // Compress and resize the image using sharp
+            await sharp(file.path)
+              .resize(1024) // Optionally resize to a maximum width of 1024 pixels
+              .jpeg({ quality: 70 }) // Reduce quality to 70%
+              .toFile(outputPath);
+
+              const compressedSize = statSync(outputPath).size;
+              console.log(`Compressed Size: ${compressedSize} bytes`);
+          
+            const compressedImageBytes = readFileSync(outputPath);
+
+            const image = await doc.embedJpg(compressedImageBytes);
             const page = doc.addPage();
-            const imageBytes = readFileSync(file.path);
-            const image = await doc.embedJpg(imageBytes);
             page.drawImage(image, {
               x: page.getWidth() / 2 - 250,
               y: page.getHeight() / 2 - 200,
@@ -495,3 +506,6 @@ async function compressFile(source, output) {
     archive.finalize();
   });
 }
+
+
+
