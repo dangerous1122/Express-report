@@ -2,7 +2,7 @@ import User from "../model/userModel.js";
 import { readFileSync, writeFileSync, statSync, writeFile } from "fs";
 import { unlink, existsSync, constants } from "fs";
 import { dirname } from "path";
-import fs,{access} from "fs/promises";
+import fs, { access } from "fs/promises";
 import { createWriteStream } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,7 +15,7 @@ import { GoogleAuth } from "google-auth-library";
 import { PDFDocument, degrees } from "pdf-lib";
 import { promisify } from "util";
 import archiver from "archiver";
-import sharp from 'sharp'
+import sharp from "sharp";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -224,7 +224,7 @@ const auth = new GoogleAuth({
 let sender = "";
 let fileCount = 0;
 let files = [];
-let isZip=false;
+let isZip = false;
 export const fileUpload = async (req, res) => {
   try {
     // console.log(projectId, location, processorId);
@@ -291,10 +291,14 @@ export const fileUpload = async (req, res) => {
       if (fileCount === data.fileCount) {
         console.log("All files received, processing...");
         const doc = await PDFDocument.create();
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const outputDir = path.resolve(__dirname, 'temp'); // Ensures that the path is absolute
+        const fileName = `compressed-${Date.now()}.jpg`;
+        const outputPat = path.join(outputDir, fileName);
+        console.log("Output Path: ", outputPat);
 
         for (const file of files) {
           if (file.mimetype === "application/pdf") {
-
             const existingPdfBytes = readFileSync(file.path);
             const existingPdfDoc = await PDFDocument.load(existingPdfBytes);
             const copiedPages = await doc.copyPages(
@@ -305,19 +309,17 @@ export const fileUpload = async (req, res) => {
           }
           // JPEGs:
           else if (file.mimetype === "image/jpeg") {
-            const outputPath='./temp'
 
             // Compress and resize the image using sharp
             await sharp(file.path)
               .resize(1024) // Optionally resize to a maximum width of 1024 pixels
               .jpeg({ quality: 70 }) // Reduce quality to 70%
-              .toFile(outputPath);
+              .toFile(outputPat);
 
-              const compressedSize = statSync(outputPath).size;
-              console.log(`Compressed Size: ${compressedSize} bytes`);
-          
-            const compressedImageBytes = readFileSync(outputPath);
+            const compressedSize = statSync(outputPat).size;
+            console.log(`Compressed Size: ${compressedSize} bytes`);
 
+            const compressedImageBytes = readFileSync(outputPat);
             const image = await doc.embedJpg(compressedImageBytes);
             const page = doc.addPage();
             page.drawImage(image, {
@@ -356,13 +358,13 @@ export const fileUpload = async (req, res) => {
         const outputPath = "./output.pdf";
         writeFileSync(process.env.PDF_PATH, pdfBytes);
         console.log(`Generated PDF saved to ${outputPath}`);
-
         const stats = statSync(process.env.PDF_PATH);
         const fileSizeInMegabytes = stats.size / 1024 / 1024;
         console.log(`File size is ${fileSizeInMegabytes} MB`);
         if (fileSizeInMegabytes > 25) {
-          isZip=true
+          isZip = true;
           console.log("File is larger than 25 MB, compressing...");
+
 
           try {
             await compressFile(outputPath, "./output.zip");
@@ -417,15 +419,13 @@ export const sendMail = async (req, res) => {
     const pdfPath = process.env.PDF_PATH; // Ensure this is the correct path to the file you want to clear
     const zipPath = process.env.ZIP_PATH;
 
-    if(isZip){
+    if (isZip) {
       try {
         await access(zipPath, constants.F_OK);
       } catch {
-        res.status(404).send({error:"ZIP not created"})
+        res.status(404).send({ error: "ZIP not created" });
       }
-
     }
-   
 
     const attachmentPath = isZip ? zipPath : pdfPath;
     const attachmentFilename = isZip ? "YourFiles.zip" : "YourFiles.pdf";
@@ -441,7 +441,7 @@ export const sendMail = async (req, res) => {
         {
           content: base64PDF,
           filename: "Expense-Report.pdf",
-          type: "application/pdf" ,
+          type: "application/pdf",
           disposition: "attachment",
         },
         {
@@ -456,7 +456,7 @@ export const sendMail = async (req, res) => {
     try {
       await sgMail.send(msg);
       console.log("Email sent with attachments");
-      isZip=false
+      isZip = false;
 
       // Clear the content of the PDF file by creating a new empty PDF document
       const newPdfDoc = await PDFDocument.create();
@@ -482,7 +482,6 @@ export const sendMail = async (req, res) => {
   }
 };
 
-
 async function compressFile(source, output) {
   return new Promise((resolve, reject) => {
     const outputZip = createWriteStream(output);
@@ -506,6 +505,3 @@ async function compressFile(source, output) {
     archive.finalize();
   });
 }
-
-
-
