@@ -1,5 +1,11 @@
 import User from "../model/userModel.js";
-import { readFileSync, writeFileSync, statSync, writeFile, unlinkSync } from "fs";
+import {
+  readFileSync,
+  writeFileSync,
+  statSync,
+  writeFile,
+  unlinkSync,
+} from "fs";
 import { unlink, existsSync, constants } from "fs";
 import { dirname } from "path";
 import fs, { access } from "fs/promises";
@@ -223,8 +229,10 @@ const auth = new GoogleAuth({
 
 let sender = "";
 let fileCount = 0;
+let fc = 0;
 let files = [];
 let isZip = false;
+
 export const fileUpload = async (req, res) => {
   try {
     // console.log(projectId, location, processorId);
@@ -292,7 +300,7 @@ export const fileUpload = async (req, res) => {
         console.log("All files received, processing...");
         const doc = await PDFDocument.create();
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
-        const outputDir = path.resolve(__dirname, 'temp'); // Ensures that the path is absolute
+        const outputDir = path.resolve(__dirname, "temp"); // Ensures that the path is absolute
         const fileName = `compressed-${Date.now()}.jpg`;
         const outputPat = path.join(outputDir, fileName);
         console.log("Output Path: ", outputPat);
@@ -309,7 +317,6 @@ export const fileUpload = async (req, res) => {
           }
           // JPEGs:
           else if (file.mimetype === "image/jpeg") {
-
             // Compress and resize the image using sharp
             await sharp(file.path)
               .resize(1024) // Optionally resize to a maximum width of 1024 pixels
@@ -346,13 +353,13 @@ export const fileUpload = async (req, res) => {
 
           unlinkSync(outputPat)
 
-
           // Clean up the file immediately after processing
           // unlink(file.path, err => {
           //     if (err) console.error("Error deleting the file", err);
           // });
         }
 
+        fc = fileCount;
         fileCount = 0;
         files = [];
 
@@ -367,7 +374,6 @@ export const fileUpload = async (req, res) => {
         if (fileSizeInMegabytes > 25) {
           isZip = true;
           console.log("File is larger than 25 MB, compressing...");
-
 
           try {
             await compressFile(outputPath, "./output.zip");
@@ -436,6 +442,9 @@ export const sendMail = async (req, res) => {
     const fileData = readFileSync(attachmentPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
+    if (fc > 16) {
+      setTimeout(() => {}, 5000);
+    }
     const msg = {
       from: { email: "support@aiexpensereport.com", name: "Express Reports" },
       personalizations: [{ to: [{ email: req.user.email }] }],
