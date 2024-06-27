@@ -1,5 +1,5 @@
 import User from "../model/userModel.js";
-import { readFileSync, writeFileSync, statSync, writeFile } from "fs";
+import { readFileSync, writeFileSync, statSync, writeFile, unlinkSync } from "fs";
 import { unlink, existsSync, constants } from "fs";
 import { dirname } from "path";
 import fs, { access } from "fs/promises";
@@ -343,6 +343,9 @@ export const fileUpload = async (req, res) => {
               height: 400,
             });
           }
+
+          unlinkSync(outputPat)
+
 
           // Clean up the file immediately after processing
           // unlink(file.path, err => {
