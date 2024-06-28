@@ -443,7 +443,7 @@ export const sendMail = async (req, res) => {
 
     sgMail.setApiKey(process.env.SG_KEY);
     if (fc > 16) {
-      setTimeout(() => {}, 5000);
+      setTimeout(() => {}, 8000);
     }
     const msg = {
       from: { email: "support@aiexpensereport.com", name: "Express Reports" },
