@@ -362,6 +362,7 @@ export const fileUpload = async (req, res) => {
         fc = fileCount;
         fileCount = 0;
         files = [];
+        console.log("fc: ",fc)
 
         // Save the document to a file
         const pdfBytes = await doc.save();
@@ -444,6 +445,7 @@ export const sendMail = async (req, res) => {
     sgMail.setApiKey(process.env.SG_KEY);
     if (fc > 16) {
       setTimeout(() => {}, 8000);
+      console.log("hello")
     }
     const msg = {
       from: { email: "support@aiexpensereport.com", name: "Express Reports" },
