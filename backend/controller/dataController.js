@@ -443,10 +443,12 @@ export const sendMail = async (req, res) => {
     const fileData = readFileSync(attachmentPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
+    console.log("fc nichy: ",fc)
     if (fc > 16) {
       setTimeout(() => {}, 8000);
       console.log("hello")
     }
+    fc=0;
     const msg = {
       from: { email: "support@aiexpensereport.com", name: "Express Reports" },
       personalizations: [{ to: [{ email: req.user.email }] }],
