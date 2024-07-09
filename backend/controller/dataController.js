@@ -250,6 +250,7 @@ export const fileUpload = async (req, res) => {
         return res.status(400).json({ message: "No file uploaded." });
       }
       fileCount++;
+      fc++
       files.push(req.file);
       const client = await auth.getClient();
       const url = `https://us-documentai.googleapis.com/v1/projects/681235566970/locations/us/processors/${process.env.PROCESSOR_ID}:process`;
@@ -359,7 +360,6 @@ export const fileUpload = async (req, res) => {
           // });
         }
 
-        fc = fileCount;
         fileCount = 0;
         files = [];
         console.log("fc: ",fc)
@@ -445,10 +445,11 @@ export const sendMail = async (req, res) => {
     sgMail.setApiKey(process.env.SG_KEY);
     console.log("fc nichy: ",fc)
     if (fc > 16) {
-      setTimeout(() => {}, 8000);
+      setTimeout(() => {}, 15000);
       console.log("hello")
     }
     fc=0;
+    console.log("h")
     const msg = {
       from: { email: "support@aiexpensereport.com", name: "Express Reports" },
       personalizations: [{ to: [{ email: req.user.email }] }],
