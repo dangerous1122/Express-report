@@ -232,6 +232,7 @@ let fileCount = 0;
 let fc = 0;
 let files = [];
 let isZip = false;
+let isCompiled=false;
 
 export const fileUpload = async (req, res) => {
   try {
@@ -362,7 +363,11 @@ export const fileUpload = async (req, res) => {
 
         fileCount = 0;
         files = [];
+        isCompiled=true
         console.log("fc: ",fc)
+
+
+
 
         // Save the document to a file
         const pdfBytes = await doc.save();
@@ -420,7 +425,6 @@ export const profileData = async (req, res) => {
 export const sendMail = async (req, res) => {
   try {
     const id = req.body.id;
-    console.log(id);
     const file = await File.findById(id);
     if (!file) {
       throw new Error("File not found or no data.");
@@ -443,35 +447,38 @@ export const sendMail = async (req, res) => {
     const fileData = readFileSync(attachmentPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
-    console.log("fc nichy: ",fc)
+   await console.log("fc nichy: ",fc)
     if (fc > 16) {
-      setTimeout(() => {}, 15000);
+      
       console.log("hello")
     }
     fc=0;
     console.log("h")
-    const msg = {
-      from: { email: "support@aiexpensereport.com", name: "Express Reports" },
-      personalizations: [{ to: [{ email: req.user.email }] }],
-      templateId: "d-8aa8f42e1e4247c489d21786ef26baf2",
-      attachments: [
-        {
-          content: base64PDF,
-          filename: "Expense-Report.pdf",
-          type: "application/pdf",
-          disposition: "attachment",
-        },
-        {
-          content: fileData,
-          filename: attachmentFilename,
-          type: attachmentType,
-          disposition: "attachment",
-        },
-      ],
-    };
+
+    
+
+    let msg=""
 
     try {
-      await sgMail.send(msg);
+      await sgMail.send( msg = {
+        from: { email: "support@aiexpensereport.com", name: "Express Reports" },
+        personalizations: [{ to: [{ email: req.user.email }] }],
+        templateId: "d-8aa8f42e1e4247c489d21786ef26baf2",
+        attachments: [
+          {
+            content: base64PDF,
+            filename: "Expense-Report.pdf",
+            type: "application/pdf",
+            disposition: "attachment",
+          },
+          {
+            content: fileData,
+            filename: attachmentFilename,
+            type: attachmentType,
+            disposition: "attachment",
+          },
+        ],
+      });
       console.log("Email sent with attachments");
       isZip = false;
 

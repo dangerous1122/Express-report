@@ -101,6 +101,7 @@ function FileUpload(props) {
 
     if (!error) {
       // setPdfUrls(urls);
+
       try {
         const d = JSON.stringify(data);
         const response = await axios.post(
@@ -131,15 +132,21 @@ function FileUpload(props) {
           const token = localStorage.getItem("expr");
           // setOpenMail(false);
 
-          const response = await axios.post(
-            `${process.env.REACT_APP_API_URL}/send-mail`,
-            uri,
-            {
-              headers: {
-                authorization: `Bearer ${token}`,
-              },
-            }
-          );
+ 
+          setTimeout(async() => {
+            const response = await axios.post(
+              `${process.env.REACT_APP_API_URL}/send-mail`,
+              uri,
+              {
+                headers: {
+                  authorization: `Bearer ${token}`,
+                },
+              }
+            );
+          }, 16000);
+
+
+      
           setEmailSent(true);
           setIsLoading(false);
           setOpenMail(false);
