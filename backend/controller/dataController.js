@@ -249,6 +249,8 @@ export const fileUpload = async (req, res) => {
 
     }
 
+    isFirst=true;
+
 
 
     if (
