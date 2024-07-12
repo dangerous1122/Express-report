@@ -362,7 +362,7 @@ export const fileUpload = async (req, res) => {
             });
           }
 
-          unlinkSync(outputPat);
+          // unlinkSync(outputPat);
         }
 
         fileCount = 0;
