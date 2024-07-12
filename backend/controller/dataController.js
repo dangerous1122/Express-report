@@ -232,7 +232,7 @@ let fileCount = 0;
 let fc = 0;
 let files = [];
 let isZip = false;
-let isCompiled=false;
+let isFirst = false;
 
 export const fileUpload = async (req, res) => {
   try {
@@ -243,6 +243,12 @@ export const fileUpload = async (req, res) => {
     console.log("dataaa: ", data.fileCount);
     console.log("file count: ", fileCount);
 
+    if(isFirst===false && fileCount!=0){
+      return;
+    }
+
+
+
     if (
       req.user.freeTrial ||
       (req.user.subscription.hass && req.user.subscription.gereratedReports > 0)
@@ -251,7 +257,6 @@ export const fileUpload = async (req, res) => {
         return res.status(400).json({ message: "No file uploaded." });
       }
       fileCount++;
-      fc++
       files.push(req.file);
       const client = await auth.getClient();
       const url = `https://us-documentai.googleapis.com/v1/projects/681235566970/locations/us/processors/${process.env.PROCESSOR_ID}:process`;
@@ -298,7 +303,7 @@ export const fileUpload = async (req, res) => {
 
       res.status(200).json(response.data.choices[0].message.content);
 
-      if (fileCount === data.fileCount) {
+      if (fileCount === data.fileCount || files.length === data.fileCount) {
         console.log("All files received, processing...");
         const doc = await PDFDocument.create();
         const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -353,21 +358,13 @@ export const fileUpload = async (req, res) => {
             });
           }
 
-          unlinkSync(outputPat)
-
-          // Clean up the file immediately after processing
-          // unlink(file.path, err => {
-          //     if (err) console.error("Error deleting the file", err);
-          // });
+          unlinkSync(outputPat);
         }
 
         fileCount = 0;
         files = [];
-        isCompiled=true
-        console.log("fc: ",fc)
-
-
-
+        isCompiled = true;
+        console.log("fc: ", fc);
 
         // Save the document to a file
         const pdfBytes = await doc.save();
@@ -399,6 +396,9 @@ export const fileUpload = async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
+    fileCount=0;
+    files=[];
+    isFirst=false;
     res.status(400).send({
       message: "An error occurred while uploading the file.",
       error: err,
@@ -447,38 +447,38 @@ export const sendMail = async (req, res) => {
     const fileData = readFileSync(attachmentPath).toString("base64");
 
     sgMail.setApiKey(process.env.SG_KEY);
-   await console.log("fc nichy: ",fc)
-    if (fc > 16) {
-      
-      console.log("hello")
-    }
-    fc=0;
-    console.log("h")
+    await console.log("fc nichy: ", fc);
+  
+    fc = 0;
+    console.log("h");
 
-    
-
-    let msg=""
+    let msg = "";
 
     try {
-      await sgMail.send( msg = {
-        from: { email: "support@aiexpensereport.com", name: "Express Reports" },
-        personalizations: [{ to: [{ email: req.user.email }] }],
-        templateId: "d-8aa8f42e1e4247c489d21786ef26baf2",
-        attachments: [
-          {
-            content: base64PDF,
-            filename: "Expense-Report.pdf",
-            type: "application/pdf",
-            disposition: "attachment",
+      await sgMail.send(
+        (msg = {
+          from: {
+            email: "support@aiexpensereport.com",
+            name: "Express Reports",
           },
-          {
-            content: fileData,
-            filename: attachmentFilename,
-            type: attachmentType,
-            disposition: "attachment",
-          },
-        ],
-      });
+          personalizations: [{ to: [{ email: req.user.email }] }],
+          templateId: "d-8aa8f42e1e4247c489d21786ef26baf2",
+          attachments: [
+            {
+              content: base64PDF,
+              filename: "Expense-Report.pdf",
+              type: "application/pdf",
+              disposition: "attachment",
+            },
+            {
+              content: fileData,
+              filename: attachmentFilename,
+              type: attachmentType,
+              disposition: "attachment",
+            },
+          ],
+        })
+      );
       console.log("Email sent with attachments");
       isZip = false;
 
