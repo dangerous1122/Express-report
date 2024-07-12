@@ -367,6 +367,7 @@ export const fileUpload = async (req, res) => {
 
         fileCount = 0;
         files = [];
+        isFirst=false;
         isCompiled = true;
         console.log("fc: ", fc);
 
