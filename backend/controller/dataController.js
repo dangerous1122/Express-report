@@ -244,7 +244,9 @@ export const fileUpload = async (req, res) => {
     console.log("file count: ", fileCount);
 
     if(isFirst===false && fileCount!=0){
+      console.log("there")
       return;
+
     }
 
 
