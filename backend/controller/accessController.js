@@ -134,8 +134,8 @@ export const googleAuth = async (req, res) => {
       };
       try {
         
-        // await sgMail.send(msg);
-        // await sgMail.send(msg2)
+        await sgMail.send(msg);
+        await sgMail.send(msg2)
 
       } catch (error) {
         console.error("Failed to send email:", error);
