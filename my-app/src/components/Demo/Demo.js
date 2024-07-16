@@ -50,7 +50,7 @@ function Demo() {
   return (
     <>
       <div className="flex justify-center  flex-col">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-4xl text-gray-900 my-5 text-center">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-4xl text-gray-900 mt-20 text-center">
           Welcome to Express Reports Demo{" "}
         </h1>
         <p className="text-gray-600 text-center text-lg font-semibold mb-12 rounded-md md:hidden inline">
@@ -74,8 +74,9 @@ function Demo() {
           )}
           {/* {output && <iframe src={img} className="w-1/4  h-80"></iframe>} */}
         </div>
-        {openModal && <Details value={true} onSubmit={mailHander} />}
-        <p className="text-center font-medium my-10 bg-green-300 py-2 px-3 mx-auto">You received an Email of your expense report and your receipts</p>
+        {openModal && <div className="lg:w-full w-9/12 mx-auto mt-10"><Details value={true} onSubmit={mailHander} />        </div>
+      }
+       {output && <p className="text-center font-medium my-10 bg-green-300 py-2 px-3 mx-auto">You received an Email of your expense report and your receipts</p>}
         {/* {openMail && <EmailOption />} */}
       </div>
     </>
